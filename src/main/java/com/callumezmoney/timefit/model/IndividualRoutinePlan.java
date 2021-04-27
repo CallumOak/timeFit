@@ -1,21 +1,16 @@
 package com.callumezmoney.timefit.model;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
+@Data
 public class IndividualRoutinePlan extends  RoutinePlan{
     private Date date;
 
     public IndividualRoutinePlan() {
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
 }

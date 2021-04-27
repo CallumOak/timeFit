@@ -1,19 +1,14 @@
 package com.callumezmoney.timefit.model;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 
 @Entity
+@Data
 public class WeeklyRoutinePlan extends RoutinePlan {
     private Integer weekDay;
 
     public WeeklyRoutinePlan() {
-    }
-
-    public Integer getWeekDay() {
-        return weekDay;
-    }
-
-    public void setWeekDay(Integer weekDay) {
-        this.weekDay = weekDay;
     }
 }
