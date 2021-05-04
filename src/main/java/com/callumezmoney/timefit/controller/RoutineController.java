@@ -13,7 +13,13 @@ public class RoutineController {
 
         return model;
     }
-    public Model createRoutine(Model model){
+
+    public Model listRoutine(Model model){
+
+        return model;
+    }
+
+    public Model addRoutine(Model model){
 
         return model;
     }
@@ -23,4 +29,6 @@ public class RoutineController {
     }
     public void deleteRoutine(Model model){
     }
+
+
 }

@@ -13,7 +13,11 @@ public class ExerciseController {
 
         return model;
     }
-    public Model createExercise(Model model){
+    public Model listExercise(Model model){
+
+        return model;
+    }
+    public Model addExercise(Model model){
 
         return model;
     }

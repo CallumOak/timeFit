@@ -13,7 +13,11 @@ public class ProgramController {
 
         return model;
     }
-    public Model createProgram(Model model){
+    public Model listProgram(Model model){
+
+        return model;
+    }
+    public Model addProgram(Model model){
 
         return model;
     }
