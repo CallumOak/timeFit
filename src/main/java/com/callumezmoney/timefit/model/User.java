@@ -1,9 +1,10 @@
 package com.callumezmoney.timefit.model;
 
-import com.callumezmoney.timefit.util.Role;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -11,11 +12,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String username;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private Role role = Role.CUSTOMER;
+    @OneToMany
+    private List<Role> roles = new ArrayList<>();
     @OneToOne
 //    @JoinColumn(name="program_id")
     private Program program;
