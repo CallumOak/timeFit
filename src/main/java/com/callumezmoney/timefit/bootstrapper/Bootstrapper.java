@@ -19,6 +19,7 @@ public class Bootstrapper implements CommandLineRunner {
             user.setFirstName(username);
             user.setEmail(username.toLowerCase() + "@domain.com");
             user.setPassword(username+"123");
+            user.setUsername(username);
             this.userRepository.save(user);
             System.out.println(user);
         }

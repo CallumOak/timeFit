@@ -3,20 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../model/user';
 import { Observable } from 'rxjs';
 
+const API_URL = 'http://localhost:8080/api/test/'
+
 @Injectable()
 export class UserService {
 
-  private usersUrl: string;
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/users';
+  getPublicContent(): Observable<any>{
+    return this.http.get(API_URL + 'all', {responseType: "text"});
+  }
+  getUserBoard(): Observable<any>{
+    return this.http.get(API_URL + 'user', {responseType: "text"});
+  }
+  getModeratorBoard(): Observable<any>{
+    return this.http.get(API_URL + 'mod', {responseType: "text"});
+  }
+  getAdminBoard(): Observable<any>{
+    return this.http.get(API_URL + 'admin', {responseType: "text"});
   }
 
-  public findAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl);
-  }
-
-  public save(user: User) {
-    return this.http.post<User>(this.usersUrl, user);
-  }
 }
