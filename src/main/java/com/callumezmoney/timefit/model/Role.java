@@ -2,6 +2,7 @@ package com.callumezmoney.timefit.model;
 
 import com.callumezmoney.timefit.util.RoleEnum;
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 
@@ -14,6 +15,6 @@ public class Role {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(length = 20, unique = true)
     private RoleEnum name;
 }

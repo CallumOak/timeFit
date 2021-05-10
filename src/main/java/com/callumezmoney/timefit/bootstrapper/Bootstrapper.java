@@ -1,7 +1,10 @@
 package com.callumezmoney.timefit.bootstrapper;
 
+import com.callumezmoney.timefit.controller.AuthController;
+import com.callumezmoney.timefit.controller.ExerciseController;
 import com.callumezmoney.timefit.model.Role;
 import com.callumezmoney.timefit.model.User;
+import com.callumezmoney.timefit.payload.request.SignupRequest;
 import com.callumezmoney.timefit.repository.RoleRepository;
 import com.callumezmoney.timefit.repository.UserRepository;
 import com.callumezmoney.timefit.util.RoleEnum;
@@ -16,19 +19,10 @@ import java.util.Arrays;
 public class Bootstrapper implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final AuthController authController;
 
     @Override
     public void run(String... args) throws Exception {
-
-//        String usernames[] = {"John", "Julie", "Jennifer", "Helen", "Rachel"};
-//        for(String username: usernames){
-//            User user = new User();
-//            user.setEmail(username.toLowerCase() + "@domain.com");
-//            user.setPassword(username+"123");
-//            user.setUsername(username);
-//            this.userRepository.save(user);
-//            System.out.println(user);
-//        }
 
         Role user = new Role();
         Role moderator = new Role();
@@ -37,6 +31,15 @@ public class Bootstrapper implements CommandLineRunner {
         moderator.setName(RoleEnum.ROLE_MODERATOR);
         admin.setName(RoleEnum.ROLE_ADMIN);
         roleRepository.saveAll(Arrays.asList(user, moderator, admin));
+
+        String usernames[] = {"John", "Julie", "Jennifer", "Helen", "Rachel"};
+        for(String username: usernames){
+            SignupRequest newUserRequest = new SignupRequest();
+            newUserRequest.setEmail(username.toLowerCase() + "@domain.com");
+            newUserRequest.setPassword(username+"123");
+            newUserRequest.setUsername(username);
+            authController.registerUser(newUserRequest);
+        }
 
 
     }
