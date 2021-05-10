@@ -20,15 +20,15 @@ public class Bootstrapper implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        String usernames[] = {"John", "Julie", "Jennifer", "Helen", "Rachel"};
-        for(String username: usernames){
-            User user = new User();
-            user.setEmail(username.toLowerCase() + "@domain.com");
-            user.setPassword(username+"123");
-            user.setUsername(username);
-            this.userRepository.save(user);
-            System.out.println(user);
-        }
+//        String usernames[] = {"John", "Julie", "Jennifer", "Helen", "Rachel"};
+//        for(String username: usernames){
+//            User user = new User();
+//            user.setEmail(username.toLowerCase() + "@domain.com");
+//            user.setPassword(username+"123");
+//            user.setUsername(username);
+//            this.userRepository.save(user);
+//            System.out.println(user);
+//        }
 
         Role user = new Role();
         Role moderator = new Role();
