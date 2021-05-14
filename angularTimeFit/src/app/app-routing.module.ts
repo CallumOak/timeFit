@@ -9,6 +9,7 @@ import {BoardUserComponent} from "./component/board-user/board-user.component";
 import {BoardModeratorComponent} from "./component/board-moderator/board-moderator.component";
 import {BoardAdminComponent} from "./component/board-admin/board-admin.component";
 import {SignupComponent} from "./component/signup/signup.component";
+import {CalendarComponent} from "./component/calendar/calendar.component";
 
 const routes: Routes = [
   {path: "users", component: UserListComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
+  { path: 'calendar', component: CalendarComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

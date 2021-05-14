@@ -18,6 +18,16 @@ import { SignupComponent } from './component/signup/signup.component';
 
 import { authInterceptorProviders } from './helper/auth.interceptor';
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { CalendarComponent } from './component/calendar/calendar.component';
+
+FullCalendarModule.registerPlugins([
+  interactionPlugin,
+  dayGridPlugin
+]);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,12 +39,14 @@ import { authInterceptorProviders } from './helper/auth.interceptor';
     HomeComponent,
     LoginComponent,
     ProfileComponent,
-    SignupComponent
+    SignupComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FullCalendarModule,
     FormsModule
   ],
   providers: [UserService, authInterceptorProviders],
