@@ -1,1 +1,26 @@
-<p>program works!</p>
+<div class="container">
+
+  <div class="jumbotron row justify-content-center">
+    <div class="row">
+      <nav class="navbar bg-light col-2">
+        <ul class="navbar-nav mr-auto" routerLinkActive="active" >
+          <li class="nav-item">
+            <a  href="/weeklyProgram" class="nav-link" routerLink="weeklyProgram">Weekly</a>
+          </li>
+          <li class="nav-item">
+            <a  href="/frequencyProgram" class="nav-link" routerLink="frequencyProgram">Frequency</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="container bg-white col-10">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <div class="row">
+
+    </div>
+    <div class="row">
+
+    </div>
+  </div>
+</div>

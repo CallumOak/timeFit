@@ -28,6 +28,8 @@ import { ExercisesComponent } from './component/exercises/exercises.component';
 import { WorkoutComponent } from './component/workout/workout.component';
 import { AddEditRoutineComponent } from './component/add-edit-routine/add-edit-routine.component';
 import { AddEditExerciseComponent } from './component/add-edit-exercise/add-edit-exercise.component';
+import { WeeklyProgramComponent } from './component/weekly-program/weekly-program.component';
+import { FrequencyProgramComponent } from './component/frequency-program/frequency-program.component';
 
 FullCalendarModule.registerPlugins([
   interactionPlugin,
@@ -52,7 +54,9 @@ FullCalendarModule.registerPlugins([
     ExercisesComponent,
     WorkoutComponent,
     AddEditRoutineComponent,
-    AddEditExerciseComponent
+    AddEditExerciseComponent,
+    WeeklyProgramComponent,
+    FrequencyProgramComponent
   ],
   imports: [
     BrowserModule,

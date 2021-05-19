@@ -10,6 +10,8 @@ import {BoardModeratorComponent} from "./component/board-moderator/board-moderat
 import {BoardAdminComponent} from "./component/board-admin/board-admin.component";
 import {SignupComponent} from "./component/signup/signup.component";
 import {CalendarComponent} from "./component/calendar/calendar.component";
+import {WeeklyProgramComponent} from "./component/weekly-program/weekly-program.component";
+import {FrequencyProgramComponent} from "./component/frequency-program/frequency-program.component";
 import {WorkoutComponent} from "./component/workout/workout.component";
 import {RoutinesComponent} from "./component/routines/routines.component";
 import {ExercisesComponent} from "./component/exercises/exercises.component";
@@ -31,7 +33,16 @@ const routes: Routes = [
   { path: 'workout', component: WorkoutComponent },
   { path: 'routines', component: RoutinesComponent },
   { path: 'exercises', component: ExercisesComponent },
-  { path: 'program', component: ProgramComponent },
+  { path: 'program', component: ProgramComponent, children: [
+      {
+        path: 'weeklyProgram',
+        component: WeeklyProgramComponent
+      },
+      {
+        path: 'frequencyProgram',
+        component: FrequencyProgramComponent
+      }
+    ] },
   { path: 'addEditRoutine', component: AddEditRoutineComponent },
   { path: 'addEditExercise', component: AddEditExerciseComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
