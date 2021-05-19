@@ -18,6 +18,22 @@ import { SignupComponent } from './component/signup/signup.component';
 
 import { authInterceptorProviders } from './helper/auth.interceptor';
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { CalendarComponent } from './component/calendar/calendar.component';
+import { ProgramComponent } from './component/program/program.component';
+import { RoutinesComponent } from './component/routines/routines.component';
+import { ExercisesComponent } from './component/exercises/exercises.component';
+import { WorkoutComponent } from './component/workout/workout.component';
+import { AddEditRoutineComponent } from './component/add-edit-routine/add-edit-routine.component';
+import { AddEditExerciseComponent } from './component/add-edit-exercise/add-edit-exercise.component';
+
+FullCalendarModule.registerPlugins([
+  interactionPlugin,
+  dayGridPlugin
+]);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,12 +45,20 @@ import { authInterceptorProviders } from './helper/auth.interceptor';
     HomeComponent,
     LoginComponent,
     ProfileComponent,
-    SignupComponent
+    SignupComponent,
+    CalendarComponent,
+    ProgramComponent,
+    RoutinesComponent,
+    ExercisesComponent,
+    WorkoutComponent,
+    AddEditRoutineComponent,
+    AddEditExerciseComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FullCalendarModule,
     FormsModule
   ],
   providers: [UserService, authInterceptorProviders],
