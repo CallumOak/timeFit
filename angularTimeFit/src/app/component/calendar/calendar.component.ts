@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { CalendarOptions } from '@fullcalendar/angular';
@@ -8,19 +8,27 @@ import { CalendarOptions } from '@fullcalendar/angular';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit{
 
 
   Events = [];
   // @ts-ignore
-  calendarOptions: CalendarOptions;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient){ }
 
   // @ts-ignore
   onDateClick(res) {
     alert('Clicked on date : ' + res.dateStr)
   }
+
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth',
+    dateClick: this.onDateClick.bind(this), // bind is important!
+    events: [
+      { title: 'event 1', date: '2021-05-27' },
+      { title: 'event 2', date: '2021-05-30' }
+    ]
+  };
 
   ngOnInit(){
     setTimeout(() => {
@@ -42,4 +50,7 @@ export class CalendarComponent {
 
   }
 
+  removerSelectedRoutine() {
+
+  }
 }
