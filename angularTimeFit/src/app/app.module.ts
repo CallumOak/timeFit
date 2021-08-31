@@ -30,6 +30,7 @@ import { AddEditRoutineComponent } from './component/add-edit-routine/add-edit-r
 import { AddEditExerciseComponent } from './component/add-edit-exercise/add-edit-exercise.component';
 import { WeeklyProgramComponent } from './component/weekly-program/weekly-program.component';
 import { FrequencyProgramComponent } from './component/frequency-program/frequency-program.component';
+import { RoutineVisualizerComponent } from './component/routine-visualizer/routine-visualizer.component';
 
 FullCalendarModule.registerPlugins([
   interactionPlugin,
@@ -56,7 +57,8 @@ FullCalendarModule.registerPlugins([
     AddEditRoutineComponent,
     AddEditExerciseComponent,
     WeeklyProgramComponent,
-    FrequencyProgramComponent
+    FrequencyProgramComponent,
+    RoutineVisualizerComponent
   ],
   imports: [
     BrowserModule,

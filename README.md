@@ -14,3 +14,11 @@ https://fullcalendar.io/
 
 https://fontawesome.com/
 
+### E2E testing
+
+cypress
+
+### datepicker
+
+https://dev.to/mdbootstrap/bootstrap-5-datepicker-12fm
+
