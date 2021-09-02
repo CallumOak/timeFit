@@ -1,0 +1,21 @@
+.routine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.routineContainer{
+  position: relative;
+  padding-bottom: 15%;
+  height: 0;
+}
+
+.title{
+  height: 20%;
+}
+
+.exercise{
+  height: 80%;
+}
