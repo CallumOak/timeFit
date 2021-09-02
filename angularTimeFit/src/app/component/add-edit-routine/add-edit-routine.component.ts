@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {NavbarService} from "../../service/navbar.service";
+
+const NAV_TITLE = "Routine";
+const NAV_PATH = "addEditRoutine";
 
 @Component({
   selector: 'app-add-edit-routine',
@@ -7,7 +11,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddEditRoutineComponent implements OnInit {
 
-  constructor() { }
+  constructor(private navbarService: NavbarService) {
+    this.navbarService.addItem(NAV_TITLE, NAV_PATH)
+  }
 
   ngOnInit(): void {
   }

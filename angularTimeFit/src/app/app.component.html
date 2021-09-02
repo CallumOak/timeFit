@@ -3,26 +3,35 @@
     <a href="#" class="navbar-brand">CallumCoder</a>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li class="nav-item">
-        <a href="/home" class="nav-link" routerLink="home">Home </a>
+        <a href="/home" class="nav-link" routerLink="home">Home<span *ngIf="this.router.url.includes('home')" class="sr-only">(current)</span> </a>
       </li>
       <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="calendar">Calendar</a>
+        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="calendar">Calendar<span *ngIf="this.router.url.includes('calendar')" class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a href="/program" class="nav-link" *ngIf="isLoggedIn" routerLink="program/weeklyProgram">Program</a>
+        <a href="/program" class="nav-link" *ngIf="isLoggedIn" routerLink="program/weeklyProgram">Program<span *ngIf="this.router.url.includes('weeklyProgram')" class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a href="/workout" class="nav-link" *ngIf="isLoggedIn" routerLink="workout">Workout</a>
+        <a href="/workout" class="nav-link" *ngIf="isLoggedIn" routerLink="workout">Workout
+          <span *ngIf="this.router.url.includes('workout')" class="sr-only">
+            (current)
+          </span>
+        </a>
       </li>
-<!--      <li class="nav-item" *ngIf="showAdminBoard">-->
-<!--        <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>-->
-<!--      </li>-->
-<!--      <li class="nav-item" *ngIf="showModeratorBoard">-->
-<!--        <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>-->
-<!--      </li>-->
-<!--      <li class="nav-item">-->
-<!--        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>-->
-<!--      </li>-->
+      <li *ngFor="let navItem of this.navbarService.extraLinks">
+        <a class="nav-link" *ngIf="isLoggedIn" >
+          <a routerLink="{{navItem.path}}">
+            <span>{{navItem.text}}
+              <span *ngIf="this.router.url.includes(navItem.path)" class="sr-only">
+                (current)
+              </span>
+            </span>
+          </a>
+          <a (click)="removeNavItem(navItem.text)">
+            <span class="fa fa-close"></span>
+          </a>
+        </a>
+      </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
