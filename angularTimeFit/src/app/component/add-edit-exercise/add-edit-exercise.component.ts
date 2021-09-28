@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {NavbarService} from "../../service/navbar.service";
+import {ExerciseService} from "../../service/exercise.service";
+import {ActivatedRoute} from "@angular/router";
+import {Exercise} from "../../model/exercise.model";
 
-const NAV_TITLE = "Exercise"
 const NAV_PATH = "addEditExercise"
 
 @Component({
@@ -11,11 +13,19 @@ const NAV_PATH = "addEditExercise"
 })
 export class AddEditExerciseComponent implements OnInit {
 
-  constructor(private navBarService : NavbarService) {
-    this.navBarService.addItem(NAV_TITLE, NAV_PATH)
+  selectedExercise: Exercise = new Exercise('','','','','', '','','');
+  private navBarItemIndex: number;
+
+  constructor(private navbarService : NavbarService,
+              private exerciseService : ExerciseService,
+              private activatedRoute: ActivatedRoute) {
+    this.navBarItemIndex = this.navbarService.addItem('', '')
+    console.log(this.navBarItemIndex);
   }
 
   ngOnInit(): void {
+    this.selectedExercise = this.exerciseService.getExercise(this.activatedRoute.snapshot.params['id']);
+    this.navbarService.editItem(this.navBarItemIndex, this.selectedExercise.name, `${NAV_PATH}/${this.selectedExercise.id}`)
   }
 
 }

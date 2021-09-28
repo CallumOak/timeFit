@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {RoutineTypeEnum} from "../../enums/routine-type-enum.enum";
-import {RoutineService} from "../../service/routine.service";
+import {RoutineTypeEnum} from "../../../enums/routine-type-enum.enum";
+import {RoutineService} from "../../../service/routine.service";
 import {Subscription} from "rxjs";
-import {NavbarService} from "../../service/navbar.service";
+import {NavbarService} from "../../../service/navbar.service";
 
 const ROUTINE_TYPE = RoutineTypeEnum.weekly
 const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]

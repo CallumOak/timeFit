@@ -10,8 +10,8 @@ import {BoardModeratorComponent} from "./component/board-moderator/board-moderat
 import {BoardAdminComponent} from "./component/board-admin/board-admin.component";
 import {SignupComponent} from "./component/signup/signup.component";
 import {CalendarComponent} from "./component/calendar/calendar.component";
-import {WeeklyProgramComponent} from "./component/weekly-program/weekly-program.component";
-import {FrequencyProgramComponent} from "./component/frequency-program/frequency-program.component";
+import {WeeklyProgramComponent} from "./component/program/weekly-program/weekly-program.component";
+import {FrequencyProgramComponent} from "./component/program/frequency-program/frequency-program.component";
 import {WorkoutComponent} from "./component/workout/workout.component";
 import {RoutinesComponent} from "./component/routines/routines.component";
 import {ExercisesComponent} from "./component/exercises/exercises.component";

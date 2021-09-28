@@ -30,7 +30,7 @@
           </a>
         </div>
         <div class="row mb-2">
-          <a class="btn btn-secondary" [attr.href]="'/addEditExercise/' + this.selectedExercise" [class.disabled]="this.selectedExercise == ''">
+          <a class="btn btn-secondary" [routerLink]="['/addEditExercise', this.selectedExercise]" [class.disabled]="this.selectedExercise == ''">
             <span class="fa fa-edit" style="color:black;"></span>
           </a>
         </div>

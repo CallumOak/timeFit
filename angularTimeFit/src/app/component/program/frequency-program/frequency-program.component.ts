@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {RoutineTypeEnum} from "../../enums/routine-type-enum.enum";
-import {RoutineService} from "../../service/routine.service";
+import {RoutineTypeEnum} from "../../../enums/routine-type-enum.enum";
+import {RoutineService} from "../../../service/routine.service";
 import {Subscription} from "rxjs";
 
 const ROUTINE_TYPE = RoutineTypeEnum.frequency

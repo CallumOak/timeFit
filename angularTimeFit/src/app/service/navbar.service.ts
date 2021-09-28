@@ -7,7 +7,9 @@ export class NavbarService {
 
   private _extraLinks = new Array<{ text: string, path: string }>();
 
-  constructor() { }
+  constructor() {
+    console.log("New navbar service created !")
+  }
 
   get extraLinks(): { text: string; path: string }[] {
     return this._extraLinks;
@@ -28,10 +30,13 @@ export class NavbarService {
     this._extraLinks.forEach((value) => {
       if(value.text === newText){
         push = false;
+        console.log("Link already present in navbar")
       }
     });
     if(push){
+      console.log(`Previous links list legnth : ${this._extraLinks.length}`)
       this._extraLinks.push({ text: newText, path: newPath });
+      console.log(`New links list legnth : ${this._extraLinks.length}`)
       return this._extraLinks.length - 1;
     }
     return -1;

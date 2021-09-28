@@ -18,7 +18,7 @@ export class RoutineVisualizerComponent implements OnInit {
   closeResult: string = '';
   availableRoutines!: string[];
   tmpSelectedRoutine: string = '';
-  selectedRoutine!: string;
+  selectedRoutine: string= 'Routine';
   private modalOptions: NgbModalOptions;
   selectedRoutineSubscription!: Subscription;
   availableRoutinesSubscription!: Subscription;
@@ -71,6 +71,10 @@ export class RoutineVisualizerComponent implements OnInit {
 
   tmpSelect(routine: string) {
     this.tmpSelectedRoutine = routine
+  }
+
+  counter(i: number) {
+    return new Array(i);
   }
 
   ngOnDestroy(): void {

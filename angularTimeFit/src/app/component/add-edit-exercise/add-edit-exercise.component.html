@@ -9,7 +9,7 @@
             <label>name</label>
           </div>
           <div class="col-8">
-            <input type="text" value="Upper body">
+            <input type="text" [attr.value]="selectedExercise.name">
           </div>
         </div>
         <div class="row mt-3">
@@ -18,7 +18,7 @@
             <label>time</label>
           </div>
           <div class="col-8">
-            <input type="time">
+            <input type="time" [attr.value]="selectedExercise.exerciseDuration">
           </div>
         </div>
         <div class="row mt-3">
@@ -27,7 +27,7 @@
             <label>reps</label>
           </div>
           <div class="col-8">
-            <input type="time">
+            <input type="time" [attr.value]="selectedExercise.repetitions">
           </div>
         </div>
         <div class="row mt-3">
@@ -36,16 +36,25 @@
             <label>rest</label>
           </div>
           <div class="col-8">
-            <input type="time">
+            <input type="time" [attr.value]="selectedExercise.restDuration">
           </div>
         </div>
         <div class="row mt-3">
           <div class="col-1"></div>
           <div class="col-3">
-            <label>color</label>
+            <label>Exercise color</label>
           </div>
           <div class="col-8">
-            <input type="color">
+            <input type="color" [attr.value]="selectedExercise.exerciseColor">
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-1"></div>
+          <div class="col-3">
+            <label>Rest color</label>
+          </div>
+          <div class="col-8">
+            <input type="color" [attr.value]="selectedExercise.restColor">
           </div>
         </div>
         <div class="row mt-3">
@@ -54,14 +63,14 @@
             <label>video link : </label>
           </div>
           <div class="col-7">
-            <input type="text" style="width: 100%"/>
+            <input type="text" style="width: 100%" [attr.value]="selectedExercise.illustrationLocation"/>
           </div>
           <div class="col-1"></div>
         </div>
         <div class="row mt-3">
           <div class="col-1"></div>
           <div class="col-11">
-            <label>https://www.youtube.com/embed/acp77RhVzMM</label>
+            <label>{{selectedExercise.illustrationLocation}}</label>
           </div>
         </div>
       </div>
