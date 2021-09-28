@@ -3,51 +3,17 @@
     <table class="table">
       <thead>
       <tr>
-        <th class="weekdayHeader">
-          Monday
-        </th>
-        <th class="weekdayHeader">
-          Tuesday
-        </th>
-        <th class="weekdayHeader">
-          Wednesday
-        </th>
-        <th class="weekdayHeader">
-          Thursday
-        </th>
-        <th class="weekdayHeader">
-          Friday
-        </th>
-        <th class="weekdayHeader">
-          Saturday
-        </th>
-        <th class="weekdayHeader">
-          Sunday
+        <th *ngFor="let day of weekDays; let i = index;" class="weekdayHeader">
+          {{day}}
         </th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td>
-          la
-        </td>
-        <td>
-          li
-        </td>
-        <td>
-          lo
-        </td>
-        <td>
-          lu
-        </td>
-        <td>
-          lou
-        </td>
-        <td>
-          leu
-        </td>
-        <td>
-          lai
+        <td *ngFor="let routine of routines; let i = index;">
+          <button class="btn bg-light" [class.focus]="selectedWeekDay == i" [class.fa]="routine == ''" [class.fa-plus]="routine == ''" (click)="selectedWeekDay = i">
+            {{routine}}
+          </button>
         </td>
       </tr>
       </tbody>
@@ -56,15 +22,14 @@
 </div>
 <div class="row">
   <div class="col-9">
-    <app-routine-visualizer></app-routine-visualizer>
+    <app-routine-visualizer [routineType]="routineType" [routineService]="routineService"></app-routine-visualizer>
   </div>
   <div class="col-3">
-    <select class="form-select" aria-label="Default select example">
-      <option selected>Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
-    <a routerLink="/addEditRoutine" class="btn btn-primary">Edit</a>
+    <div class="row m-2">
+      <a [routerLink]="['/addEditRoutine', routineType]" routerLinkActive="active" class="btn btn-primary">Edit</a>
+    </div>
+    <div class="row m-2">
+      <button class="btn btn-primary fa fa-trash" (click)="removeRoutine()"></button>
+    </div>
   </div>
 </div>

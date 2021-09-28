@@ -18,7 +18,14 @@ https://fontawesome.com/
 
 cypress
 
-### datepicker
+### angular models guide
 
-https://dev.to/mdbootstrap/bootstrap-5-datepicker-12fm
+nehalist.io/angular-7-models/
 
+### angular bootstrap modal
+
+https://www.freakyjolly.com/angular-bootstrap-modal-tutorial-by-example/
+
+### Angular parent-child communication via a service
+
+https://angular.io/guide/component-interaction#parent-and-children-communicate-via-a-service

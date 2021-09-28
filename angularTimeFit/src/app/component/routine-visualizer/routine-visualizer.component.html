@@ -1,8 +1,8 @@
-<div class="row ">
+<div class="row " (click)="open(mymodal)">
     <div class="container routineContainer mb-5">
       <div class="row routine">
         <div class="col-12 text-center bg-success title pb-1 pt-1" >
-          Routine name
+          {{selectedRoutine}}
         </div>
         <div class="col text-center exercise">
           <div style="height: 100%" class="row">
@@ -48,3 +48,22 @@
     </div>
 </div>
 
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    Select exercise
+  </div>
+
+  <div class="modal-content">
+    <ul>
+      <li *ngFor="let routineOption of availableRoutines" (click)="tmpSelect(routineOption)">
+        <button class="btn">{{routineOption}}</button>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>

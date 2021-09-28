@@ -12,6 +12,9 @@
         <a href="/program" class="nav-link" *ngIf="isLoggedIn" routerLink="program/weeklyProgram">Program<span *ngIf="this.router.url.includes('weeklyProgram')" class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
+        <a href="/routines" class="nav-link" *ngIf="isLoggedIn" routerLink="routines">Routines<span *ngIf="this.router.url.includes('routines')" class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
         <a href="/workout" class="nav-link" *ngIf="isLoggedIn" routerLink="workout">Workout
           <span *ngIf="this.router.url.includes('workout')" class="sr-only">
             (current)

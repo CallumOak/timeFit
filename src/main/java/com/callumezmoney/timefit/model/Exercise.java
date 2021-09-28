@@ -17,9 +17,9 @@ public class Exercise {
     private Duration exerciseDuration;
     private Duration exerciseBreak;
     private Integer repetitions;
-    private String illustrationLocation;
     private Color exerciseColor;
     private Color breakColor;
+    private String illustrationLocation;
     private String exerciseSoundLocation;
     private String breakSoundLocation;
     private String countdownSoundLocation;

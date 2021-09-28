@@ -1,15 +1,23 @@
 .routine {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
+  width: 100%;
 }
 
 .routineContainer{
   position: relative;
-  padding-bottom: 15%;
+  padding-bottom: 20%;
   height: 0;
+  cursor:pointer;
+  border: 3px solid #61c4ff;
+}
+
+.routineContainer:hover{
+  border-color: #4dff74;
+}
+
+.routineContainer:active{
+  border-color: #ffd042;
 }
 
 .title{

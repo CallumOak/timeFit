@@ -1,0 +1,17 @@
+.nav-link{
+  height: 100%;
+  border: 3px solid transparent;
+}
+
+.nav-item{
+  height: 25%;
+}
+
+.navbar-nav{
+  height: 100%;
+}
+
+.active{
+  font-weight: bold;
+  border-color: lightgray;
+}

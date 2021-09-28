@@ -1,13 +1,19 @@
 <div class="container">
   <div class="jumbotron row justify-content-center">
     <div class="row w-100">
-      <nav class="navbar bg-light col-2">
-        <ul class="navbar-nav mr-auto" routerLinkActive="active" >
+      <nav class="navbar navbar-light bg-light col-2">
+        <ul class="navbar-nav mr-auto" routerLinkActive="active" style="width: 100%; height: 100%;">
           <li class="nav-item">
-            <a  href="/weeklyProgram" class="nav-link" routerLink="weeklyProgram">Weekly</a>
+            <a  href="/weeklyProgram" class="nav-link bg-light" routerLink="weeklyProgram" [class.active]="this.router.url.includes('weekly')">
+              <span class="m-5">Weekly</span>
+            </a>
           </li>
           <li class="nav-item">
-            <a  href="/frequencyProgram" class="nav-link" routerLink="frequencyProgram">Frequency</a>
+            <a  href="/frequencyProgram" class="nav-link bg-light" routerLink="frequencyProgram" [class.active]="this.router.url.includes('frequency')">
+              <span class="m-5">
+                Frequency
+              </span>
+            </a>
           </li>
         </ul>
       </nav>
@@ -16,18 +22,17 @@
       </div>
     </div>
     <div class="row mt-5 w-100 pt-3 pb-3 bg-white ">
-        <div class="col-9">
-          <app-routine-visualizer></app-routine-visualizer>
+      <div class="col-9">
+        <app-routine-visualizer class="selectableRoutine" [routineType]="this.routineType" [routineService]="routineService"></app-routine-visualizer>
+      </div>
+      <div class="col-3">
+        <div class="row m-2">
+          <a [href]="'/addEditRoutine/' + routineType" class="btn btn-primary">Edit</a>
         </div>
-        <div class="col-3">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-          <a routerLink="/addEditRoutine" class="btn btn-primary">Edit</a>
+        <div class="row m-2">
+          <button class="btn btn-primary fa fa-trash" (click)="removeRoutine()"></button>
         </div>
       </div>
+    </div>
   </div>
 </div>

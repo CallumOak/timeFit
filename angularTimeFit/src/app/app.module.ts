@@ -31,6 +31,8 @@ import { AddEditExerciseComponent } from './component/add-edit-exercise/add-edit
 import { WeeklyProgramComponent } from './component/weekly-program/weekly-program.component';
 import { FrequencyProgramComponent } from './component/frequency-program/frequency-program.component';
 import { RoutineVisualizerComponent } from './component/routine-visualizer/routine-visualizer.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { DialogExerciseSelectComponent } from './component/dialog-exercise-select/dialog-exercise-select.component';
 
 FullCalendarModule.registerPlugins([
   interactionPlugin,
@@ -58,14 +60,16 @@ FullCalendarModule.registerPlugins([
     AddEditExerciseComponent,
     WeeklyProgramComponent,
     FrequencyProgramComponent,
-    RoutineVisualizerComponent
+    RoutineVisualizerComponent,
+    DialogExerciseSelectComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FullCalendarModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [UserService, authInterceptorProviders],
   bootstrap: [AppComponent]

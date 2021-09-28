@@ -1,0 +1,28 @@
+<!--modal #exerciseSelectModal>
+  <modal-header>
+    Select exercise
+  </modal-header>
+
+  <modal-content>
+    <ul>
+      <li (click)="select('arms')">
+        <span>Arms</span>
+      </li>
+      <li (click)="select('legs')">
+        <span>Legs</span>
+      </li>
+      <li (click)="select('core')">
+        <span>Core</span>
+      </li>
+    </ul>
+  </modal-content>
+
+  <modal-footer>
+    <button id="exerciseSelectCancel" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="selectedExercise = ''">
+      <span class="fa fa-times"></span>
+    </button>
+    <button id="exerciseSelectOk" type="button" class="btn btn-primary" data-dismiss="modal" (click)="returnSelected()">
+      <span class="fa fa-check"></span>
+    </button>
+  </modal-footer>
+</modal-->

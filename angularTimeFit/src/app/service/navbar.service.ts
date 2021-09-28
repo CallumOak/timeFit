@@ -23,7 +23,7 @@ export class NavbarService {
     return retVal;
   }
 
-  addItem(newText: string, newPath: string) {
+  addItem(newText: string, newPath: string): number {
     let push: boolean = true;
     this._extraLinks.forEach((value) => {
       if(value.text === newText){
@@ -32,7 +32,9 @@ export class NavbarService {
     });
     if(push){
       this._extraLinks.push({ text: newText, path: newPath });
+      return this._extraLinks.length - 1;
     }
+    return -1;
   }
 
 
@@ -42,5 +44,22 @@ export class NavbarService {
         this._extraLinks.splice(index, 1);
       }
     });
+  }
+
+  editItem(index: number, text: string, path: string){
+    let edit: boolean = true;
+    this._extraLinks.forEach((value) => {
+      if(value.text === text){
+        edit = false;
+        if(this._extraLinks[this._extraLinks.length - 1].text === ''){
+          this._extraLinks.pop()
+        }
+      }
+    });
+
+    if(edit) {
+      this._extraLinks[index].text = text
+      this._extraLinks[index].path = path
+    }
   }
 }

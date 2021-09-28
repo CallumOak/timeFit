@@ -43,8 +43,8 @@ const routes: Routes = [
         component: FrequencyProgramComponent
       }
     ] },
-  { path: 'addEditRoutine', component: AddEditRoutineComponent },
-  { path: 'addEditExercise', component: AddEditExerciseComponent },
+  { path: 'addEditRoutine/:id', component: AddEditRoutineComponent },
+  { path: 'addEditExercise/:id', component: AddEditExerciseComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 
