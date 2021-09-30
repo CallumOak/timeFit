@@ -2,13 +2,12 @@ package com.callumezmoney.timefit.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalTime;
 
-@Entity
 @Data
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class RoutinePlan {
     @Id
     private Long id;
