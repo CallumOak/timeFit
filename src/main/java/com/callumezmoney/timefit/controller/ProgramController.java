@@ -1,30 +1,56 @@
 package com.callumezmoney.timefit.controller;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
+import com.callumezmoney.timefit.model.Program;
+import com.callumezmoney.timefit.model.Program;
+import com.callumezmoney.timefit.payload.response.MessageResponse;
+import com.callumezmoney.timefit.repository.ProgramRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("api/program/")
 public class ProgramController {
+    @Autowired
+    ProgramRepository programRepository;
 
-
-    public Model getProgram(Model model){
-
-        return model;
+    @GetMapping("{id}")
+    public ResponseEntity<?> getProgram(@PathVariable Long id){
+        Optional<Program> program = programRepository.findById(id);
+        if(program.isPresent()){
+            return ResponseEntity.ok(program.get());
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Error: Program not found"));
     }
-    public Model listProgram(Model model){
 
-        return model;
+    @GetMapping()
+    public ResponseEntity<?> listProgram(){
+        return ResponseEntity.ok(programRepository.findAll());
     }
-    public Model addProgram(Model model){
 
-        return model;
+    @PostMapping()
+    public ResponseEntity<?> addProgram(@RequestBody Program newProgram){
+        return ResponseEntity.ok(programRepository.save(newProgram));
     }
-    public Model editProgram(Model model){
 
-        return model;
+    @PutMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editProgram(@RequestBody Program newProgram){
+        Optional<Program> program = programRepository.findById(newProgram.getId());
+        if(program.isPresent()){
+            programRepository.save(newProgram);
+        }
+        else{
+            throw new NullPointerException();
+        }
     }
-    public void deleteProgram(Model model){
+
+    @DeleteMapping("{id}")
+    public void deleteProgram(@PathVariable Long id){
+        programRepository.deleteById(id);
     }
 }

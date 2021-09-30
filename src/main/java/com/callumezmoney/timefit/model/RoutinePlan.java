@@ -1,14 +1,18 @@
 package com.callumezmoney.timefit.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalTime;
 
-@Entity
 @Data
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@SuperBuilder
+@NoArgsConstructor
 public class RoutinePlan {
     @Id
     private Long id;

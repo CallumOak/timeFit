@@ -1,30 +1,57 @@
 package com.callumezmoney.timefit.controller;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
+import com.callumezmoney.timefit.model.Exercise;
+import com.callumezmoney.timefit.payload.response.MessageResponse;
+import com.callumezmoney.timefit.repository.ExercisesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200/")
+@RequestMapping("api/exercise/")
 public class ExerciseController {
+    @Autowired
+    ExercisesRepository exercisesRepository;
 
-
-    public Model getExercise(Model model){
-
-        return model;
+    @GetMapping("{id}")
+    public ResponseEntity<?> getExercise(@PathVariable Long id){
+        Optional<Exercise> exercise = exercisesRepository.findById(id);
+        if(exercise.isPresent()){
+            return ResponseEntity.ok(exercise.get());
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Error: Exercise not found"));
     }
-    public Model listExercise(Model model){
 
-        return model;
+    @GetMapping()
+    public ResponseEntity<?> listExercise(){
+        return ResponseEntity.ok(exercisesRepository.findAll());
     }
-    public Model addExercise(Model model){
 
-        return model;
+    @PostMapping()
+    public ResponseEntity<?> addExercise(@RequestBody Exercise newExercise){
+        return ResponseEntity.ok(exercisesRepository.save(newExercise));
     }
-    public Model editExercise(Model model){
 
-        return model;
+    @PutMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editExercise(@RequestBody Exercise newExercise){
+        Optional<Exercise> exercise = exercisesRepository.findById(newExercise.getId());
+        if(exercise.isPresent()){
+            exercisesRepository.save(newExercise);
+        }
+        else{
+            throw new NullPointerException();
+        }
     }
-    public void deleteExercise(Model model){
+
+
+
+    @DeleteMapping("{id}")
+    public void deleteExercise(@PathVariable Long id){
+        exercisesRepository.deleteById(id);
     }
 }

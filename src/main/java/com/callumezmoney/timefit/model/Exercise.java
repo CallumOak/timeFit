@@ -1,6 +1,9 @@
 package com.callumezmoney.timefit.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.awt.*;
@@ -9,6 +12,8 @@ import java.time.Duration;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,5 +29,8 @@ public class Exercise {
     private String breakSoundLocation;
     private String countdownSoundLocation;
     @ManyToMany
+    @ToString.Exclude
     private List<Routine> routines;
+
+
 }

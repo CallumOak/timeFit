@@ -1,6 +1,8 @@
 package com.callumezmoney.timefit.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.awt.*;
@@ -9,6 +11,8 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Routine {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

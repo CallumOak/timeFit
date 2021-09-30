@@ -30,6 +30,6 @@ export class ProgramComponent implements OnInit {
   }
 
   removeRoutine() {
-    this.routineService.setRoutineBasedOnType(this.routineType, '')
+    this.routineService.setRoutine('')
   }
 }

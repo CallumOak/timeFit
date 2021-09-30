@@ -40,6 +40,6 @@ export class WeeklyProgramComponent implements OnInit {
   }
 
   removeRoutine() {
-    this.routineService.setRoutineBasedOnType(this.routineType, '')
+    this.routineService.setRoutine('')
   }
 }

@@ -1,8 +1,9 @@
-import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {RoutineService} from "../../service/routine.service";
 import {RoutineTypeEnum} from "../../enums/routine-type-enum.enum";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
+import {Routine} from "../../model/routine.model";
 
 @Component({
   selector: 'app-routine-visualizer',
@@ -16,9 +17,9 @@ export class RoutineVisualizerComponent implements OnInit {
   @Input()
   routineService!: RoutineService
   closeResult: string = '';
-  availableRoutines!: string[];
-  tmpSelectedRoutine: string = '';
-  selectedRoutine: string= 'Routine';
+  availableRoutines!: Routine[];
+  tmpSelectedRoutine!: Routine;
+  selectedRoutine!: Routine;
   private modalOptions: NgbModalOptions;
   selectedRoutineSubscription!: Subscription;
   availableRoutinesSubscription!: Subscription;
@@ -32,7 +33,8 @@ export class RoutineVisualizerComponent implements OnInit {
 
   private commitSelectedRoutine(){
     this.selectedRoutine = this.tmpSelectedRoutine
-    this.routineService.setRoutineBasedOnType(this.routineType, this.selectedRoutine)
+
+    this.routineService.setRoutine(this.routineType, this.selectedRoutine)
   }
 
   open(content: any) {

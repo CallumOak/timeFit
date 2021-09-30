@@ -4,6 +4,7 @@ import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-b
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import { RoutineService } from 'src/app/service/routine.service';
 import {switchMap} from "rxjs/operators";
+import { RoutinePlan } from 'src/app/model/routine-plan.model';
 
 const NAV_PATH = "addEditRoutine";
 
@@ -19,7 +20,7 @@ export class AddEditRoutineComponent implements OnInit {
   modalOptions:NgbModalOptions;
   tmpSelectedExercise: string = '';
   selectedExercise: string = '';
-  selectedRoutine: string = '';
+  selectedRoutine!: RoutinePlan;
   selectedRoutineId: string = '';
   navBarItemIndex!: number;
 
@@ -74,10 +75,10 @@ export class AddEditRoutineComponent implements OnInit {
   ngOnInit(): void {
     this.selectedRoutineId = this.activatedRoute.snapshot.params['id'];
     console.log(`Params : ${this.selectedRoutineId}`);
-    this.routineService.getRoutineBasedOnType(+this.selectedRoutineId).subscribe(routine => {
+    this.routineService.getRoutine(this.selectedRoutineId).subscribe(routine => {
       this.selectedRoutine = routine;
     });
     this.routineService.updateData();
-    this.navbarService.editItem(this.navBarItemIndex, this.selectedRoutine, `${NAV_PATH}/${this.selectedRoutineId}`)
+    this.navbarService.editItem(this.navBarItemIndex, this.selectedRoutine.id, `${NAV_PATH}/${this.selectedRoutineId}`)
   }
 }
