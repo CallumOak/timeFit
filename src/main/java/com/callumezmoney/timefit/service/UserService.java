@@ -5,4 +5,5 @@ import org.springframework.stereotype.Service;
 
 public interface UserService {
     User getUser(String email, String password);
+    User getUser(String username);
 }

@@ -18,6 +18,8 @@ public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToOne
+    private User user;
     private String name;
     private Duration exerciseDuration;
     private Duration exerciseBreak;

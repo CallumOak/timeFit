@@ -1,76 +1,39 @@
 package com.callumezmoney.timefit.service;
 
-import com.callumezmoney.timefit.model.*;
-import com.callumezmoney.timefit.repository.*;
+import com.callumezmoney.timefit.model.Routine;
+import com.callumezmoney.timefit.repository.RoutineRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class RoutineServiceImpl implements RoutineService {
     private final RoutineRepository routineRepository;
-    private final RoutinePlanRepository routinePlanRepository;
-    private final WeeklyRoutinePlanRepository weeklyRoutinePlanRepository;
-    private final FrequencyRoutinePlanRepository frequencyRoutinePlanRepository;
-    private final IndividualRoutinePlanRepository individualRoutinePlanRepository;
-    private final UserRepository userRepository;
 
     @Override
-    public List<RoutinePlan> getRoutines() {
-        List<RoutinePlan> routines = (List<RoutinePlan>) routinePlanRepository.findAll();
-        return routines;
-    }
-
-    @Override
-    public RoutinePlan getRoutineById(Long id) {
+    public Set<Routine> getRoutines(String userName) {
         return null;
     }
 
     @Override
-    public WeeklyRoutinePlan getWeeklyRoutine(Integer weekDay) {
+    public Routine getRoutine(int id, String username) {
         return null;
     }
 
     @Override
-    public FrequencyRoutinePlan getFrequencyRoutine(Integer index) {
+    public Routine createRoutine(Routine routine, String username) {
         return null;
     }
 
     @Override
-    public IndividualRoutinePlan getIndividualRoutine(Date date) {
-        return null;
-    }
-
-    @Override
-    public void updateRoutine(RoutinePlan routinePlan) {
+    public void updateRoutine(Routine routine, String username) {
 
     }
 
     @Override
-    public RoutinePlan createRoutine(RoutinePlan routinePlan) {
-        return null;
-    }
-
-    @Override
-    public WeeklyRoutinePlan setWeeklyRoutine(Integer weekDay, Routine routine) {
-        return null;
-    }
-
-    @Override
-    public FrequencyRoutinePlan setFrequencyRoutine(Integer index) {
-        return null;
-    }
-
-    @Override
-    public IndividualRoutinePlan setIndividualRoutine(Date date) {
-        return null;
-    }
-
-    @Override
-    public void deleteRoutine(Long id) {
+    public void deleteRoutine(int id, String username) {
 
     }
 }

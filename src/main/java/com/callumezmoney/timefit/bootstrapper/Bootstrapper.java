@@ -49,56 +49,56 @@ public class Bootstrapper implements CommandLineRunner {
         }
         //test exercises
         Exercise bicepCurl = new Exercise(
-                null, "Bicep curl", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Bicep curl", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
         Exercise pushups = new Exercise(
-                null, "Pushups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Pushups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
         Exercise pullups = new Exercise(
-                null, "Pullups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Pullups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
 
         Exercise squats = new Exercise(
-                null, "Squats", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Squats", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
         Exercise lunges = new Exercise(
-                null, "Lunges", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Lunges", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
         Exercise sideRaise = new Exercise(
-                null, "Side raises", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Side raises", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
 
         Exercise crunches = new Exercise(
-                null, "Crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
         Exercise sideCrunch = new Exercise(
-                null, "Side crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Side crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
         Exercise plank = new Exercise(
-                null, "Plank", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                null, null, "Plank", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
                 Color.RED, Color.GREEN, "", "", "",
                 "", new ArrayList<>());
 
         //test routines
-        Routine legs = new Routine(null, "Legs", 2, Color.BLUE, Arrays.asList(squats, lunges, sideRaise), Arrays.asList());
+        Routine legs = new Routine(null, null, "Legs", 2, Color.BLUE, Arrays.asList(squats, lunges, sideRaise), Arrays.asList());
         squats.getRoutines().add(legs);
         lunges.getRoutines().add(legs);
         sideRaise.getRoutines().add(legs);
 
-        Routine arms = new Routine(null, "Arms", 2, Color.BLUE, Arrays.asList(bicepCurl, pushups, pullups), Arrays.asList());
+        Routine arms = new Routine(null, null, "Arms", 2, Color.BLUE, Arrays.asList(bicepCurl, pushups, pullups), Arrays.asList());
         bicepCurl.getRoutines().add(arms);
         pushups.getRoutines().add(arms);
         pullups.getRoutines().add(arms);
 
-        Routine core = new Routine(null, "Core", 2, Color.BLUE, Arrays.asList(crunches, sideCrunch, plank), Arrays.asList());
+        Routine core = new Routine(null, null, "Core", 2, Color.BLUE, Arrays.asList(crunches, sideCrunch, plank), Arrays.asList());
         crunches.getRoutines().add(core);
         sideCrunch.getRoutines().add(core);
         plank.getRoutines().add(core);

@@ -1,10 +1,9 @@
 package com.callumezmoney.timefit.controller;
 
 import com.callumezmoney.timefit.model.Program;
-import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.repository.ProgramRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,8 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/program/")
+@AllArgsConstructor
 public class ProgramController {
-    @Autowired
     ProgramRepository programRepository;
 
     @GetMapping("{id}")

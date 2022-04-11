@@ -3,7 +3,7 @@ package com.callumezmoney.timefit.controller;
 import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.repository.ExercisesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +13,8 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping("api/exercise/")
+@AllArgsConstructor
 public class ExerciseController {
-    @Autowired
     ExercisesRepository exercisesRepository;
 
     @GetMapping("{id}")
@@ -47,8 +47,6 @@ public class ExerciseController {
             throw new NullPointerException();
         }
     }
-
-
 
     @DeleteMapping("{id}")
     public void deleteExercise(@PathVariable Long id){

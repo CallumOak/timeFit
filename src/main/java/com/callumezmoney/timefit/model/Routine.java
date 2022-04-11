@@ -17,6 +17,8 @@ public class Routine {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToOne
+    private User user;
     private String name;
     private Integer numberOfCycles;
     private Color color;

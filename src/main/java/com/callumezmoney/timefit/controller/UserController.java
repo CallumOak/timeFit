@@ -16,10 +16,9 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@AllArgsConstructor
 @RequestMapping("api/user/")
+@AllArgsConstructor
 public class UserController {
-    @Autowired
     private final UserRepository userRepository;
 
     @GetMapping("{id}")
