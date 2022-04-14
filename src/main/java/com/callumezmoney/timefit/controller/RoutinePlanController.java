@@ -2,6 +2,7 @@ package com.callumezmoney.timefit.controller;
 
 import com.callumezmoney.timefit.model.RoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/routinePlan/")
 @AllArgsConstructor
+@Api(value = "RoutinePlan API")
 public class RoutinePlanController {
 
     private final RoutinePlanService routinePlanService;

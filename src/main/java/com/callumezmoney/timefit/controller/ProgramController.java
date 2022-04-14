@@ -3,6 +3,7 @@ package com.callumezmoney.timefit.controller;
 import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.repository.ProgramRepository;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/program/")
 @AllArgsConstructor
+@Api(value = "Program API")
 public class ProgramController {
     ProgramRepository programRepository;
 

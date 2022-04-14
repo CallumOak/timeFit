@@ -3,6 +3,7 @@ package com.callumezmoney.timefit.controller;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.service.RoutineService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.security.Principal;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/routine/")
 @AllArgsConstructor
+@Api(value = "Routine API")
 public class RoutineController {
     RoutineService routineService;
 

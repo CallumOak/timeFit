@@ -1,59 +1,54 @@
 package com.callumezmoney.timefit.controller;
 
 import com.callumezmoney.timefit.model.User;
-import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
-import com.callumezmoney.timefit.repository.UserRepository;
-import com.callumezmoney.timefit.repository.UserRepository;
+import com.callumezmoney.timefit.service.UserService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/user/")
+@RequestMapping( "api/user")
 @AllArgsConstructor
+@Api(value = "All APIs")
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id){
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            return ResponseEntity.ok(user.get());
-        }
-        return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
+        Optional<User> user = userService.getUser(id);
+        return user.isPresent() ?
+                ResponseEntity.ok(user.get()) :
+                ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
     }
 
     @GetMapping()
     public ResponseEntity<?> listUser(){
-        return ResponseEntity.ok(userRepository.findAll());
+        return ResponseEntity.ok(userService.getAll());
     }
 
     @PostMapping()
     public ResponseEntity<?> addUser(@RequestBody User newUser){
-        return ResponseEntity.ok(userRepository.save(newUser));
+        return ResponseEntity.ok(userService.addUser(newUser));
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editUser(@RequestBody User newUser){
-        Optional<User> user = userRepository.findById(newUser.getId());
-        if(user.isPresent()){
-            userRepository.save(newUser);
-        }
-        else{
+    public void editUser(@RequestBody User updatedUser){
+        Optional<User> user = userService.getUser(updatedUser.getId());
+        if(!user.isPresent()){
             throw new NullPointerException();
         }
+        userService.updateUser(updatedUser);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id){
-        userRepository.deleteById(id);
+        userService.deleteUser(id);
     }
 }

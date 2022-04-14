@@ -3,6 +3,7 @@ package com.callumezmoney.timefit.controller;
 import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.repository.ExercisesRepository;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping("api/exercise/")
 @AllArgsConstructor
+@Api(value = "Exercise API")
 public class ExerciseController {
     ExercisesRepository exercisesRepository;
 
