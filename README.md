@@ -29,3 +29,7 @@ https://www.freakyjolly.com/angular-bootstrap-modal-tutorial-by-example/
 ### Angular parent-child communication via a service
 
 https://angular.io/guide/component-interaction#parent-and-children-communicate-via-a-service
+
+### API testing
+
+Swagger and Postman
