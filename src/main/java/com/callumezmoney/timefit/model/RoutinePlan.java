@@ -14,6 +14,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class RoutinePlan {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
     private Program program;
