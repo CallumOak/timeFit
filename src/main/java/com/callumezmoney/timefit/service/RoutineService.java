@@ -6,8 +6,9 @@ import java.util.Set;
 
 public interface RoutineService {
     Set<Routine> getRoutines(String userName);
-    Routine getRoutine(int id, String username);
+    Routine getRoutine(Long id, String username);
+    Routine getRoutine(Long id);
     Routine createRoutine(Routine routine, String username);
     void updateRoutine(Routine routine, String username);
-    void deleteRoutine(int id, String username);
+    void deleteRoutine(Long id, String username);
 }

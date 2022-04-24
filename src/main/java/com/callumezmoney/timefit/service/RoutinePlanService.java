@@ -11,11 +11,11 @@ public interface RoutinePlanService {
 
     RoutinePlan getRoutinePlanById(Long id);
 
-    WeeklyRoutinePlan getWeeklyRoutine(Integer weekDay);
+    WeeklyRoutinePlan getWeeklyRoutine(Long id);
 
-    FrequencyRoutinePlan getFrequencyRoutine(Integer index);
+    FrequencyRoutinePlan getFrequencyRoutine(Long id);
 
-    IndividualRoutinePlan getIndividualRoutine(Date date);
+    IndividualRoutinePlan getIndividualRoutine(Long id);
 
     void updateRoutine(RoutinePlan routinePlan);
 

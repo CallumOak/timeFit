@@ -30,17 +30,17 @@ public class RoutinePlanServiceImpl implements RoutinePlanService {
     }
 
     @Override
-    public WeeklyRoutinePlan getWeeklyRoutine(Integer weekDay) {
+    public WeeklyRoutinePlan getWeeklyRoutine(Long id) {
         return null;
     }
 
     @Override
-    public FrequencyRoutinePlan getFrequencyRoutine(Integer index) {
+    public FrequencyRoutinePlan getFrequencyRoutine(Long id) {
         return null;
     }
 
     @Override
-    public IndividualRoutinePlan getIndividualRoutine(Date date) {
+    public IndividualRoutinePlan getIndividualRoutine(Long id) {
         return null;
     }
 

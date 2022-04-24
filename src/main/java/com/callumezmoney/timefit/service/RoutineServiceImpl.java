@@ -18,7 +18,12 @@ public class RoutineServiceImpl implements RoutineService {
     }
 
     @Override
-    public Routine getRoutine(int id, String username) {
+    public Routine getRoutine(Long id, String username) {
+        return null;
+    }
+
+    @Override
+    public Routine getRoutine(Long id) {
         return null;
     }
 
@@ -33,7 +38,7 @@ public class RoutineServiceImpl implements RoutineService {
     }
 
     @Override
-    public void deleteRoutine(int id, String username) {
+    public void deleteRoutine(Long id, String username) {
 
     }
 }
