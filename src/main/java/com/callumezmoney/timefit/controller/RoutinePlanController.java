@@ -21,7 +21,7 @@ import java.util.List;
 public class RoutinePlanController {
 
     private final RoutinePlanService routinePlanService;
-
+/*
     @GetMapping("{type}/{identifier}")
     public ResponseEntity<RoutinePlan> getRoutinePlanByType(@PathVariable String type, @PathVariable String identifier){
         RoutinePlan routinePlan;
@@ -47,7 +47,7 @@ public class RoutinePlanController {
         }
         return ResponseEntity.badRequest().body(null);
     }
-
+*/
     @GetMapping("{id}")
     public RoutinePlan getRoutinePlanById(@PathVariable Long id, Principal user){
         return routinePlanService.getRoutinePlanById(id);

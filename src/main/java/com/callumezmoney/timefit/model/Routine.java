@@ -23,7 +23,7 @@ public class Routine {
     private Integer numberOfCycles;
     private Color color;
     @ManyToMany
-    private List<Exercise> exercises = new ArrayList<>();
+    private List<Exercise> exercises;
     @OneToMany
-    private List<RoutinePlan> routinePlans = new ArrayList<>();
+    private List<RoutinePlan> routinePlans;
 }

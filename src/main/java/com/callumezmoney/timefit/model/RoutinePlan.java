@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -12,6 +13,7 @@ import java.time.LocalTime;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
 public class RoutinePlan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/program/")
+@RequestMapping()
 @AllArgsConstructor
 @Api(value = "Program API")
 public class ProgramController {

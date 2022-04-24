@@ -5,5 +5,6 @@ import com.callumezmoney.timefit.model.User;
 import org.springframework.stereotype.Service;
 
 public interface ProgramService {
-    Program getProgram(Long userId);
+    Program getProgram(Long Id);
+    Program getProgram(String programURI);
 }

@@ -24,7 +24,7 @@ public class RoutineController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getRoutine(@PathVariable int id, Principal principal) {
+    public ResponseEntity<?> getRoutine(@PathVariable Long id, Principal principal) {
         Routine exercise = routineService.getRoutine(id, principal.getName());
         if(exercise != null){
             return ResponseEntity.ok(exercise);
@@ -43,7 +43,7 @@ public class RoutineController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteRoutine(@PathVariable int id, Principal principal){
+    public void deleteRoutine(@PathVariable Long id, Principal principal){
         routineService.deleteRoutine(id, principal.getName());
     }
 }
