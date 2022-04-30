@@ -8,6 +8,8 @@ import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
@@ -25,7 +27,7 @@ public class UserMapper implements WebMapper<User, UserDTO>{
                 dto.getUsername(),
                 dto.getEmail(),
                 getUserPassword(dto),
-                programMapper.dtoToEntity(dto.getProgram()),
+                dto.getProgram().stream().map(programMapper::dtoToEntity).collect(Collectors.toList()),
                 roleMapper.dtoToEntity(dto.getRole()));
     }
 
@@ -34,7 +36,7 @@ public class UserMapper implements WebMapper<User, UserDTO>{
         return new UserDTO(
                 entity.getUsername(),
                 entity.getEmail(),
-                programMapper.entityToDto(entity.getProgram()),
+                entity.getProgram().stream().map(programMapper::entityToDto).collect(Collectors.toList()),
                 roleMapper.entityToDto(entity.getRole()));
     }
 
@@ -43,7 +45,7 @@ public class UserMapper implements WebMapper<User, UserDTO>{
                 entity.getUsername(),
                 entity.getEmail(),
                 entity.getPassword(),
-                programMapper.entityToDto(entity.getProgram()),
+                entity.getProgram().stream().map(programMapper::entityToDto).collect(Collectors.toList()),
                 roleMapper.entityToDto(entity.getRole()));
     }
 

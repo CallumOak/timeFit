@@ -5,6 +5,7 @@ import com.callumezmoney.timefit.repository.ExercisesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -21,29 +22,33 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Optional<Exercise> getExercise(Long id, String username) {
-        return exercisesRepository.findByIdAndUser(id, userService.getUser(username).get());
+        return userService.getUser(username).isPresent() ?
+                exercisesRepository.findByIdAndUser(id, userService.getUser(username).get()) : Optional.empty();
+    }
+
+    @Override
+    public Optional<Exercise> getExercise(Long id) {
+        return exercisesRepository.findById(id);
     }
 
     @Override
     public Optional<Exercise> addExercise(Exercise exercise, String username) {
-        Optional<Exercise> optionalExercise = Optional.empty();
-        if(exercise.getUser().getUsername() == username){
-            optionalExercise.of(exercisesRepository.save(exercise));
-        }
-        return optionalExercise;
+        return Objects.equals(exercise.getUser().getUsername(), username) ?
+            Optional.of(exercisesRepository.save(exercise)) : Optional.empty();
     }
 
     @Override
     public void editExercise(Exercise exercise, String username) {
-        if(exercise.getUser().getUsername() == username){
+        Optional<Exercise> oldExercise = exercisesRepository.findById(exercise.getId());
+        if(oldExercise.isPresent() && Objects.equals(oldExercise.get().getUser().getUsername(), username)){
             exercisesRepository.save(exercise);
         }
     }
 
     @Override
     public void deleteExercise(Long id, String username) {
-        Optional<Exercise> optionalExercise = exercisesRepository.findById(id);
-        if(optionalExercise.isPresent() && optionalExercise.get().getUser().getUsername() == username){
+        Optional<Exercise> exercise = exercisesRepository.findById(id);
+        if(exercise.isPresent() && Objects.equals(exercise.get().getUser().getUsername(), username)){
             exercisesRepository.deleteById(id);
         }
     }

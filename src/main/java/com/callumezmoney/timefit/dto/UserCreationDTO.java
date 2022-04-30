@@ -1,11 +1,13 @@
 package com.callumezmoney.timefit.dto;
 import lombok.Value;
 
+import java.util.List;
+
 @Value
 public class UserCreationDTO {
-    private String username;
-    private String email;
-    private String password;
-    private ProgramDTO program;
-    private RoleDTO role;
+    String username;
+    String email;
+    String password;
+    List<ProgramDTO> program;
+    RoleDTO role;
 }

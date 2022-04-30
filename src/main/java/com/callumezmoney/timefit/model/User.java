@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -40,9 +41,9 @@ public class User {
     @NotBlank
     @Size(max = 120)
     private String password;
-    @OneToOne
+    @OneToMany
 //    @JoinColumn(name="program_id")
-    private Program program;
+    private List<Program> program;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;

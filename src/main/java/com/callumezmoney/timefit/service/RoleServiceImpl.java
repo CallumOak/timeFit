@@ -6,8 +6,6 @@ import com.callumezmoney.timefit.util.RoleEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
@@ -26,5 +24,10 @@ public class RoleServiceImpl implements RoleService {
                 return roleRepository.findByName(RoleEnum.ROLE_USER)
                         .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         }
+    }
+
+    @Override
+    public Role getRole(Long id) {
+        return roleRepository.findById(id).get();
     }
 }

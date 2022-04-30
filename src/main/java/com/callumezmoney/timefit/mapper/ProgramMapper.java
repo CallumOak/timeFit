@@ -20,11 +20,12 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
     private WeeklyRoutinePlanMapper weeklyRoutinePlanMapper;
     private FrequencyRoutinePlanMapper frequencyRoutinePlanMapper;
     private IndividualRoutinePlanMapper individualRoutinePlanMapper;
+    private UserMapper userMapper;
     private ProgramService programService;
 
     @Override
     public Program dtoToEntity(ProgramDTO dto) {
-        Program program = new Program(
+        return new Program(
                 dto.getId(),
                 dto.getName(),
                 dto.getProgramSetting(),
@@ -34,14 +35,14 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
                 dto.getFrequencyRoutines().stream().map(frequencyRoutinePlanMapper::dtoToEntity)
                         .collect(Collectors.toList()),
                 dto.getIndividualRoutines().stream().map(individualRoutinePlanMapper::dtoToEntity)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                userMapper.dtoToEntity(dto.getUser())
                 );
-        return program;
     }
 
     @Override
     public ProgramDTO entityToDto(Program entity) {
-        ProgramDTO program = new ProgramDTO(
+        return new ProgramDTO(
                 entity.getId(),
                 entity.getName(),
                 entity.getProgramSetting(),
@@ -51,9 +52,9 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
                 entity.getFrequencyRoutines().stream().map(frequencyRoutinePlanMapper::entityToDto)
                         .collect(Collectors.toList()),
                 entity.getIndividualRoutines().stream().map(individualRoutinePlanMapper::entityToDto)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                userMapper.entityToDto(entity.getUser())
         );
-        return program;
     }
 
     @Override
@@ -63,6 +64,6 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
 
     @Override
     public Program fromURI(String uri) {
-        return programService.getProgram(getIdFromURI(uri, environment));
+        return programService.getProgram(getIdFromURI(uri, environment)).get();
     }
 }

@@ -4,28 +4,31 @@ import com.callumezmoney.timefit.model.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface RoutinePlanService {
     List<RoutinePlan> getRoutines();
 
-    RoutinePlan getRoutinePlanById(Long id);
+    Optional<RoutinePlan> getRoutinePlan(Long id);
 
-    WeeklyRoutinePlan getWeeklyRoutine(Long id);
+    Optional<RoutinePlan> getRoutinePlan(Long id, String username);
 
-    FrequencyRoutinePlan getFrequencyRoutine(Long id);
+    WeeklyRoutinePlan getWeeklyRoutinePlan(Long id);
 
-    IndividualRoutinePlan getIndividualRoutine(Long id);
+    FrequencyRoutinePlan getFrequencyRoutinePlan(Long id);
 
-    void updateRoutine(RoutinePlan routinePlan);
+    IndividualRoutinePlan getIndividualRoutinePlan(Long id);
 
-    RoutinePlan createRoutine(RoutinePlan routinePlan);
+    void editRoutinePlan(RoutinePlan routinePlan, String username);
 
-    WeeklyRoutinePlan setWeeklyRoutine(Integer weekDay, Routine routine);
+    RoutinePlan createRoutinePlan(RoutinePlan routinePlan, String username);
 
-    FrequencyRoutinePlan setFrequencyRoutine(Integer index);
+    WeeklyRoutinePlan editWeeklyRoutinePlan(Integer weekDay, Routine routine);
 
-    IndividualRoutinePlan setIndividualRoutine(Date date);
+    FrequencyRoutinePlan editFrequencyRoutinePlan(Integer index);
 
-    void deleteRoutine(Long id);
+    IndividualRoutinePlan editIndividualRoutinePlan(Date date);
+
+    void deleteRoutinePlan(Long id, String username);
 }

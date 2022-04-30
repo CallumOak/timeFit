@@ -49,6 +49,6 @@ public class WeeklyRoutinePlanMapper implements WebMapper<WeeklyRoutinePlan, Wee
 
     @Override
     public WeeklyRoutinePlan fromURI(String uri) {
-        return routinePlanService.getWeeklyRoutine(getIdFromURI(uri, environment));
+        return routinePlanService.getWeeklyRoutinePlan(getIdFromURI(uri, environment));
     }
 }

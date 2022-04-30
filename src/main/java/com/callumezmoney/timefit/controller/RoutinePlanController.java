@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -49,30 +47,30 @@ public class RoutinePlanController {
     }
 */
     @GetMapping("{id}")
-    public RoutinePlan getRoutinePlanById(@PathVariable Long id, Principal user){
-        return routinePlanService.getRoutinePlanById(id);
+    public ResponseEntity<?> getRoutinePlanById(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(routinePlanService.getRoutinePlan(id, principal.getName()));
     }
 
     @GetMapping("")
-    public List<RoutinePlan> listRoutinePlans(){
+    public List<RoutinePlan> listRoutinePlans(Principal principal){
         return routinePlanService.getRoutines();
     }
 
     @PostMapping ("")
-    public RoutinePlan addRoutinePlan(@RequestBody RoutinePlan routinePlan){
-        return routinePlanService.createRoutine(routinePlan);
+    public RoutinePlan addRoutinePlan(@RequestBody RoutinePlan routinePlan, Principal principal){
+        return routinePlanService.createRoutinePlan(routinePlan, principal.getName());
     }
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editRoutinePlan(@RequestBody RoutinePlan routinePlan){
-        routinePlanService.updateRoutine(routinePlan);
+    public void editRoutinePlan(@RequestBody RoutinePlan routinePlan, Principal principal){
+        routinePlanService.editRoutinePlan(routinePlan, principal.getName());
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRoutinePlan(@PathVariable Long id){
-        routinePlanService.deleteRoutine(id);
+    public void deleteRoutinePlan(@PathVariable Long id, Principal principal){
+        routinePlanService.deleteRoutinePlan(id, principal.getName());
     }
 
 

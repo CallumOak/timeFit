@@ -13,4 +13,5 @@ public class ProgramDTO {
     List<WeeklyRoutinePlanDTO> weeklyRoutines;
     List<FrequencyRoutinePlanDTO> frequencyRoutines;
     List<IndividualRoutinePlanDTO> individualRoutines;
+    UserDTO user;
 }

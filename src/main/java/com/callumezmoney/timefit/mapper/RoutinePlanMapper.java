@@ -49,6 +49,6 @@ public class RoutinePlanMapper implements WebMapper<RoutinePlan, RoutinePlanDTO>
 
     @Override
     public RoutinePlan fromURI(String uri) {
-        return routinePlanService.getRoutinePlanById(getIdFromURI(uri, environment));
+        return routinePlanService.getRoutinePlan(getIdFromURI(uri, environment)).get();
     }
 }

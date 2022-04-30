@@ -30,4 +30,6 @@ public class Program {
     private List<FrequencyRoutinePlan> frequencyRoutines = new ArrayList<>();
     @OneToMany
     private List<IndividualRoutinePlan> individualRoutines = new ArrayList<>();
+    @ManyToOne
+    private User user;
 }

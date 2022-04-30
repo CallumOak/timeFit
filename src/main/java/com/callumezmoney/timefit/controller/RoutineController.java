@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,11 +26,10 @@ public class RoutineController {
 
     @GetMapping("{id}")
     public ResponseEntity<?> getRoutine(@PathVariable Long id, Principal principal) {
-        Routine exercise = routineService.getRoutine(id, principal.getName());
-        if(exercise != null){
-            return ResponseEntity.ok(exercise);
-        }
-        return ResponseEntity.badRequest().body(new MessageResponse("Error: Routine not found"));
+        Optional<Routine> routine = routineService.getRoutine(id, principal.getName());
+        return routine.isPresent() ?
+            ResponseEntity.ok(routine.get()) :
+            ResponseEntity.badRequest().body(new MessageResponse("Error: Routine not found"));
     }
 
     @PostMapping

@@ -60,6 +60,6 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
 
     @Override
     public Routine fromURI(String uri) {
-        return routineService.getRoutine(getIdFromURI(uri, environment));
+        return routineService.getRoutine(getIdFromURI(uri, environment)).get();
     }
 }
