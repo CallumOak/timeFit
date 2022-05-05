@@ -1,9 +1,12 @@
 package com.callumezmoney.timefit.dto;
-import lombok.Value;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.time.LocalTime;
 
-@Value
+@Data
+@AllArgsConstructor
 public class FrequencyRoutinePlanDTO{
     Long id;
     ProgramDTO program;

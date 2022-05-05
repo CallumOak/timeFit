@@ -30,7 +30,7 @@ public class Exercise {
     private String exerciseSoundLocation;
     private String breakSoundLocation;
     private String countdownSoundLocation;
-    @ManyToMany
+    @ManyToMany(mappedBy="exercises")
     @ToString.Exclude
     private List<Routine> routines;
 

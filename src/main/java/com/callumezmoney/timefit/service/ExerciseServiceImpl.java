@@ -5,9 +5,10 @@ import com.callumezmoney.timefit.repository.ExercisesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -16,8 +17,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final UserService userService;
 
     @Override
-    public Set<Exercise> getAllExercises(String username) {
-        return exercisesRepository.findAll();
+    public List<Exercise> getAllExercises(String username) {
+        return exercisesRepository.findAll().stream()
+                .filter(e -> e.getUser().getUsername().equals(username))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -13,20 +13,21 @@ import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 @Component
 public class RoutinePlanMapper implements WebMapper<RoutinePlan, RoutinePlanDTO> {
 
-    private Environment environment;
+    private final Environment environment;
     private final ProgramMapper programMapper;
     private final RoutineMapper routineMapper;
-    private RoutinePlanService routinePlanService;
+    private final RoutinePlanService routinePlanService;
 
     @Override
     public RoutinePlan dtoToEntity(RoutinePlanDTO dto) {
         RoutinePlan routinePlan = new RoutinePlan(
                 dto.getId(),
-                programMapper.dtoToEntity(dto.getProgram()),
+                null,
                 routineMapper.dtoToEntity(dto.getRoutine()),
                 dto.getStartTime(),
                 dto.getEndTime()
         );
+        routinePlan.getRoutine().getRoutinePlans().add(routinePlan);
         return routinePlan;
     }
 
@@ -34,11 +35,12 @@ public class RoutinePlanMapper implements WebMapper<RoutinePlan, RoutinePlanDTO>
     public RoutinePlanDTO entityToDto(RoutinePlan entity) {
         RoutinePlanDTO routinePlan = new RoutinePlanDTO(
                 entity.getId(),
-                programMapper.entityToDto(entity.getProgram()),
+                null,
                 routineMapper.entityToDto(entity.getRoutine()),
                 entity.getStartTime(),
                 entity.getEndTime()
         );
+        routinePlan.getRoutine().getRoutinePlans().add(routinePlan);
         return routinePlan;
     }
 

@@ -58,7 +58,7 @@ public class RoutinePlanController {
 
     @PostMapping ("")
     public RoutinePlan addRoutinePlan(@RequestBody RoutinePlan routinePlan, Principal principal){
-        return routinePlanService.createRoutinePlan(routinePlan, principal.getName());
+        return routinePlanService.createRoutinePlan(routinePlan, principal.getName()).get();
     }
 
     @PutMapping("")

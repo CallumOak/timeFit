@@ -41,9 +41,15 @@ public class User {
     @NotBlank
     @Size(max = 120)
     private String password;
-    @OneToMany
-//    @JoinColumn(name="program_id")
-    private List<Program> program;
+
+    @OneToMany(mappedBy = "user")
+    private List<Program> programs;
+
+    @OneToMany(mappedBy = "user")
+    private List<Routine> routines;
+
+    @OneToMany(mappedBy = "user")
+    private List<Exercise> exercises;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;

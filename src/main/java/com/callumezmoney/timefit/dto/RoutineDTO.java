@@ -1,13 +1,15 @@
 package com.callumezmoney.timefit.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Value;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Value
+@Data
+@AllArgsConstructor
 public class RoutineDTO {
     Long id;
     UserDTO user;

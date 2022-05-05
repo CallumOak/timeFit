@@ -24,11 +24,11 @@ public class Program {
     private String name;
     private ProgramSetting programSetting = ProgramSetting.WEEKLY;
     private Integer frequency = 1;
-    @OneToMany
+    @OneToMany(mappedBy = "program")
     private List<WeeklyRoutinePlan> weeklyRoutines = new ArrayList<>();
-    @OneToMany
+    @OneToMany(mappedBy = "program")
     private List<FrequencyRoutinePlan> frequencyRoutines = new ArrayList<>();
-    @OneToMany
+    @OneToMany(mappedBy = "program")
     private List<IndividualRoutinePlan> individualRoutines = new ArrayList<>();
     @ManyToOne
     private User user;

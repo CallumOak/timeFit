@@ -5,13 +5,19 @@ import com.callumezmoney.timefit.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
     @Override
     public Optional<User> getUser(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
@@ -26,11 +32,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUser(Long id) {
         return userRepository.findById(id);
-    }
-
-    @Override
-    public Set<User> getAll() {
-        return userRepository.findAll();
     }
 
     @Override

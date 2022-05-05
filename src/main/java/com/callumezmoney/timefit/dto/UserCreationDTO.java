@@ -1,9 +1,12 @@
 package com.callumezmoney.timefit.dto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Value;
 
 import java.util.List;
 
-@Value
+@Data
+@AllArgsConstructor
 public class UserCreationDTO {
     String username;
     String email;

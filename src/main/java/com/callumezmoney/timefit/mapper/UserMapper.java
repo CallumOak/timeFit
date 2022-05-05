@@ -18,26 +18,40 @@ public class UserMapper implements WebMapper<User, UserDTO>{
 
     private Environment environment;
     private ProgramMapper programMapper;
+    private RoutineMapper routineMapper;
+    private ExerciseMapper exerciseMapper;
     private RoleMapper roleMapper;
     private UserService userService;
 
     @Override
     public User dtoToEntity(UserDTO dto) {
-        return new User(getUserId(dto),
+        User user = new User(getUserId(dto),
                 dto.getUsername(),
                 dto.getEmail(),
                 getUserPassword(dto),
                 dto.getProgram().stream().map(programMapper::dtoToEntity).collect(Collectors.toList()),
+                dto.getRoutines().stream().map(routineMapper::dtoToEntity).collect(Collectors.toList()),
+                dto.getExercises().stream().map(exerciseMapper::dtoToEntity).collect(Collectors.toList()),
                 roleMapper.dtoToEntity(dto.getRole()));
+        user.getPrograms().stream().forEach(p -> p.setUser(user));
+        user.getRoutines().stream().forEach(p -> p.setUser(user));
+        user.getExercises().stream().forEach(p -> p.setUser(user));
+        return  user;
     }
 
     @Override
     public UserDTO entityToDto(User entity) {
-        return new UserDTO(
+        UserDTO user = new UserDTO(
                 entity.getUsername(),
                 entity.getEmail(),
-                entity.getProgram().stream().map(programMapper::entityToDto).collect(Collectors.toList()),
+                entity.getPrograms().stream().map(programMapper::entityToDto).collect(Collectors.toList()),
+                entity.getRoutines().stream().map(routineMapper::entityToDto).collect(Collectors.toList()),
+                entity.getExercises().stream().map(exerciseMapper::entityToDto).collect(Collectors.toList()),
                 roleMapper.entityToDto(entity.getRole()));
+        user.getProgram().stream().forEach(p -> p.setUser(user));
+        user.getRoutines().stream().forEach(p -> p.setUser(user));
+        user.getExercises().stream().forEach(p -> p.setUser(user));
+        return user;
     }
 
     public UserCreationDTO entityToCreationDto(User entity) {
@@ -45,7 +59,7 @@ public class UserMapper implements WebMapper<User, UserDTO>{
                 entity.getUsername(),
                 entity.getEmail(),
                 entity.getPassword(),
-                entity.getProgram().stream().map(programMapper::entityToDto).collect(Collectors.toList()),
+                entity.getPrograms().stream().map(programMapper::entityToDto).collect(Collectors.toList()),
                 roleMapper.entityToDto(entity.getRole()));
     }
 

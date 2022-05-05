@@ -1,12 +1,8 @@
 package com.callumezmoney.timefit.service;
 
-import com.callumezmoney.timefit.mapper.ProgramMapper;
 import com.callumezmoney.timefit.model.Program;
-import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.repository.ProgramRepository;
-import com.callumezmoney.timefit.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -46,8 +42,9 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public void deleteProgram(Long id, String username) {
-        if(programRepository.findById(id).isPresent() &&
-                Objects.equals(programRepository.findById(id).get().getUser().getUsername(), username)){
+        Optional<Program> program = programRepository.findById(id);
+        if(program.isPresent() &&
+                Objects.equals(program.get().getUser().getUsername(), username)){
             programRepository.deleteById(id);
         }
     }

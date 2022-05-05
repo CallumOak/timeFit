@@ -7,7 +7,7 @@ import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
@@ -16,15 +16,13 @@ import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
 
     private Environment environment;
-    private UserMapper userMapper;
-    private RoutineMapper routineMapper;
     private ExerciseService exerciseService;
 
     @Override
     public Exercise dtoToEntity(ExerciseDTO dto) {
         return new Exercise(
                 dto.getId(),
-                userMapper.dtoToEntity(dto.getUser()),
+                null,
                 dto.getName(),
                 dto.getExerciseDuration(),
                 dto.getExerciseBreak(),
@@ -35,7 +33,7 @@ public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
                 dto.getExerciseSoundLocation(),
                 dto.getBreakSoundLocation(),
                 dto.getCountdownSoundLocation(),
-                dto.getRoutines().stream().map(routineMapper::dtoToEntity).collect(Collectors.toList())
+                new ArrayList<>()
         );
     }
 
@@ -43,7 +41,7 @@ public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
     public ExerciseDTO entityToDto(Exercise entity) {
         return new ExerciseDTO(
                 entity.getId(),
-                userMapper.entityToDto(entity.getUser()),
+                null,
                 entity.getName(),
                 entity.getExerciseDuration(),
                 entity.getExerciseBreak(),
@@ -54,7 +52,7 @@ public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
                 entity.getExerciseSoundLocation(),
                 entity.getBreakSoundLocation(),
                 entity.getCountdownSoundLocation(),
-                entity.getRoutines().stream().map(routineMapper::entityToDto).collect(Collectors.toList())
+                new ArrayList()
         );
     }
 

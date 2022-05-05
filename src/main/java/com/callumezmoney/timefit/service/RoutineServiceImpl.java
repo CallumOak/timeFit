@@ -5,9 +5,10 @@ import com.callumezmoney.timefit.repository.RoutineRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -16,8 +17,9 @@ public class RoutineServiceImpl implements RoutineService {
     private final UserService userService;
 
     @Override
-    public Set<Routine> getRoutines(String userName) {
-        return null;
+    public List<Routine> getRoutines(String username) {
+        return userService.getUser(username).isPresent() ?
+                routineRepository.findAllByUser(userService.getUser(username).get()) : new ArrayList<>();
     }
 
     @Override
@@ -47,8 +49,9 @@ public class RoutineServiceImpl implements RoutineService {
 
     @Override
     public void deleteRoutine(Long id, String username) {
-        if(routineRepository.findById(id).isPresent() &&
-                Objects.equals(routineRepository.findById(id).get().getUser().getUsername(), username)){
+        Optional<Routine> routine = routineRepository.findById(id);
+        if(routine.isPresent() &&
+                Objects.equals(routine.get().getUser().getUsername(), username)){
             routineRepository.deleteById(id);
         }
     }

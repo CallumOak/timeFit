@@ -36,7 +36,7 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
                         .collect(Collectors.toList()),
                 dto.getIndividualRoutines().stream().map(individualRoutinePlanMapper::dtoToEntity)
                         .collect(Collectors.toList()),
-                userMapper.dtoToEntity(dto.getUser())
+                null
                 );
     }
 

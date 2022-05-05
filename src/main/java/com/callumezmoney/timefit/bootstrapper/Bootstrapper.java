@@ -10,12 +10,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -48,138 +50,156 @@ public class Bootstrapper implements CommandLineRunner {
             newUserRequest.setUsername(username);
             authController.registerUser(newUserRequest);
         }
-        //test exercises
-        ArrayList<Exercise> exercises = new ArrayList<>();
-
-        Exercise bicepCurl = new Exercise(
-                null, null, "Bicep curl", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(bicepCurl);
-        Exercise pushups = new Exercise(
-                null, null, "Pushups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(pushups);
-        Exercise pullups = new Exercise(
-                null, null, "Pullups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(pullups);
-        Exercise squats = new Exercise(
-                null, null, "Squats", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(squats);
-        Exercise lunges = new Exercise(
-                null, null, "Lunges", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(lunges);
-        Exercise sideRaise = new Exercise(
-                null, null, "Side raises", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(sideRaise);
-        Exercise crunches = new Exercise(
-                null, null, "Crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(crunches);
-        Exercise sideCrunch = new Exercise(
-                null, null, "Side crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(sideCrunch);
-        Exercise plank = new Exercise(
-                null, null, "Plank", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
-                "", new ArrayList<>());
-        exercises.add(plank);
-
+        //create test exercises
+        List<Exercise> exercises = createExercises(false);
 
         exercisesRepository.saveAll(exercises);
 
-        //test routines
-        ArrayList<Routine> routines = new ArrayList<>();
-
-        Routine legs = new Routine(null, null, "Legs", 2, Color.BLUE, Arrays.asList(squats, lunges, sideRaise), Arrays.asList());
-        squats.getRoutines().add(legs);
-        lunges.getRoutines().add(legs);
-        sideRaise.getRoutines().add(legs);
-        routines.add(legs);
-
-        Routine arms = new Routine(null, null, "Arms", 2, Color.BLUE, Arrays.asList(bicepCurl, pushups, pullups), Arrays.asList());
-        bicepCurl.getRoutines().add(arms);
-        pushups.getRoutines().add(arms);
-        pullups.getRoutines().add(arms);
-        routines.add(arms);
-
-        Routine core = new Routine(null, null, "Core", 2, Color.BLUE, Arrays.asList(crunches, sideCrunch, plank), Arrays.asList());
-        crunches.getRoutines().add(core);
-        sideCrunch.getRoutines().add(core);
-        plank.getRoutines().add(core);
-        routines.add(core);
+        //create test routines
+        List<Routine> routines = createRoutines(exercises,false);
 
         routineRepository.saveAll(routines);
 
-        //test routine plans
-        ArrayList<RoutinePlan> routinePlans = new ArrayList<>();
-        WeeklyRoutinePlan armsWeekly = WeeklyRoutinePlan.builder()
-                .weekDay(0).routine(arms).startTime(LocalTime.of(15, 0)).build();
-        routinePlans.add(armsWeekly);
-        //arms.getRoutinePlans().add(armsWeekly);
-        WeeklyRoutinePlan legsWeekly = WeeklyRoutinePlan.builder()
-                .weekDay(2).routine(legs).startTime(LocalTime.of(15, 0)).build();
-        routinePlans.add(legsWeekly);
-        //legs.getRoutinePlans().add(legsWeekly);
-        WeeklyRoutinePlan coreWeekly = WeeklyRoutinePlan.builder()
-                .weekDay(4).routine(core).startTime(LocalTime.of(15, 0)).build();
-        routinePlans.add(coreWeekly);
-        //core.getRoutinePlans().add(coreWeekly);
-        FrequencyRoutinePlan armsFrequency = FrequencyRoutinePlan.builder()
-                .routine(arms).startTime(LocalTime.of(15, 0)).build();
-        routinePlans.add(armsFrequency);
-        //arms.getRoutinePlans().add(armsFrequency);
-        FrequencyRoutinePlan legsFrequency = FrequencyRoutinePlan.builder()
-                .routine(legs).startTime(LocalTime.of(15, 0)).build();
-        routinePlans.add(legsFrequency);
-        //legs.getRoutinePlans().add(legsFrequency);
-        FrequencyRoutinePlan coreFrequency = FrequencyRoutinePlan.builder()
-                .routine(core).startTime(LocalTime.of(15, 0)).build();
-        routinePlans.add(coreFrequency);
-        //core.getRoutinePlans().add(coreFrequency);
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        IndividualRoutinePlan individual = IndividualRoutinePlan.builder()
-                .date(format.parse("29/03/2021")).routine(arms).startTime(LocalTime.of(15,0)).build();
-        routinePlans.add(individual);
-        //arms.getRoutinePlans().add(individual);
+        //create test routine plans
+        List<RoutinePlan> routinePlans = createRoutinePlans(routines, false);
 
         routinePlanRepository.saveAll(routinePlans);
 
         //test programs
-        ArrayList<Program> programs = new ArrayList<>();
-        Program callumProgram = Program.builder()
-                .name("Callum's program").frequency(2)
-                .weeklyRoutines(Arrays.asList(armsWeekly, legsWeekly, coreWeekly))
-                .frequencyRoutines(Arrays.asList(armsFrequency, legsFrequency, coreFrequency))
-                .individualRoutines(Collections.singletonList(individual))
-                .build();
-        programs.add(callumProgram);
+        List<Program> programs = createPrograms(routinePlans, false);
 
         programRepository.saveAll(programs);
-
-        armsWeekly.setProgram(callumProgram);
-        legsWeekly.setProgram(callumProgram);
-        coreWeekly.setProgram(callumProgram);
-        armsFrequency.setProgram(callumProgram);
-        legsFrequency.setProgram(callumProgram);
-        coreFrequency.setProgram(callumProgram);
-        individual.setProgram(callumProgram);
-
         exercisesRepository.saveAll(exercises);
         routineRepository.saveAll(routines);
         routinePlanRepository.saveAll(routinePlans);
         programRepository.saveAll(programs);
+    }
+
+    public static List<Exercise> createExercises(Boolean setIds){
+        List<Exercise> exercises = new ArrayList<>();
+
+        Exercise bicepCurl = new Exercise(
+                setIds ? 1L : null, null, "Bicep curl", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(bicepCurl);
+        Exercise pushups = new Exercise(
+                setIds ? 2L : null, null, "Pushups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(pushups);
+        Exercise pullups = new Exercise(
+                setIds ? 3L : null, null, "Pullups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(pullups);
+        Exercise squats = new Exercise(
+                setIds ? 4L : null, null, "Squats", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(squats);
+        Exercise lunges = new Exercise(
+                setIds ? 5L : null, null, "Lunges", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(lunges);
+        Exercise sideRaise = new Exercise(
+                setIds ? 6L : null, null, "Side raises", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(sideRaise);
+        Exercise crunches = new Exercise(
+                setIds ? 7L : null, null, "Crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(crunches);
+        Exercise sideCrunch = new Exercise(
+                setIds ? 8L : null, null, "Side crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(sideCrunch);
+        Exercise plank = new Exercise(
+                setIds ? 9L : null, null, "Plank", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
+                Color.RED, Color.GREEN, "", "", "",
+                "", new ArrayList<>());
+        exercises.add(plank);
+
+        return exercises;
+    }
+
+    public static List<Routine> createRoutines(List<Exercise> exercises, Boolean setIds){
+        List<Routine> routines = new ArrayList<>();
+
+        Routine legs = new Routine(setIds ? 1L : null, null, "Legs", 2, Color.BLUE, Arrays.asList(exercises.get(3), exercises.get(4), exercises.get(5)), Arrays.asList());
+        exercises.get(3).getRoutines().add(legs);
+        exercises.get(4).getRoutines().add(legs);
+        exercises.get(5).getRoutines().add(legs);
+        routines.add(legs);
+
+        Routine arms = new Routine(setIds ? 2L : null, null, "Arms", 2, Color.BLUE, Arrays.asList(exercises.get(0), exercises.get(1), exercises.get(2)), Arrays.asList());
+        exercises.get(0).getRoutines().add(arms);
+        exercises.get(1).getRoutines().add(arms);
+        exercises.get(2).getRoutines().add(arms);
+        routines.add(arms);
+
+        Routine core = new Routine(setIds ? 3L : null, null, "Core", 2, Color.BLUE, Arrays.asList(exercises.get(6), exercises.get(7), exercises.get(8)), Arrays.asList());
+        exercises.get(6).getRoutines().add(core);
+        exercises.get(7).getRoutines().add(core);
+        exercises.get(8).getRoutines().add(core);
+        routines.add(core);
+
+        return routines;
+    }
+
+    public static List<RoutinePlan> createRoutinePlans(List<Routine> routines, Boolean setIds) throws ParseException {
+        List<RoutinePlan> routinePlans = new ArrayList<>();
+        WeeklyRoutinePlan armsWeekly = WeeklyRoutinePlan.builder()
+                .id(setIds ? 1L : null).weekDay(0).routine(routines.get(1)).startTime(LocalTime.of(15, 0)).build();
+        routinePlans.add(armsWeekly);
+        //arms.getRoutinePlans().add(armsWeekly);
+        WeeklyRoutinePlan legsWeekly = WeeklyRoutinePlan.builder()
+                .id(setIds ? 2L : null).weekDay(2).routine(routines.get(0)).startTime(LocalTime.of(15, 0)).build();
+        routinePlans.add(legsWeekly);
+        //legs.getRoutinePlans().add(legsWeekly);
+        WeeklyRoutinePlan coreWeekly = WeeklyRoutinePlan.builder()
+                .id(setIds ? 3L : null).weekDay(4).routine(routines.get(2)).startTime(LocalTime.of(15, 0)).build();
+        routinePlans.add(coreWeekly);
+        //core.getRoutinePlans().add(coreWeekly);
+        FrequencyRoutinePlan armsFrequency = FrequencyRoutinePlan.builder()
+                .id(setIds ? 4L : null).routine(routines.get(1)).startTime(LocalTime.of(15, 0)).build();
+        routinePlans.add(armsFrequency);
+        //arms.getRoutinePlans().add(armsFrequency);
+        FrequencyRoutinePlan legsFrequency = FrequencyRoutinePlan.builder()
+                .id(setIds ? 5L : null).routine(routines.get(0)).startTime(LocalTime.of(15, 0)).build();
+        routinePlans.add(legsFrequency);
+        //legs.getRoutinePlans().add(legsFrequency);
+        FrequencyRoutinePlan coreFrequency = FrequencyRoutinePlan.builder()
+                .id(setIds ? 6L : null).routine(routines.get(2)).startTime(LocalTime.of(15, 0)).build();
+        routinePlans.add(coreFrequency);
+        //core.getRoutinePlans().add(coreFrequency);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        IndividualRoutinePlan individual = IndividualRoutinePlan.builder()
+                .id(setIds ? 7L : null).date(format.parse("29/03/2021")).routine(routines.get(1)).startTime(LocalTime.of(15,0)).build();
+        routinePlans.add(individual);
+
+        return routinePlans;
+    }
+
+    public static List<Program> createPrograms(List<RoutinePlan> routinePlans, Boolean setIds){
+        List<Program> programs = new ArrayList<>();
+        Program callumProgram = Program.builder()
+                .id(setIds ? 1L : null)
+                .name("Callum's program").frequency(2)
+                .weeklyRoutines(Arrays.asList((WeeklyRoutinePlan) routinePlans.get(0), (WeeklyRoutinePlan) routinePlans.get(1), (WeeklyRoutinePlan) routinePlans.get(2)))
+                .frequencyRoutines(Arrays.asList((FrequencyRoutinePlan) routinePlans.get(3), (FrequencyRoutinePlan) routinePlans.get(4), (FrequencyRoutinePlan) routinePlans.get(5)))
+                .individualRoutines(Collections.singletonList((IndividualRoutinePlan) routinePlans.get(6)))
+                .build();
+        programs.add(callumProgram);
+        return programs;
+    }
+
+    public static List<RoutinePlan> addRoutinePlansToPrograms(List<RoutinePlan> routinePlans, List<Program> programs){
+        routinePlans.forEach(rp -> rp.setProgram(programs.get(0)));
+        return routinePlans;
     }
 }

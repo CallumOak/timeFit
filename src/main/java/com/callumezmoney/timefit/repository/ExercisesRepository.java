@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface ExercisesRepository extends CrudRepository<Exercise, Long> {
-    Set<Exercise> findAll();
+    List<Exercise> findAll();
 
     Optional<Exercise> findByIdAndUser(Long id, User user);
 

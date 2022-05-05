@@ -5,7 +5,6 @@ import com.callumezmoney.timefit.model.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface RoutinePlanService {
     List<RoutinePlan> getRoutines();
@@ -22,7 +21,7 @@ public interface RoutinePlanService {
 
     void editRoutinePlan(RoutinePlan routinePlan, String username);
 
-    RoutinePlan createRoutinePlan(RoutinePlan routinePlan, String username);
+    Optional<RoutinePlan> createRoutinePlan(RoutinePlan routinePlan, String username);
 
     WeeklyRoutinePlan editWeeklyRoutinePlan(Integer weekDay, Routine routine);
 

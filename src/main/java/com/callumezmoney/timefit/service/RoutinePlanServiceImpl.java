@@ -61,8 +61,9 @@ public class RoutinePlanServiceImpl implements RoutinePlanService {
     }
 
     @Override
-    public RoutinePlan createRoutinePlan(RoutinePlan routinePlan, String username) {
-        return null;
+    public Optional<RoutinePlan> createRoutinePlan(RoutinePlan routinePlan, String username) {
+        return Objects.equals(routinePlan.getProgram().getUser().getUsername(), username) ?
+                Optional.of(routinePlanRepository.save(routinePlan)) : Optional.empty();
     }
 
     @Override
@@ -82,8 +83,9 @@ public class RoutinePlanServiceImpl implements RoutinePlanService {
 
     @Override
     public void deleteRoutinePlan(Long id, String username) {
-        if(routinePlanRepository.findById(id).isPresent() &&
-                validateUser(routinePlanRepository.findById(id).get(), username)){
+        Optional<RoutinePlan> routinePlan = routinePlanRepository.findById(id);
+        if(routinePlan.isPresent() &&
+                validateUser(routinePlan.get(), username)){
             routinePlanRepository.deleteById(id);
         }
     }

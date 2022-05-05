@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("${callumezmoney.app.apiprefix.auth}")
+@RequestMapping("${callumezmoney.app.webapiprefix.auth}")
 @AllArgsConstructor
 @Api(value = "Auth API")
 public class AuthController {

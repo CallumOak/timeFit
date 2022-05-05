@@ -1,9 +1,12 @@
 package com.callumezmoney.timefit.dto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Value;
 
 import java.time.LocalTime;
 
-@Value
+@Data
+@AllArgsConstructor
 public class WeeklyRoutinePlanDTO {
     Long id;
     ProgramDTO program;
