@@ -1,10 +1,5 @@
 package com.callumezmoney.timefit.model;
 
-import com.callumezmoney.timefit.dto.UserCreationDTO;
-import com.callumezmoney.timefit.dto.UserDTO;
-import com.callumezmoney.timefit.repository.UserRepository;
-import com.callumezmoney.timefit.service.ProgramService;
-import com.callumezmoney.timefit.service.RoleService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,16 +37,19 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY)
     private List<Program> programs;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY)
     private List<Routine> routines;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY)
     private List<Exercise> exercises;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
     public User(String username, String email, String password) {
