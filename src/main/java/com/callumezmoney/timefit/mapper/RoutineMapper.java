@@ -3,6 +3,7 @@ package com.callumezmoney.timefit.mapper;
 import com.callumezmoney.timefit.dto.RoutineDTO;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.service.RoutineService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
 @Component
+@AllArgsConstructor
 public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
 
     private Environment environment;
@@ -28,11 +30,11 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
                 dto.getName(),
                 dto.getNumberOfCycles(),
                 dto.getColor(),
-                dto.getExercises().stream().map(exerciseMapper::dtoToEntity)
+                dto.getExercises().stream().map(exerciseMapper::fromURI)
                         .collect(Collectors.toList()),
                 new ArrayList()
             );
-        routine.getExercises().stream().forEach(e -> e.getRoutines().add(routine));
+        routine.getExercises().forEach(e -> e.getRoutines().add(routine));
         return routine;
     }
 
@@ -44,17 +46,15 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
                 entity.getName(),
                 entity.getNumberOfCycles(),
                 entity.getColor(),
-                entity.getExercises().stream().map(exerciseMapper::entityToDto)
+                entity.getExercises().stream().map(e -> ExerciseMapper.toURI(e, environment))
                         .collect(Collectors.toList()),
-                new ArrayList()
+                entity.getRoutinePlans().stream().map(r -> RoutinePlanMapper.toURI(r, environment)).collect(Collectors.toList())
         );
-        routine.getExercises().stream().forEach(e -> e.getRoutines().add(routine));
         return routine;
     }
 
-    @Override
-    public String toURI(Routine object) {
-        return environment.getProperty("callumezmoney.app.webapiprefix.program") + object.getId();
+    public static  String toURI(Routine object, Environment environment) {
+        return environment.getProperty("callumezmoney.app.webapiprefix.routine") + "/" + object.getId();
     }
 
     @Override

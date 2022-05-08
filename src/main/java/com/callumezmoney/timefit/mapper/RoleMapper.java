@@ -3,6 +3,7 @@ package com.callumezmoney.timefit.mapper;
 import com.callumezmoney.timefit.dto.RoleDTO;
 import com.callumezmoney.timefit.model.Role;
 import com.callumezmoney.timefit.service.RoleService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
 @Component
+@AllArgsConstructor
 public class RoleMapper implements WebMapper<Role, RoleDTO>{
 
     private Environment environment;
@@ -18,25 +20,18 @@ public class RoleMapper implements WebMapper<Role, RoleDTO>{
 
     @Override
     public Role dtoToEntity(RoleDTO dto) {
-        Role role = new Role(
-                dto.getId(),
-                dto.getName()
-        );
-        return role;
+        return roleService.getRole(dto.getName().name());
     }
 
     @Override
     public RoleDTO entityToDto(Role entity) {
-        RoleDTO role = new RoleDTO(
-                entity.getId(),
+        return new RoleDTO(
                 entity.getName()
         );
-        return role;
     }
 
-    @Override
-    public String toURI(Role object) {
-        return environment.getProperty("callumezmoney.app.webapiprefix.program") + object.getId();
+    public static String toURI(Role object, Environment environment) {
+        return environment.getProperty("callumezmoney.app.webapiprefix.role") + "/" + object.getId();
     }
 
     @Override

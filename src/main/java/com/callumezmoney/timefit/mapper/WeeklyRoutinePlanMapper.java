@@ -3,7 +3,9 @@ package com.callumezmoney.timefit.mapper;
 import com.callumezmoney.timefit.dto.WeeklyRoutinePlanDTO;
 import com.callumezmoney.timefit.model.WeeklyRoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +13,10 @@ import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
 @Component
+@AllArgsConstructor
 public class WeeklyRoutinePlanMapper implements WebMapper<WeeklyRoutinePlan, WeeklyRoutinePlanDTO>{
 
     private Environment environment;
-    private ProgramMapper programMapper;
     private RoutineMapper routineMapper;
     private RoutinePlanService routinePlanService;
 
@@ -23,8 +25,8 @@ public class WeeklyRoutinePlanMapper implements WebMapper<WeeklyRoutinePlan, Wee
         return WeeklyRoutinePlan.builder()
                 .weekDay(dto.getWeekDay())
                 .id(dto.getId())
-                .program(programMapper.dtoToEntity(dto.getProgram()))
-                .routine(routineMapper.dtoToEntity(dto.getRoutine()))
+                .program(null)
+                .routine(routineMapper.fromURI(dto.getRoutine()))
                 .startTime(dto.getStartTime())
                 .endTime(dto.getEndTime())
                 .build();
@@ -34,17 +36,16 @@ public class WeeklyRoutinePlanMapper implements WebMapper<WeeklyRoutinePlan, Wee
     public WeeklyRoutinePlanDTO entityToDto(WeeklyRoutinePlan entity) {
         return new WeeklyRoutinePlanDTO(
                 entity.getId(),
-                programMapper.entityToDto(entity.getProgram()),
-                routineMapper.entityToDto(entity.getRoutine()),
+                ProgramMapper.toURI(entity.getProgram(), environment),
+                RoutineMapper.toURI(entity.getRoutine(), environment),
                 entity.getStartTime(),
                 entity.getEndTime(),
                 entity.getWeekDay()
         );
     }
 
-    @Override
-    public String toURI(WeeklyRoutinePlan object) {
-        return environment.getProperty("callumezmoney.app.webapiprefix.program") + object.getId();
+    public static String toURI(WeeklyRoutinePlan object, Environment environment) {
+        return environment.getProperty("callumezmoney.app.webapiprefix.routineplan") + "/" + object.getId();
     }
 
     @Override

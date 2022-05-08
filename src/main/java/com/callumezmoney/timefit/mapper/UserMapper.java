@@ -4,6 +4,7 @@ import com.callumezmoney.timefit.dto.UserCreationDTO;
 import com.callumezmoney.timefit.dto.UserDTO;
 import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
 @Component
+@AllArgsConstructor
 public class UserMapper implements WebMapper<User, UserDTO>{
 
     private Environment environment;
@@ -29,13 +31,13 @@ public class UserMapper implements WebMapper<User, UserDTO>{
                 dto.getUsername(),
                 dto.getEmail(),
                 getUserPassword(dto),
-                dto.getProgram().stream().map(programMapper::dtoToEntity).collect(Collectors.toList()),
-                dto.getRoutines().stream().map(routineMapper::dtoToEntity).collect(Collectors.toList()),
-                dto.getExercises().stream().map(exerciseMapper::dtoToEntity).collect(Collectors.toList()),
+                dto.getProgram().stream().map(programMapper::fromURI).collect(Collectors.toList()),
+                dto.getRoutines().stream().map(routineMapper::fromURI).collect(Collectors.toList()),
+                dto.getExercises().stream().map(exerciseMapper::fromURI).collect(Collectors.toList()),
                 roleMapper.dtoToEntity(dto.getRole()));
-        user.getPrograms().stream().forEach(p -> p.setUser(user));
-        user.getRoutines().stream().forEach(p -> p.setUser(user));
-        user.getExercises().stream().forEach(p -> p.setUser(user));
+        user.getPrograms().forEach(p -> p.setUser(user));
+        user.getRoutines().forEach(p -> p.setUser(user));
+        user.getExercises().forEach(p -> p.setUser(user));
         return  user;
     }
 
@@ -44,13 +46,10 @@ public class UserMapper implements WebMapper<User, UserDTO>{
         UserDTO user = new UserDTO(
                 entity.getUsername(),
                 entity.getEmail(),
-                entity.getPrograms().stream().map(programMapper::entityToDto).collect(Collectors.toList()),
-                entity.getRoutines().stream().map(routineMapper::entityToDto).collect(Collectors.toList()),
-                entity.getExercises().stream().map(exerciseMapper::entityToDto).collect(Collectors.toList()),
+                entity.getPrograms().stream().map(p -> ProgramMapper.toURI(p, environment)).collect(Collectors.toList()),
+                entity.getRoutines().stream().map(r -> RoutineMapper.toURI(r, environment)).collect(Collectors.toList()),
+                entity.getExercises().stream().map(e -> ExerciseMapper.toURI(e, environment)).collect(Collectors.toList()),
                 roleMapper.entityToDto(entity.getRole()));
-        user.getProgram().stream().forEach(p -> p.setUser(user));
-        user.getRoutines().stream().forEach(p -> p.setUser(user));
-        user.getExercises().stream().forEach(p -> p.setUser(user));
         return user;
     }
 
@@ -59,13 +58,12 @@ public class UserMapper implements WebMapper<User, UserDTO>{
                 entity.getUsername(),
                 entity.getEmail(),
                 entity.getPassword(),
-                entity.getPrograms().stream().map(programMapper::entityToDto).collect(Collectors.toList()),
+                entity.getPrograms().stream().map(p -> ProgramMapper.toURI(p, environment)).collect(Collectors.toList()),
                 roleMapper.entityToDto(entity.getRole()));
     }
 
-    @Override
-    public String toURI(User object) {
-        return environment.getProperty("callumezmoney.app.webapiprefix.program") + object.getId();
+    public static  String toURI(User object, Environment environment) {
+        return object != null ? environment.getProperty("callumezmoney.app.webapiprefix.user") + "/" + object.getId() : "";
     }
 
     @Override

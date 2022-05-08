@@ -3,16 +3,19 @@ package com.callumezmoney.timefit.mapper;
 import com.callumezmoney.timefit.dto.ExerciseDTO;
 import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.service.ExerciseService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
 @Component
+@AllArgsConstructor
 public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
 
     private Environment environment;
@@ -41,7 +44,7 @@ public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
     public ExerciseDTO entityToDto(Exercise entity) {
         return new ExerciseDTO(
                 entity.getId(),
-                null,
+                UserMapper.toURI(entity.getUser(), environment),
                 entity.getName(),
                 entity.getExerciseDuration(),
                 entity.getExerciseBreak(),
@@ -52,13 +55,12 @@ public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
                 entity.getExerciseSoundLocation(),
                 entity.getBreakSoundLocation(),
                 entity.getCountdownSoundLocation(),
-                new ArrayList()
+                entity.getRoutines().stream().map(r -> RoutineMapper.toURI(r, environment)).collect(Collectors.toList())
         );
     }
 
-    @Override
-    public String toURI(Exercise object) {
-        return environment.getProperty("callumezmoney.app.webapiprefix.program") + object.getId();
+    public static String toURI(Exercise object, Environment environment) {
+        return environment.getProperty("callumezmoney.app.webapiprefix.exercise") + "/" + object.getId();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.callumezmoney.timefit.mapper;
 import com.callumezmoney.timefit.dto.RoutinePlanDTO;
 import com.callumezmoney.timefit.model.RoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -11,10 +12,10 @@ import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
 @Component
+@AllArgsConstructor
 public class RoutinePlanMapper implements WebMapper<RoutinePlan, RoutinePlanDTO> {
 
     private final Environment environment;
-    private final ProgramMapper programMapper;
     private final RoutineMapper routineMapper;
     private final RoutinePlanService routinePlanService;
 
@@ -23,7 +24,7 @@ public class RoutinePlanMapper implements WebMapper<RoutinePlan, RoutinePlanDTO>
         RoutinePlan routinePlan = new RoutinePlan(
                 dto.getId(),
                 null,
-                routineMapper.dtoToEntity(dto.getRoutine()),
+                routineMapper.fromURI(dto.getRoutine()),
                 dto.getStartTime(),
                 dto.getEndTime()
         );
@@ -36,17 +37,15 @@ public class RoutinePlanMapper implements WebMapper<RoutinePlan, RoutinePlanDTO>
         RoutinePlanDTO routinePlan = new RoutinePlanDTO(
                 entity.getId(),
                 null,
-                routineMapper.entityToDto(entity.getRoutine()),
+                RoutineMapper.toURI(entity.getRoutine(), environment),
                 entity.getStartTime(),
                 entity.getEndTime()
         );
-        routinePlan.getRoutine().getRoutinePlans().add(routinePlan);
         return routinePlan;
     }
 
-    @Override
-    public String toURI(RoutinePlan object) {
-        return environment.getProperty("callumezmoney.app.webapiprefix.program") + object.getId();
+    public static  String toURI(RoutinePlan object, Environment environment) {
+        return environment.getProperty("callumezmoney.app.webapiprefix.routineplan") + "/" + object.getId();
     }
 
     @Override
