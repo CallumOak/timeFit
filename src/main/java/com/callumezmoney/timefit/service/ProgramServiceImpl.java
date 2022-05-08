@@ -5,8 +5,10 @@ import com.callumezmoney.timefit.repository.ProgramRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -14,6 +16,11 @@ public class ProgramServiceImpl implements ProgramService {
     private final ProgramRepository programRepository;
     private final UserService userService;
 
+
+    @Override
+    public List<Program> getPrograms(String username) {
+        return programRepository.findAll().stream().filter(p -> p.getUser().getUsername().equals(username)).collect(Collectors.toList());
+    }
 
     @Override
     public Optional<Program> getProgram(Long id) {
