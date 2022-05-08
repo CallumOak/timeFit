@@ -11,8 +11,8 @@ import java.util.List;
 public class UserDTO {
     String username;
     String email;
-    List<ProgramDTO> program;
-    List<RoutineDTO> routines;
-    List<ExerciseDTO> exercises;
+    List<String> program;
+    List<String> routines;
+    List<String> exercises;
     RoleDTO role;
 }

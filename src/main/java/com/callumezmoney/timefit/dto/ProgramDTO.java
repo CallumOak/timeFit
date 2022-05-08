@@ -13,8 +13,8 @@ public class ProgramDTO {
     String name;
     ProgramSetting programSetting;
     Integer frequency;
-    List<WeeklyRoutinePlanDTO> weeklyRoutines;
-    List<FrequencyRoutinePlanDTO> frequencyRoutines;
-    List<IndividualRoutinePlanDTO> individualRoutines;
-    UserDTO user;
+    List<String> weeklyRoutines;
+    List<String> frequencyRoutines;
+    List<String> individualRoutines;
+    String user;
 }

@@ -10,8 +10,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class IndividualRoutinePlanDTO {
     Long id;
-    ProgramDTO program;
-    RoutineDTO routine;
+    String program;
+    String routine;
     LocalTime startTime;
     LocalTime endTime;
     Date date;

@@ -9,8 +9,8 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class RoutinePlanDTO {
     Long id;
-    ProgramDTO program;
-    RoutineDTO routine;
+    String program;
+    String routine;
     LocalTime startTime;
     LocalTime endTime;
 }

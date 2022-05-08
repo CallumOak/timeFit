@@ -7,6 +7,5 @@ import lombok.Value;
 @Data
 @AllArgsConstructor
 public class RoleDTO {
-    Long id;
     RoleEnum name;
 }

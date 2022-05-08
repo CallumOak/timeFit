@@ -11,6 +11,6 @@ public class UserCreationDTO {
     String username;
     String email;
     String password;
-    List<ProgramDTO> program;
+    List<String> program;
     RoleDTO role;
 }

@@ -12,10 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 public class RoutineDTO {
     Long id;
-    UserDTO user;
+    String user;
     String name;
     Integer numberOfCycles;
     Color color;
-    List<ExerciseDTO> exercises;
-    List<RoutinePlanDTO> routinePlans;
+    List<String> exercises;
+    List<String> routinePlans;
 }

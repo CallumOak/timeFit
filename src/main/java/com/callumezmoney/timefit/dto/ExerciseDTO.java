@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ExerciseDTO {
     Long id;
-    UserDTO user;
+    String user;
     String name;
     Duration exerciseDuration;
     Duration exerciseBreak;
@@ -22,5 +22,5 @@ public class ExerciseDTO {
     String exerciseSoundLocation;
     String breakSoundLocation;
     String countdownSoundLocation;
-    List<RoutineDTO> routines;
+    List<String> routines;
 }
