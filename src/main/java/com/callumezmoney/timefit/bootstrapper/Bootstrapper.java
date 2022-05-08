@@ -50,15 +50,20 @@ public class Bootstrapper implements CommandLineRunner {
             newUserRequest.setUsername(username);
             authController.registerUser(newUserRequest);
         }
+
+        User callum = userRepository.findByUsername("Callum").get();
         //create test exercises
         List<Exercise> exercises = createExercises(false);
 
+        exercisesRepository.saveAll(exercises);
+        exercises.stream().forEach(e -> e.setUser(callum));
         exercisesRepository.saveAll(exercises);
 
         //create test routines
         List<Routine> routines = createRoutines(exercises,false);
 
         routineRepository.saveAll(routines);
+        routines.stream().forEach(r -> r.setUser(callum));
 
         //create test routine plans
         List<RoutinePlan> routinePlans = createRoutinePlans(routines, false);
@@ -69,6 +74,9 @@ public class Bootstrapper implements CommandLineRunner {
         List<Program> programs = createPrograms(routinePlans, false);
 
         programRepository.saveAll(programs);
+        programs.stream().forEach(program -> program.setUser(callum));
+        programRepository.saveAll(programs);
+
         exercisesRepository.saveAll(exercises);
         routineRepository.saveAll(routines);
         routinePlanRepository.saveAll(routinePlans);
