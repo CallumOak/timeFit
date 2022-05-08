@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.mapper.UserMapper;
 import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.service.UserService;
@@ -13,28 +14,29 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping( "api/user")
+@RequestMapping( "${callumezmoney.app.webapiprefix.user}")
 @AllArgsConstructor
 @Api(value = "All APIs")
 public class UserController {
     private final UserService userService;
+    private UserMapper userMapper;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id){
         Optional<User> user = userService.getUser(id);
         return user.isPresent() ?
-                ResponseEntity.ok(user.get()) :
+                ResponseEntity.ok(userMapper.entityToDto(user.get())) :
                 ResponseEntity.badRequest().body(new MessageResponse("Error: User not found"));
     }
 
     @GetMapping()
     public ResponseEntity<?> listUser(){
-        return ResponseEntity.ok(userService.getAll());
+        return ResponseEntity.ok(userService.getAll().stream().map(userMapper::entityToDto));
     }
 
     @PostMapping()
     public ResponseEntity<?> addUser(@RequestBody User newUser){
-        return ResponseEntity.ok(userService.addUser(newUser));
+        return ResponseEntity.ok(userMapper.entityToDto(userService.addUser(newUser)));
     }
 
     @PutMapping()

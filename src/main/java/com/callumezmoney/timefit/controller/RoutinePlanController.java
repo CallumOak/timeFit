@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.mapper.RoutinePlanMapper;
 import com.callumezmoney.timefit.model.RoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
 import io.swagger.annotations.Api;
@@ -10,15 +11,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/routinePlan/")
+@RequestMapping("${callumezmoney.app.webapiprefix.routineplan}")
 @AllArgsConstructor
 @Api(value = "RoutinePlan API")
 public class RoutinePlanController {
 
     private final RoutinePlanService routinePlanService;
+    private final RoutinePlanMapper routinePlanMapper;
 /*
     @GetMapping("{type}/{identifier}")
     public ResponseEntity<RoutinePlan> getRoutinePlanByType(@PathVariable String type, @PathVariable String identifier){
@@ -46,19 +49,22 @@ public class RoutinePlanController {
         return ResponseEntity.badRequest().body(null);
     }
 */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getRoutinePlanById(@PathVariable Long id, Principal principal){
-        return ResponseEntity.ok(routinePlanService.getRoutinePlan(id, principal.getName()));
+        return ResponseEntity.ok(routinePlanMapper.entityToDto(routinePlanService.getRoutinePlan(id, principal.getName()).get()));
     }
 
     @GetMapping("")
-    public List<RoutinePlan> listRoutinePlans(Principal principal){
-        return routinePlanService.getRoutines();
+    public ResponseEntity<?> listRoutinePlans(Principal principal){
+        return ResponseEntity.ok(
+                routinePlanService.getRoutines()
+                .stream().map(routinePlanMapper::entityToDto).collect(Collectors.toList())
+        );
     }
 
     @PostMapping ("")
-    public RoutinePlan addRoutinePlan(@RequestBody RoutinePlan routinePlan, Principal principal){
-        return routinePlanService.createRoutinePlan(routinePlan, principal.getName()).get();
+    public ResponseEntity<?> addRoutinePlan(@RequestBody RoutinePlan routinePlan, Principal principal){
+        return ResponseEntity.ok(routinePlanMapper.entityToDto(routinePlanService.createRoutinePlan(routinePlan, principal.getName()).get()));
     }
 
     @PutMapping("")
@@ -67,7 +73,7 @@ public class RoutinePlanController {
         routinePlanService.editRoutinePlan(routinePlan, principal.getName());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRoutinePlan(@PathVariable Long id, Principal principal){
         routinePlanService.deleteRoutinePlan(id, principal.getName());

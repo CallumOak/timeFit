@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.mapper.RoutineMapper;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.service.RoutineService;
@@ -10,31 +11,36 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/routine/")
+@RequestMapping("${callumezmoney.app.webapiprefix.routine}")
 @AllArgsConstructor
 @Api(value = "Routine API")
 public class RoutineController {
-    RoutineService routineService;
+    private RoutineService routineService;
+    private RoutineMapper routineMapper;
 
     @GetMapping
     public ResponseEntity<?> getRoutines(Principal principal) {
-        return ResponseEntity.ok(routineService.getRoutines(principal.getName()));
+        return ResponseEntity.ok(
+                routineService.getRoutines(principal.getName())
+                .stream().map(routineMapper::entityToDto).collect(Collectors.toList())
+        );
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getRoutine(@PathVariable Long id, Principal principal) {
         Optional<Routine> routine = routineService.getRoutine(id, principal.getName());
         return routine.isPresent() ?
-            ResponseEntity.ok(routine.get()) :
+            ResponseEntity.ok(routineMapper.entityToDto(routine.get())) :
             ResponseEntity.badRequest().body(new MessageResponse("Error: Routine not found"));
     }
 
     @PostMapping
     public ResponseEntity<?> addRoutine(@RequestBody Routine routine, Principal principal){
-        return ResponseEntity.ok(routineService.createRoutine(routine, principal.getName()));
+        return ResponseEntity.ok(routineMapper.entityToDto(routineService.createRoutine(routine, principal.getName()).get()));
     }
 
     @PutMapping
@@ -42,7 +48,7 @@ public class RoutineController {
         routineService.updateRoutine(routine, principal.getName());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteRoutine(@PathVariable Long id, Principal principal){
         routineService.deleteRoutine(id, principal.getName());
     }

@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.mapper.ExerciseMapper;
 import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.repository.ExercisesRepository;
@@ -11,45 +12,48 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/")
-@RequestMapping("api/exercise")
+@RequestMapping("${callumezmoney.app.webapiprefix.exercise}")
 @AllArgsConstructor
 @Api(value = "Exercise API")
 public class ExerciseController {
     ExerciseService exercisesService;
+    ExerciseMapper exerciseMapper;
+
+    @GetMapping()
+    public ResponseEntity<?> listExercise(Principal principal){
+        List<Exercise> exercises = exercisesService.getAllExercises(principal.getName());
+        return ResponseEntity.ok(exercises.stream()
+                .map(exerciseMapper::entityToDto)
+                .collect(Collectors.toList()
+                )
+        );
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getExercise(@PathVariable Long id, Principal principal){
         Optional<Exercise> exercise = exercisesService.getExercise(id, principal.getName());
         if(exercise.isPresent()){
-            return ResponseEntity.ok(exercise.get());
+            return ResponseEntity.ok(exerciseMapper.entityToDto(exercise.get()));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Error: Exercise not found"));
     }
 
-    @GetMapping()
-    public ResponseEntity<?> listExercise(Principal principal){
-        return ResponseEntity.ok(exercisesService.getAllExercises(principal.getName()));
-    }
-
     @PostMapping()
     public ResponseEntity<?> addExercise(@RequestBody Exercise newExercise, Principal principal){
-        return ResponseEntity.ok(exercisesService.addExercise(newExercise, principal.getName()));
+        Optional<Exercise> exercise = exercisesService.addExercise(newExercise, principal.getName());
+        return ResponseEntity.ok(exerciseMapper.entityToDto(exercise.get()));
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void editExercise(@RequestBody Exercise newExercise, Principal principal){
-        Optional<Exercise> exercise = exercisesService.getExercise(newExercise.getId(), principal.getName());
-        if(exercise.isPresent()){
-            exercisesService.editExercise(newExercise, principal.getName());
-        }
-        else{
-            throw new NullPointerException();
-        }
+        exercisesService.editExercise(newExercise, principal.getName());
     }
 
     @DeleteMapping("/{id}")
