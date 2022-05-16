@@ -3,6 +3,8 @@ import {Exercise} from "../model/exercise.model";
 import {Subject} from "rxjs";
 import {RoutineService} from "./routine.service";
 import { environment } from '../../environments/environment';
+import {RoutinePlan} from "../model/routine-plan.model";
+import {HttpClient} from "@angular/common/http";
 
 const API = environment.apiEndpoint + 'exercises/';
 
@@ -17,7 +19,7 @@ export class ExerciseService {
 
   openedExercises$ = this._openedExercisesSource.asObservable();
 
-  constructor(private routineService: RoutineService) { }
+  constructor(private routineService: RoutineService, private http: HttpClient) { }
 
   getExercise(id: string): Exercise{
     let exercise = new Exercise('','','','','','','','');
@@ -28,15 +30,11 @@ export class ExerciseService {
     })
     if(exercise.id === ''){
       //TODO replace with http request
-      exercise = new Exercise(id,
-        id,
-        '00:30',
-        '00:10',
-        '00:06',
-        "#acolor",
-        "#bcoler",
-        "http://somewhere"
-      )
+
+      const path = API + id;
+      this.http.get<Exercise>(path).subscribe(e => exercise = e);
+
+
       this.exercises.push(exercise);
       this._openedExercisesSource.next(this.exercises);
     }
