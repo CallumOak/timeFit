@@ -1,6 +1,8 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.dto.RoutinePlanDTO;
 import com.callumezmoney.timefit.mapper.RoutinePlanMapper;
+import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.model.RoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
 import io.swagger.annotations.Api;
@@ -63,13 +65,15 @@ public class RoutinePlanController {
     }
 
     @PostMapping ("")
-    public ResponseEntity<?> addRoutinePlan(@RequestBody RoutinePlan routinePlan, Principal principal){
+    public ResponseEntity<?> addRoutinePlan(@RequestBody RoutinePlanDTO routinePlanDto, Principal principal){
+        RoutinePlan routinePlan = routinePlanMapper.dtoToEntity(routinePlanDto);
         return ResponseEntity.ok(routinePlanMapper.entityToDto(routinePlanService.createRoutinePlan(routinePlan, principal.getName()).get()));
     }
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editRoutinePlan(@RequestBody RoutinePlan routinePlan, Principal principal){
+    public void editRoutinePlan(@RequestBody RoutinePlanDTO routinePlanDto, Principal principal){
+        RoutinePlan routinePlan = routinePlanMapper.dtoToEntity(routinePlanDto);
         routinePlanService.editRoutinePlan(routinePlan, principal.getName());
     }
 

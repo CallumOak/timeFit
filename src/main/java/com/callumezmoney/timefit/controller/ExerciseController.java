@@ -1,10 +1,12 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.dto.ExerciseDTO;
 import com.callumezmoney.timefit.mapper.ExerciseMapper;
 import com.callumezmoney.timefit.model.Exercise;
+import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
-import com.callumezmoney.timefit.repository.ExercisesRepository;
 import com.callumezmoney.timefit.service.ExerciseService;
+import com.callumezmoney.timefit.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class ExerciseController {
     ExerciseService exercisesService;
     ExerciseMapper exerciseMapper;
+    private UserService userService;
 
     @GetMapping()
     public ResponseEntity<?> listExercise(Principal principal){
@@ -45,14 +48,18 @@ public class ExerciseController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addExercise(@RequestBody Exercise newExercise, Principal principal){
+    public ResponseEntity<?> addExercise(@RequestBody ExerciseDTO newExerciseDto, Principal principal){
+        Exercise newExercise = exerciseMapper.dtoToEntity(newExerciseDto);
+        User user = userService.getUser(principal.getName()).get();
+        newExercise.setUser(user);
         Optional<Exercise> exercise = exercisesService.addExercise(newExercise, principal.getName());
         return ResponseEntity.ok(exerciseMapper.entityToDto(exercise.get()));
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editExercise(@RequestBody Exercise newExercise, Principal principal){
+    public void editExercise(@RequestBody ExerciseDTO newExerciseDto, Principal principal){
+        Exercise newExercise = exerciseMapper.dtoToEntity(newExerciseDto);
         exercisesService.editExercise(newExercise, principal.getName());
     }
 

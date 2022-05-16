@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.Duration;
 
@@ -30,9 +31,14 @@ public class Exercise {
     private String exerciseSoundLocation;
     private String breakSoundLocation;
     private String countdownSoundLocation;
-    @ManyToMany(mappedBy="exercises")
+    @ManyToMany
     @ToString.Exclude
     private List<Routine> routines;
+
+    public void remove(){
+        routines.forEach(routine -> routine.getExercises().remove(this));
+        routines = new ArrayList();
+    }
 
 
 }

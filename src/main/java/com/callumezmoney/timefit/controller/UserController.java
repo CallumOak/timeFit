@@ -1,5 +1,7 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.dto.UserCreationDTO;
+import com.callumezmoney.timefit.dto.UserDTO;
 import com.callumezmoney.timefit.mapper.UserMapper;
 import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
@@ -35,15 +37,17 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addUser(@RequestBody User newUser){
+    public ResponseEntity<?> addUser(@RequestBody UserCreationDTO newUserDto){
+        User newUser = userMapper.creationDtoToEntity(newUserDto);
         return ResponseEntity.ok(userMapper.entityToDto(userService.addUser(newUser)));
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editUser(@RequestBody User updatedUser){
+    public void editUser(@RequestBody UserDTO updatedUserDto){
+        User updatedUser = userMapper.dtoToEntity(updatedUserDto);
         Optional<User> user = userService.getUser(updatedUser.getId());
-        if(!user.isPresent()){
+        if(user.isEmpty()){
             throw new NullPointerException();
         }
         userService.updateUser(updatedUser);

@@ -1,6 +1,8 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.dto.RoutineDTO;
 import com.callumezmoney.timefit.mapper.RoutineMapper;
+import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.service.RoutineService;
@@ -39,12 +41,14 @@ public class RoutineController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addRoutine(@RequestBody Routine routine, Principal principal){
+    public ResponseEntity<?> addRoutine(@RequestBody RoutineDTO routineDto, Principal principal){
+        Routine routine = routineMapper.dtoToEntity(routineDto);
         return ResponseEntity.ok(routineMapper.entityToDto(routineService.createRoutine(routine, principal.getName()).get()));
     }
 
     @PutMapping
-    public void editRoutine(@RequestBody Routine routine, Principal principal){
+    public void editRoutine(@RequestBody RoutineDTO routineDto, Principal principal){
+        Routine routine = routineMapper.dtoToEntity(routineDto);
         routineService.updateRoutine(routine, principal.getName());
     }
 

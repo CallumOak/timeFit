@@ -24,6 +24,6 @@ public class Routine {
     private Color color;
     @ManyToMany
     private List<Exercise> exercises;
-    @OneToMany(mappedBy = "routine")
+    @OneToMany(mappedBy = "routine", fetch = FetchType.LAZY)
     private List<RoutinePlan> routinePlans;
 }

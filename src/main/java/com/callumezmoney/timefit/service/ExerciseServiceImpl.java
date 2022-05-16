@@ -44,7 +44,19 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void editExercise(Exercise exercise, String username) {
         Optional<Exercise> oldExercise = exercisesRepository.findById(exercise.getId());
         if(oldExercise.isPresent() && Objects.equals(oldExercise.get().getUser().getUsername(), username)){
-            exercisesRepository.save(exercise);
+            Exercise editedExercise = oldExercise.get();
+            editedExercise.setName(exercise.getName());
+            editedExercise.setExerciseDuration(exercise.getExerciseDuration());
+            editedExercise.setExerciseBreak(exercise.getExerciseBreak());
+            editedExercise.setRepetitions(exercise.getRepetitions());
+            editedExercise.setExerciseColor(exercise.getExerciseColor());
+            editedExercise.setBreakColor(exercise.getBreakColor());
+            editedExercise.setIllustrationLocation(exercise.getIllustrationLocation());
+            editedExercise.setExerciseSoundLocation(exercise.getExerciseSoundLocation());
+            editedExercise.setBreakSoundLocation(exercise.getBreakSoundLocation());
+            editedExercise.setCountdownSoundLocation(exercise.getCountdownSoundLocation());
+
+            exercisesRepository.save(editedExercise);
         }
     }
 
@@ -52,6 +64,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void deleteExercise(Long id, String username) {
         Optional<Exercise> exercise = exercisesRepository.findById(id);
         if(exercise.isPresent() && Objects.equals(exercise.get().getUser().getUsername(), username)){
+            exercise.get().remove();
             exercisesRepository.deleteById(id);
         }
     }

@@ -41,6 +41,21 @@ public class UserMapper implements WebMapper<User, UserDTO>{
         return  user;
     }
 
+    public User creationDtoToEntity(UserCreationDTO dto) {
+        User user = new User(null,
+                dto.getUsername(),
+                dto.getEmail(),
+                dto.getPassword(),
+                dto.getProgram().stream().map(programMapper::fromURI).collect(Collectors.toList()),
+                dto.getRoutines().stream().map(routineMapper::fromURI).collect(Collectors.toList()),
+                dto.getExercises().stream().map(exerciseMapper::fromURI).collect(Collectors.toList()),
+                roleMapper.dtoToEntity(dto.getRole()));
+        user.getPrograms().forEach(p -> p.setUser(user));
+        user.getRoutines().forEach(p -> p.setUser(user));
+        user.getExercises().forEach(p -> p.setUser(user));
+        return  user;
+    }
+
     @Override
     public UserDTO entityToDto(User entity) {
         UserDTO user = new UserDTO(
@@ -59,6 +74,8 @@ public class UserMapper implements WebMapper<User, UserDTO>{
                 entity.getEmail(),
                 entity.getPassword(),
                 entity.getPrograms().stream().map(p -> ProgramMapper.toURI(p, environment)).collect(Collectors.toList()),
+                entity.getRoutines().stream().map(r -> RoutineMapper.toURI(r, environment)).collect(Collectors.toList()),
+                entity.getExercises().stream().map(e -> ExerciseMapper.toURI(e, environment)).collect(Collectors.toList()),
                 roleMapper.entityToDto(entity.getRole()));
     }
 
