@@ -60,9 +60,8 @@ export class RoutineVisualizerComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`Routine type : ${(this.routineType)}`)
-    this.selectedRoutineSubscription = this.routineService.getRoutineBasedOnType(this.routineType).subscribe(routine => {
-      this.selectedRoutine = routine
-    })
+    let routineId: string = "blabla";
+    this.selectedRoutineSubscription = this.routineService.getRoutine(routineId).subscribe((routine: Routine) => this.selectedRoutine = routine)
     this.availableRoutinesSubscription = this.routineService.availableRoutines$.subscribe(routines => {
       this.availableRoutines = routines;
     })
@@ -71,7 +70,7 @@ export class RoutineVisualizerComponent implements OnInit {
     console.log(`Selected routine : ${this.selectedRoutine}`)
   }
 
-  tmpSelect(routine: string) {
+  tmpSelect(routine: Routine) {
     this.tmpSelectedRoutine = routine
   }
 

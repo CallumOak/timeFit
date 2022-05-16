@@ -3,6 +3,7 @@ import {RoutineTypeEnum} from "../../../enums/routine-type-enum.enum";
 import {RoutineService} from "../../../service/routine.service";
 import {Subscription} from "rxjs";
 import {NavbarService} from "../../../service/navbar.service";
+import {Routine} from "../../../model/routine.model";
 
 const ROUTINE_TYPE = RoutineTypeEnum.weekly
 const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -14,7 +15,7 @@ const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Satu
 })
 export class WeeklyProgramComponent implements OnInit {
   routineType = ROUTINE_TYPE;
-  routines!: string[];
+  routines!: Routine[];
   subscription!: Subscription;
   weekDays: string[] = WEEK_DAYS;
   private _selectedWeekDay = 0;
@@ -40,6 +41,6 @@ export class WeeklyProgramComponent implements OnInit {
   }
 
   removeRoutine() {
-    this.routineService.setRoutine('')
+    this.routineService.setRoutine(this.routineType, this.routines[this.selectedWeekDay])
   }
 }

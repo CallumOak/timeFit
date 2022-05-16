@@ -11,7 +11,7 @@
       <tbody>
       <tr>
         <td *ngFor="let routine of routines; let i = index;">
-          <button class="btn bg-light" [class.focus]="selectedIndex == i"  [class.fa]="canAddRoutine(i)" [class.fa-plus]="canAddRoutine(i)" [class.disabled]="!canAddRoutine(i) && routine == ''" (click)="selectedIndex = i">
+          <button class="btn bg-light" [class.focus]="selectedIndex == i"  [class.fa]="canAddRoutine(i)" [class.fa-plus]="canAddRoutine(i)" [class.disabled]="!canAddRoutine(i) && routine == null" (click)="selectedIndex = i">
             {{routine}}
           </button>
         </td>

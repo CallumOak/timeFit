@@ -96,22 +96,22 @@ export class RoutineService {
     return response;
   }
 
-  private getFrequencyRoutines(): Observable<RoutinePlan[]>{
+  private getFrequencyRoutines(): Observable<Routine[]>{
     const path = API + ``;
-    let response = this.http.get<RoutinePlan[]>(path);
+    let response = this.http.get<Routine[]>(path);
     return response;
   }
 
 
-  private getWeeklyRoutines(): Observable<RoutinePlan[]>{
+  private getWeeklyRoutines(): Observable<Routine[]>{
     const path = API + ``;
-    let response = this.http.get<RoutinePlan[]>(path);
+    let response = this.http.get<Routine[]>(path);
     return response;
   }
 
   getRoutine(selectedRoutineId: string) {
     const path = API + selectedRoutineId;
-    let response = this.http.get<RoutinePlan>(path);
+    let response = this.http.get<Routine>(path);
     return response;
   }
 

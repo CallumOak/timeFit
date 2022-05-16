@@ -5,6 +5,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import { RoutineService } from 'src/app/service/routine.service';
 import {switchMap} from "rxjs/operators";
 import { RoutinePlan } from 'src/app/model/routine-plan.model';
+import {Routine} from "../../model/routine.model";
 
 const NAV_PATH = "addEditRoutine";
 
@@ -20,7 +21,7 @@ export class AddEditRoutineComponent implements OnInit {
   modalOptions:NgbModalOptions;
   tmpSelectedExercise: string = '';
   selectedExercise: string = '';
-  selectedRoutine!: RoutinePlan;
+  selectedRoutine!: Routine;
   selectedRoutineId: string = '';
   navBarItemIndex!: number;
 

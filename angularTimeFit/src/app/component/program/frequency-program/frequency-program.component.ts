@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RoutineTypeEnum} from "../../../enums/routine-type-enum.enum";
 import {RoutineService} from "../../../service/routine.service";
 import {Subscription} from "rxjs";
+import {Routine} from "../../../model/routine.model";
 
 const ROUTINE_TYPE = RoutineTypeEnum.frequency
 
@@ -12,7 +13,7 @@ const ROUTINE_TYPE = RoutineTypeEnum.frequency
 })
 export class FrequencyProgramComponent implements OnInit {
   routineType = ROUTINE_TYPE;
-  routines!: string[];
+  routines!: Routine[];
   subscription!: Subscription;
   private _selectedIndex: number = 0;
 
@@ -36,10 +37,10 @@ export class FrequencyProgramComponent implements OnInit {
   }
 
   canAddRoutine(i: number){
-    return this.routines[i] == '' && (i == 0 || this.routines[i - 1] !='');
+    return i < this.routines.length && this.routines[i] == null && (i == 0 || this.routines[i - 1] != null);
   }
 
   removeRoutine() {
-    this.routineService.setRoutine('')
+    this.routineService.setRoutine(this.routineType, this.routines[this.selectedIndex])
   }
 }
