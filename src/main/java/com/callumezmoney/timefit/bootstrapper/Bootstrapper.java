@@ -6,6 +6,7 @@ import com.callumezmoney.timefit.payload.request.SignupRequest;
 import com.callumezmoney.timefit.repository.*;
 import com.callumezmoney.timefit.util.RoleEnum;
 import lombok.AllArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -55,27 +56,31 @@ public class Bootstrapper implements CommandLineRunner {
         //create test exercises
         List<Exercise> exercises = createExercises(false);
 
-        exercisesRepository.saveAll(exercises);
         exercises.stream().forEach(e -> e.setUser(callum));
         exercisesRepository.saveAll(exercises);
+        //exercises = exercisesRepository.findAll();
 
         //create test routines
         List<Routine> routines = createRoutines(exercises,false);
 
-        routineRepository.saveAll(routines);
         routines.stream().forEach(r -> r.setUser(callum));
+        routineRepository.saveAll(routines);
+        routines = routineRepository.findAll();
 
         //create test routine plans
         List<RoutinePlan> routinePlans = createRoutinePlans(routines, false);
 
         routinePlanRepository.saveAll(routinePlans);
+        routinePlans = routinePlanRepository.findAll();
 
         //test programs
         List<Program> programs = createPrograms(routinePlans, false);
 
-        programRepository.saveAll(programs);
         programs.stream().forEach(program -> program.setUser(callum));
         programRepository.saveAll(programs);
+
+        routinePlans.forEach(rp -> rp.setProgram(programs.get(0)));
+
 
         exercisesRepository.saveAll(exercises);
         routineRepository.saveAll(routines);
@@ -137,6 +142,7 @@ public class Bootstrapper implements CommandLineRunner {
 
     public static List<Routine> createRoutines(List<Exercise> exercises, Boolean setIds){
         List<Routine> routines = new ArrayList<>();
+        //exercises.forEach(e -> e.setRoutines(new ArrayList<>()));
 
         Routine legs = new Routine(setIds ? 1L : null, null, "Legs", 2, Color.BLUE, Arrays.asList(exercises.get(3), exercises.get(4), exercises.get(5)), Arrays.asList());
         exercises.get(3).getRoutines().add(legs);

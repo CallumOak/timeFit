@@ -55,6 +55,7 @@ public class ProgramController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void editProgram(@RequestBody ProgramDTO newProgramDto, Principal principal){
         Program newProgram = programMapper.dtoToEntity(newProgramDto);
+        newProgram.setUser(userService.getUser(principal.getName()).orElse(null));
         programService.editProgram(newProgram, principal.getName());
     }
 

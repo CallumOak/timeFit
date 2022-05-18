@@ -12,8 +12,11 @@ export class Exercise /*implements Deserializable*/ {
   restColor! :string;
   illustrationLocation! :string;
 
-  constructor(id: string, name: string, exerciseDuration: string, restDuration: string, repetitions: string,
-              exerciseColor: string, restColor: string, illustrationLocation: string) {
+  constructor() {
+  }
+
+  public setValues(id: string, name: string, exerciseDuration: string, restDuration: string, repetitions: string,
+                   exerciseColor: string, restColor: string, illustrationLocation: string){
     this.id = id;
     this.name = name;
     this.exerciseDuration = exerciseDuration;

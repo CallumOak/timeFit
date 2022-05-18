@@ -4,6 +4,7 @@ import {RoutineService} from "../../service/routine.service";
 import {RoutineTypeEnum} from "../../enums/routine-type-enum.enum";
 import {Subscription} from "rxjs";
 import {Routine} from "../../model/routine.model";
+import {RoutinePlanService} from "../../service/routine-plan.service";
 
 @Component({
   selector: 'app-routine-visualizer',
@@ -24,7 +25,7 @@ export class RoutineVisualizerComponent implements OnInit {
   selectedRoutineSubscription!: Subscription;
   availableRoutinesSubscription!: Subscription;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private routinePlanService: RoutinePlanService) {
     this.modalOptions = {
       backdrop:'static',
       backdropClass:'customBackdrop'
@@ -34,7 +35,7 @@ export class RoutineVisualizerComponent implements OnInit {
   private commitSelectedRoutine(){
     this.selectedRoutine = this.tmpSelectedRoutine
 
-    this.routineService.setRoutine(this.routineType, this.selectedRoutine)
+    this.routinePlanService.setRoutine(this.routineType, this.selectedRoutine)
   }
 
   open(content: any) {
@@ -60,8 +61,8 @@ export class RoutineVisualizerComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`Routine type : ${(this.routineType)}`)
-    let routineId: string = "blabla";
-    this.selectedRoutineSubscription = this.routineService.getRoutine(routineId).subscribe((routine: Routine) => this.selectedRoutine = routine)
+    let routineId: string = "10";
+    this.selectedRoutineSubscription = this.routineService.getRoutineById(routineId).subscribe((routine: Routine) => this.selectedRoutine = routine)
     this.availableRoutinesSubscription = this.routineService.availableRoutines$.subscribe(routines => {
       this.availableRoutines = routines;
     })

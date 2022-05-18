@@ -2,11 +2,10 @@ package com.callumezmoney.timefit.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -16,4 +15,7 @@ import java.util.Date;
 public class IndividualRoutinePlan extends  RoutinePlan{
     @Temporal(TemporalType.DATE)
     private Date date;
+    @ManyToOne
+    @JoinColumn(name = "INDIVIDUAL_PROGRAM_ID")
+    private Program program;
 }

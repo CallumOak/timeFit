@@ -85,7 +85,7 @@ public class UserMapper implements WebMapper<User, UserDTO>{
 
     @Override
     public User fromURI(String uri) {
-        return userService.getUser(getIdFromURI(uri, environment)).get();
+        return userService.getUser(getIdFromURI(uri, environment, "user")).get();
     }
 
     private boolean userExists(UserDTO userDto) {

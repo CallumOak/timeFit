@@ -3,6 +3,7 @@ package com.callumezmoney.timefit.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -18,7 +19,8 @@ public class RoutinePlan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
+    @Transient
+    @ToString.Exclude
     private Program program;
     @ManyToOne
     private Routine routine;

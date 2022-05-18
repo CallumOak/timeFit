@@ -64,7 +64,6 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void deleteExercise(Long id, String username) {
         Optional<Exercise> exercise = exercisesRepository.findById(id);
         if(exercise.isPresent() && Objects.equals(exercise.get().getUser().getUsername(), username)){
-            exercise.get().remove();
             exercisesRepository.deleteById(id);
         }
     }

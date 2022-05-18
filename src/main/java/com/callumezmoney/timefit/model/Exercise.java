@@ -31,7 +31,10 @@ public class Exercise {
     private String exerciseSoundLocation;
     private String breakSoundLocation;
     private String countdownSoundLocation;
-    @ManyToMany
+    @ManyToMany(cascade = {
+                    //CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @ToString.Exclude
     private List<Routine> routines;
 
@@ -40,5 +43,21 @@ public class Exercise {
         routines = new ArrayList();
     }
 
-
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "id=" + id +
+                ", user=" + user.getUsername() +
+                ", name='" + name + '\'' +
+                ", exerciseDuration=" + exerciseDuration +
+                ", exerciseBreak=" + exerciseBreak +
+                ", repetitions=" + repetitions +
+                ", exerciseColor=" + exerciseColor +
+                ", breakColor=" + breakColor +
+                ", illustrationLocation='" + illustrationLocation + '\'' +
+                ", exerciseSoundLocation='" + exerciseSoundLocation + '\'' +
+                ", breakSoundLocation='" + breakSoundLocation + '\'' +
+                ", countdownSoundLocation='" + countdownSoundLocation + '\'' +
+                '}';
+    }
 }

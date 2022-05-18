@@ -76,7 +76,7 @@ export class AddEditRoutineComponent implements OnInit {
   ngOnInit(): void {
     this.selectedRoutineId = this.activatedRoute.snapshot.params['id'];
     console.log(`Params : ${this.selectedRoutineId}`);
-    this.routineService.getRoutine(this.selectedRoutineId).subscribe(routine => {
+    this.routineService.getRoutineById(this.selectedRoutineId).subscribe(routine => {
       this.selectedRoutine = routine;
     });
     this.routineService.updateData();

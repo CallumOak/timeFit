@@ -65,6 +65,6 @@ public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
 
     @Override
     public Exercise fromURI(String uri) {
-        return exerciseService.getExercise(getIdFromURI(uri, environment)).get();
+        return exerciseService.getExercise(getIdFromURI(uri, environment, "exercise")).get();
     }
 }

@@ -90,7 +90,7 @@ class RoutineServiceImplTest {
         doReturn(Optional.of(routines.get(0))).when(routineRepository).findById(1L);
         doReturn(routines.get(0)).when(routineRepository).save(routines.get(0));
 
-        routineService.updateRoutine(routines.get(0), CALLUM);
+        //routineService.updateRoutine(routines.get(0), CALLUM);
 
         verify(routineRepository).findById(1L);
         verify(routineRepository).save(routines.get(0));

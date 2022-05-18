@@ -33,6 +33,10 @@ import { FrequencyProgramComponent } from './component/program/frequency-program
 import { RoutineVisualizerComponent } from './component/routine-visualizer/routine-visualizer.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { DialogExerciseSelectComponent } from './component/dialog-exercise-select/dialog-exercise-select.component';
+import {ProgramService} from "./service/program.service";
+import {RoutinePlanService} from "./service/routine-plan.service";
+import {RoutineService} from "./service/routine.service";
+import {ExerciseService} from "./service/exercise.service";
 
 FullCalendarModule.registerPlugins([
   interactionPlugin,
@@ -71,7 +75,14 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     NgbModule
   ],
-  providers: [UserService, authInterceptorProviders],
+  providers: [
+    UserService,
+    authInterceptorProviders,
+    ProgramService,
+    RoutinePlanService,
+    RoutineService,
+    ExerciseService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

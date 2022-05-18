@@ -2,8 +2,11 @@ package com.callumezmoney.timefit.controller;
 
 import com.callumezmoney.timefit.dto.RoutinePlanDTO;
 import com.callumezmoney.timefit.mapper.RoutinePlanMapper;
+import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.model.RoutinePlan;
+import com.callumezmoney.timefit.model.WeeklyRoutinePlan;
+import com.callumezmoney.timefit.service.ProgramService;
 import com.callumezmoney.timefit.service.RoutinePlanService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -12,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +29,7 @@ public class RoutinePlanController {
 
     private final RoutinePlanService routinePlanService;
     private final RoutinePlanMapper routinePlanMapper;
+    private final ProgramService programService;
 /*
     @GetMapping("{type}/{identifier}")
     public ResponseEntity<RoutinePlan> getRoutinePlanByType(@PathVariable String type, @PathVariable String identifier){
@@ -51,6 +57,24 @@ public class RoutinePlanController {
         return ResponseEntity.badRequest().body(null);
     }
 */
+
+@GetMapping("{type}")
+public ResponseEntity<?> getRoutinePlanByType(@PathVariable String type, Principal principal){
+    Program program = programService.getPrograms(principal.getName()).get(0);
+    switch (type){
+        case "weekly":
+            return ResponseEntity.ok().body(program.getWeeklyRoutines());
+        case "frequency":
+            return ResponseEntity.ok().body(program.getFrequencyRoutines());
+        case "individual":
+            return ResponseEntity.ok().body(program.getIndividualRoutines());
+        default:
+            Exception e = new TypeNotPresentException("Type not recognised : " + type, null);
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
+    }
+}
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getRoutinePlanById(@PathVariable Long id, Principal principal){
         return ResponseEntity.ok(routinePlanMapper.entityToDto(routinePlanService.getRoutinePlan(id, principal.getName()).get()));

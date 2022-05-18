@@ -47,6 +47,6 @@ public class FrequencyRoutinePlanMapper  implements WebMapper<FrequencyRoutinePl
 
     @Override
     public FrequencyRoutinePlan fromURI(String uri) {
-        return routinePlanService.getFrequencyRoutinePlan(getIdFromURI(uri, environment));
+        return routinePlanService.getFrequencyRoutinePlan(getIdFromURI(uri, environment, "routineplan"));
     }
 }

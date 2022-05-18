@@ -70,6 +70,6 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
 
     @Override
     public Program fromURI(String uri) {
-        return programService.getProgram(getIdFromURI(uri, environment)).get();
+        return programService.getProgram(getIdFromURI(uri, environment, "program")).get();
     }
 }

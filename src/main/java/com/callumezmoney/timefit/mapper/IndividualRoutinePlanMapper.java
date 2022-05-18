@@ -49,6 +49,6 @@ public class IndividualRoutinePlanMapper  implements WebMapper<IndividualRoutine
 
     @Override
     public IndividualRoutinePlan fromURI(String uri) {
-        return routinePlanService.getIndividualRoutinePlan(getIdFromURI(uri, environment));
+        return routinePlanService.getIndividualRoutinePlan(getIdFromURI(uri, environment, "routineplan"));
     }
 }

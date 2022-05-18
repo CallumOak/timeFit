@@ -4,6 +4,7 @@ import com.callumezmoney.timefit.util.ProgramSetting;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.core.env.Environment;
 
@@ -32,4 +33,15 @@ public class Program {
     private List<IndividualRoutinePlan> individualRoutines = new ArrayList<>();
     @ManyToOne
     private User user;
+
+    @Override
+    public String toString() {
+        return "Program{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", programSetting=" + programSetting +
+                ", frequency=" + frequency +
+                ", user=" + user.getUsername() +
+                '}';
+    }
 }

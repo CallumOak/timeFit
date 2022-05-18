@@ -13,7 +13,7 @@ const NAV_PATH = "addEditExercise"
 })
 export class AddEditExerciseComponent implements OnInit {
 
-  selectedExercise: Exercise = new Exercise('','','','','', '','','');
+  selectedExercise: Exercise = new Exercise();
   private navBarItemIndex: number;
 
   constructor(private navbarService : NavbarService,

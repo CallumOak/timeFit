@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {WeekDay} from "@angular/common";
 import {RoutineTypeEnum} from "../enums/routine-type-enum.enum";
 import {environment} from '../../environments/environment';
@@ -13,115 +13,46 @@ const API = environment.apiEndpoint + 'routines/';
   providedIn: 'root'
 })
 export class RoutineService {
-
-  private _selectedDate = new Date();
-  private _selectedDay = 0;
-  private _selectedIndex = 0;
-
-  selectedIndivRoutine$ = this.getIndivRoutine(this._selectedDate);
-  selectedWeeklyRoutine$ = this.getWeeklyRoutine(this._selectedDay);
-  selectedFrequencyRoutine$ = this.getFrequencyRoutine(this._selectedIndex);
+  private _routineUrls: string[] = [];
   availableRoutines$ = this.getAvailableRoutines();
-  frequencyRoutines$ = this.getFrequencyRoutines();
-  weeklyRoutines$ = this.getWeeklyRoutines();
+  routines$ = this.getRoutines();
+
 
   constructor(private http: HttpClient) {
   }
 
-  set selectedDate(date: Date) {
-    this._selectedDate = date
-    this.updateData()
-  }
-
-  set selectedDay(day: WeekDay) {
-    this._selectedDay = day
-    this.updateData()
-  }
-
-  set selectedIndex(index: number) {
-    this._selectedIndex = index
-    this.updateData()
-  }
-
-
-  private getIndivRoutine(date: Date): Observable<RoutinePlan> {
-    const path = API + `individual/` + date;
-    let response = this.http.get<RoutinePlan>(path);
-    return response;
-  }
-
-
-  private getWeeklyRoutine(day: WeekDay): Observable<RoutinePlan>  {
-    const path = API + `weekly/` + day;
-    let response = this.http.get<RoutinePlan>(path);
-    return response;
-  }
-
-
-  private getFrequencyRoutine(index: number): Observable<RoutinePlan>  {
-    const path = API + `frequency/` + index;
-    let response = this.http.get<RoutinePlan>(path);
-    return response;
-  }
-
-
-  public setRoutine(type: RoutineTypeEnum, routine: Routine){
-    switch (type){
-      case RoutineTypeEnum.weekly:
-        this.selectedWeeklyRoutine$.subscribe((routinePlan: RoutinePlan) => {
-          routinePlan.routine = routine;
-          this.http.put(API, routinePlan);
-        });
-        break;
-      case RoutineTypeEnum.frequency:
-        this.selectedFrequencyRoutine$.subscribe((routinePlan: RoutinePlan) => {
-          routinePlan.routine = routine;
-          this.http.put(API, routinePlan);
-        });
-        break;
-      case RoutineTypeEnum.weekly:
-        this.selectedIndivRoutine$.subscribe((routinePlan: RoutinePlan) => {
-          routinePlan.routine = routine;
-          this.http.put(API, routinePlan);
-        });
-        break;
-    }
-    this.updateData();
-  }
-
-
   private getAvailableRoutines(): Observable<Routine[]>{
-    const path = API;
-    let response = this.http.get<Routine[]>(path);
-    return response;
+    return this.http.get<Routine[]>(API);
   }
 
-  private getFrequencyRoutines(): Observable<Routine[]>{
-    const path = API + ``;
-    let response = this.http.get<Routine[]>(path);
-    return response;
-  }
-
-
-  private getWeeklyRoutines(): Observable<Routine[]>{
-    const path = API + ``;
-    let response = this.http.get<Routine[]>(path);
-    return response;
-  }
-
-  getRoutine(selectedRoutineId: string) {
+  getRoutineById(selectedRoutineId: string) {
     const path = API + selectedRoutineId;
-    let response = this.http.get<Routine>(path);
-    return response;
+    return this.http.get<Routine>(path);
   }
 
+  getRoutine(url: string) {
+    return this.http.get<Routine>(url);
+  }
+
+  getRoutines(): Observable<Routine[]> {
+    let routines: Routine[] = [];
+    this._routineUrls.forEach(url => this.getRoutine(url).subscribe(r => routines.push(r)));
+    return of(routines);
+  }
+
+  removeRoutine(routine: Routine){
+    this.http.delete<Routine>(API + routine.id).subscribe(this.updateData);
+  }
 
   updateData(){
-    this.selectedIndivRoutine$ = this.getIndivRoutine(this._selectedDate)
-    this.selectedWeeklyRoutine$ = this.getWeeklyRoutine(this._selectedDay)
-    this.selectedFrequencyRoutine$ = this.getFrequencyRoutine(this._selectedIndex)
     this.availableRoutines$ = this.getAvailableRoutines()
-    this.frequencyRoutines$ = this.getFrequencyRoutines()
-    this.weeklyRoutines$ = this.getWeeklyRoutines()
+  }
+
+  get routineUrls(): string[] {
+    return this._routineUrls;
+  }
+
+  set routineUrls(value: string[]) {
+    this._routineUrls = value;
   }
 }

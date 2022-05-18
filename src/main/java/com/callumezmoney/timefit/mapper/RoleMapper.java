@@ -36,6 +36,6 @@ public class RoleMapper implements WebMapper<Role, RoleDTO>{
 
     @Override
     public Role fromURI(String uri) {
-        return roleService.getRole(getIdFromURI(uri, environment));
+        return roleService.getRole(getIdFromURI(uri, environment, "role"));
     }
 }

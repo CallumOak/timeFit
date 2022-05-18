@@ -6,6 +6,7 @@ import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.service.RoutineService;
+import com.callumezmoney.timefit.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class RoutineController {
     private RoutineService routineService;
     private RoutineMapper routineMapper;
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<?> getRoutines(Principal principal) {
@@ -43,13 +45,15 @@ public class RoutineController {
     @PostMapping
     public ResponseEntity<?> addRoutine(@RequestBody RoutineDTO routineDto, Principal principal){
         Routine routine = routineMapper.dtoToEntity(routineDto);
+        routine.setUser(userService.getUser(principal.getName()).orElse(null));
         return ResponseEntity.ok(routineMapper.entityToDto(routineService.createRoutine(routine, principal.getName()).get()));
     }
 
     @PutMapping
     public void editRoutine(@RequestBody RoutineDTO routineDto, Principal principal){
         Routine routine = routineMapper.dtoToEntity(routineDto);
-        routineService.updateRoutine(routine, principal.getName());
+        routine.setUser(userService.getUser(principal.getName()).orElse(null));
+        routineService.updateRoutine(routineDto, principal.getName());
     }
 
     @DeleteMapping("/{id}")

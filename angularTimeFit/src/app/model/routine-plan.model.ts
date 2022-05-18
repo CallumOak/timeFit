@@ -4,8 +4,8 @@ import {Time} from "@angular/common";
 
 export class RoutinePlan {
   public id!: string;
-  public program!: Program;
-  public routine!: Routine;
+  public program!: string;
+  public routine!: string;
   public startTime!: Time;
   public endTime!: Time;
 }

@@ -3,7 +3,6 @@ import {Exercise} from "../model/exercise.model";
 import {Subject} from "rxjs";
 import {RoutineService} from "./routine.service";
 import { environment } from '../../environments/environment';
-import {RoutinePlan} from "../model/routine-plan.model";
 import {HttpClient} from "@angular/common/http";
 
 const API = environment.apiEndpoint + 'exercises/';
@@ -22,7 +21,7 @@ export class ExerciseService {
   constructor(private routineService: RoutineService, private http: HttpClient) { }
 
   getExercise(id: string): Exercise{
-    let exercise = new Exercise('','','','','','','','');
+    let exercise = new Exercise();
     this.exercises.forEach(e => {
       if(e.id === id){
         exercise = e;
@@ -56,13 +55,23 @@ export class ExerciseService {
   }
 
   createExercise(exercise: Exercise): Exercise{
-    //TODO http request for create that returns the new exercise with its new id
-    let newExercise = new Exercise(exercise.id,exercise.name,exercise.exerciseDuration, exercise.restDuration, exercise.repetitions,exercise.exerciseColor, exercise.restColor,exercise.illustrationLocation);
+    let newExercise = new Exercise();
+    newExercise.setValues(
+      exercise.id,
+      exercise.name,
+      exercise.exerciseDuration,
+      exercise.restDuration,
+      exercise.repetitions,
+      exercise.exerciseColor,
+      exercise.restColor,
+      exercise.illustrationLocation)
+    this.http.post<Exercise>(API, newExercise).subscribe(e => newExercise = e);
     this.routineService.updateData();
     return newExercise;
   }
 
   deleteExercise(exercise: Exercise){
-    //TODO
+    this.exercises.pop();
+
   }
 }

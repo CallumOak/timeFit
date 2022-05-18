@@ -3,6 +3,8 @@ import {RoutineTypeEnum} from "../../../enums/routine-type-enum.enum";
 import {RoutineService} from "../../../service/routine.service";
 import {Subscription} from "rxjs";
 import {Routine} from "../../../model/routine.model";
+import {RoutinePlanService} from "../../../service/routine-plan.service";
+import {FrequencyRoutinePlan} from "../../../model/frequency-routine-plan.model";
 
 const ROUTINE_TYPE = RoutineTypeEnum.frequency
 
@@ -14,10 +16,11 @@ const ROUTINE_TYPE = RoutineTypeEnum.frequency
 export class FrequencyProgramComponent implements OnInit {
   routineType = ROUTINE_TYPE;
   routines!: Routine[];
+  frequencyRoutinePlans : FrequencyRoutinePlan[] = [];
   subscription!: Subscription;
   private _selectedIndex: number = 0;
 
-  constructor(public routineService: RoutineService) {
+  constructor(public routinePlanService: RoutinePlanService, public routineService: RoutineService) {
   }
 
   get selectedIndex(): number {
@@ -26,14 +29,14 @@ export class FrequencyProgramComponent implements OnInit {
 
   set selectedIndex(value: number) {
     this._selectedIndex = value;
-    this.routineService.selectedIndex = value;
+    this.routinePlanService.selectedIndex = value;
   }
 
   ngOnInit(): void {
-    this.subscription = this.routineService.frequencyRoutines$.subscribe(routines => {
-      this.routines = routines
+    this.subscription = this.routinePlanService.frequencyRoutinePlans$.subscribe(routines => {
+      this.frequencyRoutinePlans = routines
     })
-    this.routineService.updateData()
+    this.routinePlanService.updateData()
   }
 
   canAddRoutine(i: number){
@@ -41,6 +44,6 @@ export class FrequencyProgramComponent implements OnInit {
   }
 
   removeRoutine() {
-    this.routineService.setRoutine(this.routineType, this.routines[this.selectedIndex])
+    this.routinePlanService.setRoutine(this.routineType, this.routines[this.selectedIndex])
   }
 }
