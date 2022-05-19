@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from "rxjs";
-import {WeekDay} from "@angular/common";
-import {RoutineTypeEnum} from "../enums/routine-type-enum.enum";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Routine} from '../model/routine.model';
-import {RoutinePlan} from "../model/routine-plan.model";
 
 const API = environment.apiEndpoint + 'routines/';
 
@@ -14,8 +11,10 @@ const API = environment.apiEndpoint + 'routines/';
 })
 export class RoutineService {
   private _routineUrls: string[] = [];
-  availableRoutines$ = this.getAvailableRoutines();
-  routines$ = this.getRoutines();
+  _availableRoutines: BehaviorSubject<Routine[]> = new BehaviorSubject<Routine[]>([]);
+  _routines: BehaviorSubject<Routine[]> = new BehaviorSubject<Routine[]>([]);
+  availableRoutines$ = this._availableRoutines.asObservable();
+  routines$ = this._routines.asObservable();
 
 
   constructor(private http: HttpClient) {
@@ -45,11 +44,8 @@ export class RoutineService {
   }
 
   updateData(){
-    this.availableRoutines$ = this.getAvailableRoutines()
-  }
-
-  get routineUrls(): string[] {
-    return this._routineUrls;
+    this.getRoutines().subscribe(r => this._routines.next(r));
+    this.getAvailableRoutines().subscribe(r => this._availableRoutines.next(r));
   }
 
   set routineUrls(value: string[]) {
