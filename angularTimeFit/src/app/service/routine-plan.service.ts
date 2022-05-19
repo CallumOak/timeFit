@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {RoutinePlan} from "../model/routine-plan.model";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of, ReplaySubject} from "rxjs";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {WeekDay} from "@angular/common";
@@ -9,6 +9,7 @@ import {Routine} from "../model/routine.model";
 import {WeeklyRoutinePlan} from "../model/weekly-routine-plan.model";
 import {FrequencyRoutinePlan} from "../model/frequency-routine-plan.model";
 import {IndividualRoutinePlan} from "../model/individual-routine-plan.model";
+import { ProgramService } from './program.service';
 
 const API = environment.apiEndpoint + 'api/routinePlan/';
 
@@ -16,6 +17,7 @@ const API = environment.apiEndpoint + 'api/routinePlan/';
   providedIn: 'root'
 })
 export class RoutinePlanService {
+  private update: boolean = true;
 
   private _weeklyRoutinePlanUrls: string[] = [];
   private _frequencyRoutinePlanUrls: string[] = [];
@@ -25,15 +27,31 @@ export class RoutinePlanService {
   private _selectedDay = 0;
   private _selectedIndex = 0;
 
-  frequencyRoutinePlans$ = this.getFrequencyRoutinePlans();
-  weeklyRoutinePlans$ = this.getWeeklyRoutinePlans();
-  individualRoutinePlans$ = this.getIndividualRoutinePlans();
+  private _weeklyRoutinePlans: BehaviorSubject<WeeklyRoutinePlan[]> = new BehaviorSubject<WeeklyRoutinePlan[]>([]);
+  private _frequencyRoutinePlans: BehaviorSubject<FrequencyRoutinePlan[]> = new BehaviorSubject<FrequencyRoutinePlan[]>([]);
+  private _individualRoutinePlans: BehaviorSubject<IndividualRoutinePlan[]> = new BehaviorSubject<IndividualRoutinePlan[]>([]);
 
-  selectedIndivRoutine$ = this.getIndividualRoutinePlan(this._selectedDate);
-  selectedWeeklyRoutine$ = this.getWeeklyRoutinePlan(this._selectedDay);
-  selectedFrequencyRoutine$ = this.getFrequencyRoutinePlan(this._selectedIndex);
+  weeklyRoutinePlans$ = this._weeklyRoutinePlans.asObservable();
+  frequencyRoutinePlans$ = this._frequencyRoutinePlans.asObservable();
+  individualRoutinePlans$ = this._individualRoutinePlans.asObservable();
 
-  constructor(private http: HttpClient) { }
+  private _selectedWeeklyRoutine: ReplaySubject<WeeklyRoutinePlan> = new ReplaySubject<WeeklyRoutinePlan>();
+  private _selectedFrequencyRoutine: ReplaySubject<FrequencyRoutinePlan> = new ReplaySubject<FrequencyRoutinePlan>();
+  private _selectedIndivRoutine: ReplaySubject<IndividualRoutinePlan> = new ReplaySubject<IndividualRoutinePlan>();
+
+  selectedIndivRoutine$ = this._selectedIndivRoutine.asObservable();
+  selectedWeeklyRoutine$ = this._selectedWeeklyRoutine.asObservable();
+  selectedFrequencyRoutine$ = this._selectedFrequencyRoutine.asObservable();
+
+  constructor(private http: HttpClient, private programService: ProgramService) {
+    this.programService.program$.subscribe(p => {
+      this.update = false;
+      this.weeklyRoutinePlanUrls = p[0].weeklyRoutinePlans;
+      this.frequencyRoutinePlanUrls = p[0].frequencyRoutinePlans;
+      this.update = true;
+      this.individualRoutinePlanUrls = p[0].individualRoutinePlans;
+    })
+  }
 
   private getWeeklyRoutinePlans() : Observable<WeeklyRoutinePlan[]> {
     let routinePlans: WeeklyRoutinePlan[] = [];
@@ -105,53 +123,41 @@ export class RoutinePlanService {
   }
 
   public updateData() {
-    this.selectedIndivRoutine$ = this.getIndividualRoutinePlan(this._selectedDate)
-    this.selectedWeeklyRoutine$ = this.getWeeklyRoutinePlan(this._selectedDay)
-    this.selectedFrequencyRoutine$ = this.getFrequencyRoutinePlan(this._selectedIndex)
-    this.individualRoutinePlans$ = this.getIndividualRoutinePlans();
-    this.weeklyRoutinePlans$ = this.getWeeklyRoutinePlans();
-    this.frequencyRoutinePlans$ = this.getFrequencyRoutinePlans();
-  }
-
-  public get weeklyRoutinePlanUrls(): string[] {
-    return this._weeklyRoutinePlanUrls;
+    this.getWeeklyRoutinePlan(this._selectedDay).subscribe(rp => this._selectedWeeklyRoutine.next(rp));
+    this.getFrequencyRoutinePlan(this._selectedIndex).subscribe(rp => this._selectedFrequencyRoutine.next(rp));
+    this.getIndividualRoutinePlan(this._selectedDate).subscribe(rp => this._selectedIndivRoutine.next(rp));
+    this.getWeeklyRoutinePlans().subscribe(rp => this._weeklyRoutinePlans.next(rp));
+    this.getFrequencyRoutinePlans().subscribe(rp => this._frequencyRoutinePlans.next(rp));
+    this.getIndividualRoutinePlans().subscribe(rp => this._individualRoutinePlans.next(rp));
   }
 
   public set weeklyRoutinePlanUrls(value: string[]) {
     this._weeklyRoutinePlanUrls = value;
-    this.updateData();
-  }
-
-  get individualRoutinePlanUrls(): string[] {
-    return this._individualRoutinePlanUrls;
+    if(this.update)this.updateData();
   }
 
   set individualRoutinePlanUrls(value: string[]) {
     this._individualRoutinePlanUrls = value;
-    this.updateData();
-  }
-
-  get frequencyRoutinePlanUrls(): string[] {
-    return this._frequencyRoutinePlanUrls;
+    if(this.update)this.updateData();
   }
 
   set frequencyRoutinePlanUrls(value: string[]) {
     this._frequencyRoutinePlanUrls = value;
-    this.updateData();
+    if(this.update)this.updateData();
   }
 
   set selectedDate(date: Date) {
     this._selectedDate = date
-    this.updateData()
+    if(this.update)this.updateData()
   }
 
   set selectedDay(day: WeekDay) {
     this._selectedDay = day
-    this.updateData()
+    if(this.update)this.updateData()
   }
 
   set selectedIndex(index: number) {
     this._selectedIndex = index
-    this.updateData()
+    if(this.update)this.updateData()
   }
 }

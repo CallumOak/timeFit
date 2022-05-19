@@ -32,7 +32,7 @@ export class ProgramComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.programService.program$.subscribe(program => {
+    this.programService.program$.subscribe(program => {
       this.program = program[0];
     })
     this.programService.updateData()

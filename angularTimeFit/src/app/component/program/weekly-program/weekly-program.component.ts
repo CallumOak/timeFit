@@ -21,7 +21,7 @@ export class WeeklyProgramComponent implements OnInit {
   program!: Program;
   routineType = ROUTINE_TYPE;
   routinePlans!: RoutinePlan[];
-  routines!: Routine[];
+  routines: (Routine | null)[] = [null,null,null,null,null,null,null];
   //subscription!: Subscription;
   weekDays: string[] = WEEK_DAYS;
   private _selectedWeekDay = 0;
@@ -60,7 +60,9 @@ export class WeeklyProgramComponent implements OnInit {
   }
 
   removeRoutine() {
-    this.routineService.removeRoutine(this.routines[this.selectedWeekDay])
+    if(this.routines[this.selectedWeekDay] != null){
+      this.routineService.removeRoutine(this.routines[this.selectedWeekDay] as Routine);
+    }
   }
 
 }
