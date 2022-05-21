@@ -51,8 +51,6 @@ public class RoutineController {
 
     @PutMapping
     public void editRoutine(@RequestBody RoutineDTO routineDto, Principal principal){
-        Routine routine = routineMapper.dtoToEntity(routineDto);
-        routine.setUser(userService.getUser(principal.getName()).orElse(null));
         routineService.updateRoutine(routineDto, principal.getName());
     }
 

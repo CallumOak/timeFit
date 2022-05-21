@@ -25,14 +25,66 @@ public class Program {
     private String name;
     private ProgramSetting programSetting = ProgramSetting.WEEKLY;
     private Integer frequency = 1;
-    @OneToMany(mappedBy = "program")
+    @OneToMany(
+            mappedBy = "program",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<WeeklyRoutinePlan> weeklyRoutines = new ArrayList<>();
-    @OneToMany(mappedBy = "program")
+    @OneToMany(
+            mappedBy = "program",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<FrequencyRoutinePlan> frequencyRoutines = new ArrayList<>();
-    @OneToMany(mappedBy = "program")
+    @OneToMany(
+            mappedBy = "program",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<IndividualRoutinePlan> individualRoutines = new ArrayList<>();
     @ManyToOne
     private User user;
+
+    public void setWeeklyRoutines(List<WeeklyRoutinePlan> weeklyRoutines) {
+        if(weeklyRoutines == this.weeklyRoutines){
+            return;
+        }
+        this.weeklyRoutines.forEach(r -> {if(!weeklyRoutines.contains(r))r.setProgram(null);});
+        weeklyRoutines.forEach(r -> {if(weeklyRoutines.contains(r))r.setProgram(this);});
+        this.weeklyRoutines = weeklyRoutines;
+    }
+
+    public void setFrequencyRoutines(List<FrequencyRoutinePlan> frequencyRoutines) {
+        if(frequencyRoutines == this.frequencyRoutines){
+            return;
+        }
+        this.frequencyRoutines.forEach(r -> {if(!frequencyRoutines.contains(r))r.setProgram(null);});
+        frequencyRoutines.forEach(r -> {if(frequencyRoutines.contains(r))r.setProgram(this);});
+        this.frequencyRoutines = frequencyRoutines;
+    }
+
+    public void setIndividualRoutines(List<IndividualRoutinePlan> individualRoutines) {
+        if(individualRoutines == this.individualRoutines){
+            return;
+        }
+        this.individualRoutines.forEach(r -> {if(!individualRoutines.contains(r))r.setProgram(null);});
+        individualRoutines.forEach(r -> {if(individualRoutines.contains(r))r.setProgram(this);});
+        this.individualRoutines = individualRoutines;
+    }
+
+    public void setUser(User user) {
+        if(user == this.user){
+            return;
+        }
+        if(this.user != null){
+            this.user.getPrograms().remove(this);
+        }
+        if(!user.getPrograms().contains(this)){
+            user.getPrograms().add(this);
+        }
+        this.user = user;
+    }
 
     @Override
     public String toString() {

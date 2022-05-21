@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -38,16 +39,19 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user",
-            fetch = FetchType.LAZY)
-    private List<Program> programs;
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Program> programs = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",
-            fetch = FetchType.LAZY)
-    private List<Routine> routines;
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Routine> routines = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",
-            fetch = FetchType.LAZY)
-    private List<Exercise> exercises;
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Exercise> exercises = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
@@ -56,5 +60,20 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public void setPrograms(List<Program> programs) {
+        this.programs.forEach(p -> {if(!programs.contains(p))p.setUser(null);});
+        programs.forEach(p->p.setUser(this));
+    }
+
+    public void setRoutines(List<Routine> routines) {
+        this.routines.forEach(p -> {if(!routines.contains(p))p.setUser(null);});
+        routines.forEach(p->p.setUser(this));
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises.forEach(p -> {if(!exercises.contains(p))p.setUser(null);});
+        exercises.forEach(p->p.setUser(this));
     }
 }

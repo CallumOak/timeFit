@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.mapper;
 
+import com.callumezmoney.timefit.dto.RoutinePlanDTO;
 import com.callumezmoney.timefit.dto.WeeklyRoutinePlanDTO;
 import com.callumezmoney.timefit.model.WeeklyRoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
@@ -22,26 +23,31 @@ public class WeeklyRoutinePlanMapper implements WebMapper<WeeklyRoutinePlan, Wee
 
     @Override
     public WeeklyRoutinePlan dtoToEntity(WeeklyRoutinePlanDTO dto) {
-        return WeeklyRoutinePlan.builder()
-                .weekDay(dto.getWeekDay())
-                .id(dto.getId())
+        WeeklyRoutinePlan routinePlan = WeeklyRoutinePlan.builder()
+                .id(null)
                 .program(null)
                 .routine(routineMapper.fromURI(dto.getRoutine()))
                 .startTime(dto.getStartTime())
                 .endTime(dto.getEndTime())
+                .weekDay(dto.getWeekDay())
                 .build();
+        routinePlan.getRoutine().getWeeklyRoutinePlans().add(routinePlan);
+        return routinePlan;
     }
 
     @Override
     public WeeklyRoutinePlanDTO entityToDto(WeeklyRoutinePlan entity) {
-        return new WeeklyRoutinePlanDTO(
+        WeeklyRoutinePlanDTO routinePlan = new WeeklyRoutinePlanDTO(
                 entity.getId(),
                 ProgramMapper.toURI(entity.getProgram(), environment),
                 RoutineMapper.toURI(entity.getRoutine(), environment),
                 entity.getStartTime(),
                 entity.getEndTime(),
-                entity.getWeekDay()
+                "weekly",
+                entity.getWeekDay(),
+                null
         );
+        return routinePlan;
     }
 
     public static String toURI(WeeklyRoutinePlan object, Environment environment) {

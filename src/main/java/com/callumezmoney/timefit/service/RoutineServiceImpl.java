@@ -5,7 +5,6 @@ import com.callumezmoney.timefit.mapper.ExerciseMapper;
 import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.repository.ExercisesRepository;
-import com.callumezmoney.timefit.repository.RoutinePlanRepository;
 import com.callumezmoney.timefit.repository.RoutineRepository;
 import com.callumezmoney.timefit.util.MapperUtils;
 import lombok.AllArgsConstructor;
@@ -58,7 +57,6 @@ public class RoutineServiceImpl implements RoutineService {
         Optional<Routine> oPersistedRoutine = routineRepository.findById(routine.getId());
         if(oPersistedRoutine.isPresent() && Objects.equals(oPersistedRoutine.get().getUser().getUsername(), username)){
             Routine persistedRoutine = oPersistedRoutine.get();
-            persistedRoutine.getExercises().clear();
             persistedRoutine.setName(routine.getName());
             persistedRoutine.setColor(routine.getColor());
             persistedRoutine.setNumberOfCycles(routine.getNumberOfCycles());
@@ -66,7 +64,6 @@ public class RoutineServiceImpl implements RoutineService {
                     eUrl -> exercisesRepository.findById(MapperUtils.getIdFromURI(eUrl, environment, "exercise")).orElse(null)
                 ).collect(Collectors.toList());
             persistedRoutine.setExercises(exerciseList);
-            routineRepository.save(persistedRoutine);
         }
     }
 

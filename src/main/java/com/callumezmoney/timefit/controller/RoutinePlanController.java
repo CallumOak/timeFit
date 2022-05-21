@@ -1,13 +1,17 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.dto.FrequencyRoutinePlanDTO;
+import com.callumezmoney.timefit.dto.IndividualRoutinePlanDTO;
 import com.callumezmoney.timefit.dto.RoutinePlanDTO;
-import com.callumezmoney.timefit.mapper.RoutinePlanMapper;
-import com.callumezmoney.timefit.model.Program;
-import com.callumezmoney.timefit.model.Routine;
-import com.callumezmoney.timefit.model.RoutinePlan;
+import com.callumezmoney.timefit.dto.WeeklyRoutinePlanDTO;
+import com.callumezmoney.timefit.mapper.FrequencyRoutinePlanMapper;
+import com.callumezmoney.timefit.mapper.IndividualRoutinePlanMapper;
+import com.callumezmoney.timefit.mapper.WeeklyRoutinePlanMapper;
+import com.callumezmoney.timefit.model.FrequencyRoutinePlan;
+import com.callumezmoney.timefit.model.IndividualRoutinePlan;
 import com.callumezmoney.timefit.model.WeeklyRoutinePlan;
-import com.callumezmoney.timefit.service.ProgramService;
 import com.callumezmoney.timefit.service.RoutinePlanService;
+import com.callumezmoney.timefit.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,8 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,77 +30,93 @@ import java.util.stream.Collectors;
 public class RoutinePlanController {
 
     private final RoutinePlanService routinePlanService;
-    private final RoutinePlanMapper routinePlanMapper;
-    private final ProgramService programService;
-/*
-    @GetMapping("{type}/{identifier}")
-    public ResponseEntity<RoutinePlan> getRoutinePlanByType(@PathVariable String type, @PathVariable String identifier){
-        RoutinePlan routinePlan;
-        switch (type){
-            case "weekly":
-                routinePlan = routinePlanService.getWeeklyRoutine(Integer.getInteger(identifier));
-                return ResponseEntity.ok().body(routinePlan);
-            case "frequency":
-                routinePlan = routinePlanService.getFrequencyRoutine(Integer.getInteger(identifier));
-                return ResponseEntity.ok().body(routinePlan);
-            case "individual":
-                try {
-                    routinePlan = routinePlanService.getIndividualRoutine(DateFormat.getDateInstance().parse(identifier));
-                    return ResponseEntity.ok().body(routinePlan);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                Exception e = new TypeNotPresentException("Type not recognised : " + type, null);
-                e.printStackTrace();
-                return ResponseEntity.badRequest().body(null);
-        }
-        return ResponseEntity.badRequest().body(null);
-    }
-*/
+    private final UserService userService;
+    private final WeeklyRoutinePlanMapper weeklyRoutinePlanMapper;
+    private final FrequencyRoutinePlanMapper frequencyRoutinePlanMapper;
+    private final IndividualRoutinePlanMapper individualRoutinePlanMapper;
 
-@GetMapping("{type}")
-public ResponseEntity<?> getRoutinePlanByType(@PathVariable String type, Principal principal){
-    Program program = programService.getPrograms(principal.getName()).get(0);
-    switch (type){
-        case "weekly":
-            return ResponseEntity.ok().body(program.getWeeklyRoutines());
-        case "frequency":
-            return ResponseEntity.ok().body(program.getFrequencyRoutines());
-        case "individual":
-            return ResponseEntity.ok().body(program.getIndividualRoutines());
-        default:
-            Exception e = new TypeNotPresentException("Type not recognised : " + type, null);
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body(null);
+    @GetMapping("/weekly/{id}")
+    public ResponseEntity<?> getWeeklyRoutinePlanById(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(weeklyRoutinePlanMapper.entityToDto(routinePlanService.getWeeklyRoutinePlan(id, principal.getName()).get()));
     }
-}
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getRoutinePlanById(@PathVariable Long id, Principal principal){
-        return ResponseEntity.ok(routinePlanMapper.entityToDto(routinePlanService.getRoutinePlan(id, principal.getName()).get()));
+    @GetMapping("/frequency/{id}")
+    public ResponseEntity<?> getFrequencyRoutinePlanById(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(frequencyRoutinePlanMapper.entityToDto(routinePlanService.getFrequencyRoutinePlan(id, principal.getName()).get()));
+    }
+    @GetMapping("/individual/{id}")
+    public ResponseEntity<?> getIndividualRoutinePlanById(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(individualRoutinePlanMapper.entityToDto(routinePlanService.getIndividualRoutinePlan(id, principal.getName()).get()));
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> listRoutinePlans(Principal principal){
-        return ResponseEntity.ok(
-                routinePlanService.getRoutines()
-                .stream().map(routinePlanMapper::entityToDto).collect(Collectors.toList())
-        );
+    @GetMapping("/weekly")
+    public ResponseEntity<?> listWeeklyRoutinePlans(Principal principal){
+        List<RoutinePlanDTO> routinePlanDtos = routinePlanService.getWeeklyRoutinePlans()
+                        .stream().map(weeklyRoutinePlanMapper::entityToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(routinePlanDtos);
+    }
+    @GetMapping("/frequency")
+    public ResponseEntity<?> listFrequencyRoutinePlans(Principal principal){
+        List<RoutinePlanDTO> routinePlanDtos = routinePlanService.getFrequencyRoutinePlans()
+                .stream().map(frequencyRoutinePlanMapper::entityToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(routinePlanDtos);
+    }
+    @GetMapping("/individual")
+    public ResponseEntity<?> listIndividualRoutinePlans(Principal principal){
+        List<RoutinePlanDTO> routinePlanDtos = routinePlanService.getIndividualRoutinePlans()
+                .stream().map(individualRoutinePlanMapper::entityToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(routinePlanDtos);
     }
 
     @PostMapping ("")
     public ResponseEntity<?> addRoutinePlan(@RequestBody RoutinePlanDTO routinePlanDto, Principal principal){
-        RoutinePlan routinePlan = routinePlanMapper.dtoToEntity(routinePlanDto);
-        return ResponseEntity.ok(routinePlanMapper.entityToDto(routinePlanService.createRoutinePlan(routinePlan, principal.getName()).get()));
+        switch(routinePlanDto.getType()){
+            case "weekly":
+                return addWeeklyRoutinePlan(new WeeklyRoutinePlanDTO(routinePlanDto), principal);
+            case "frequency":
+                return addFrequencyRoutinePlan(new FrequencyRoutinePlanDTO(routinePlanDto), principal);
+            case "individual":
+                return addIndividualRoutinePlan(new IndividualRoutinePlanDTO(routinePlanDto), principal);
+            default:
+                return ResponseEntity.badRequest().body("Type of routine plan not recognised : " + routinePlanDto.getType());
+        }
     }
+
+    private ResponseEntity<?> addWeeklyRoutinePlan(WeeklyRoutinePlanDTO routinePlanDto, Principal principal) {
+        WeeklyRoutinePlan routinePlan = weeklyRoutinePlanMapper.dtoToEntity(routinePlanDto);
+        routinePlan.setProgram(userService.getUser(principal.getName()).orElse(null).getPrograms().get(0));
+        return ResponseEntity.ok(weeklyRoutinePlanMapper.entityToDto(routinePlanService.createRoutinePlan(routinePlan, principal.getName()).get()));
+    }
+
+    private ResponseEntity<?> addFrequencyRoutinePlan(FrequencyRoutinePlanDTO routinePlanDto, Principal principal) {
+        FrequencyRoutinePlan routinePlan = frequencyRoutinePlanMapper.dtoToEntity(routinePlanDto);
+        routinePlan.setProgram(userService.getUser(principal.getName()).orElse(null).getPrograms().get(0));
+        return ResponseEntity.ok(frequencyRoutinePlanMapper.entityToDto(routinePlanService.createRoutinePlan(routinePlan, principal.getName()).get()));
+    }
+
+    private ResponseEntity<?> addIndividualRoutinePlan(IndividualRoutinePlanDTO routinePlanDto, Principal principal) {
+        IndividualRoutinePlan routinePlan = individualRoutinePlanMapper.dtoToEntity(routinePlanDto);
+        routinePlan.setProgram(userService.getUser(principal.getName()).orElse(null).getPrograms().get(0));
+        return ResponseEntity.ok(individualRoutinePlanMapper.entityToDto(routinePlanService.createRoutinePlan(routinePlan, principal.getName()).get()));
+    }
+
 
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editRoutinePlan(@RequestBody RoutinePlanDTO routinePlanDto, Principal principal){
-        RoutinePlan routinePlan = routinePlanMapper.dtoToEntity(routinePlanDto);
-        routinePlanService.editRoutinePlan(routinePlan, principal.getName());
+    public ResponseEntity<?> editRoutinePlan(@RequestBody RoutinePlanDTO routinePlanDto, Principal principal){
+        switch(routinePlanDto.getType()){
+            case "weekly":
+                routinePlanService.editRoutinePlan(new WeeklyRoutinePlanDTO(routinePlanDto), principal.getName());
+                return ResponseEntity.noContent().build();
+            case "frequency":
+                routinePlanService.editRoutinePlan(new FrequencyRoutinePlanDTO(routinePlanDto), principal.getName());
+                return ResponseEntity.noContent().build();
+            case "individual":
+                routinePlanService.editRoutinePlan(new IndividualRoutinePlanDTO(routinePlanDto), principal.getName());
+                return ResponseEntity.noContent().build();
+            default:
+                return ResponseEntity.badRequest().body("Type of routine plan not recognised : " + routinePlanDto.getType());
+        }
+
     }
 
     @DeleteMapping("/{id}")

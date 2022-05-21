@@ -1,9 +1,11 @@
 package com.callumezmoney.timefit.service;
 
+import com.callumezmoney.timefit.dto.ProgramDTO;
 import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.repository.ProgramRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,10 +42,10 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public void editProgram(Program program, String username) {
+    @Transactional
+    public void editProgram(ProgramDTO program, String username) {
         Optional<Program> oldProgram = programRepository.findById(program.getId());
         if(oldProgram.isPresent() && Objects.equals(oldProgram.get().getUser().getUsername(), username)){
-            programRepository.save(program);
         }
     }
 

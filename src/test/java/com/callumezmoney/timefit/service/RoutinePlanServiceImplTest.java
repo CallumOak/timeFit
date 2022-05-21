@@ -1,26 +1,11 @@
 package com.callumezmoney.timefit.service;
 
-import com.callumezmoney.timefit.model.*;
-import com.callumezmoney.timefit.repository.RoutinePlanRepository;
-import com.callumezmoney.timefit.util.RoleEnum;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.text.ParseException;
-import java.util.List;
-import java.util.Optional;
-
-import static com.callumezmoney.timefit.bootstrapper.Bootstrapper.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class RoutinePlanServiceImplTest {
+    /*
     public static final String CALLUM = "callum";
     @Mock
     RoutinePlanRepository routinePlanRepository;
@@ -102,4 +87,5 @@ class RoutinePlanServiceImplTest {
         verify(routinePlanRepository).findById(1L);
         verify(routinePlanRepository).deleteById(1L);
     }
+    */
 }

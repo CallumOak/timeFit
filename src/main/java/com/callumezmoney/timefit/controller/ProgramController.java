@@ -54,9 +54,7 @@ public class ProgramController {
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void editProgram(@RequestBody ProgramDTO newProgramDto, Principal principal){
-        Program newProgram = programMapper.dtoToEntity(newProgramDto);
-        newProgram.setUser(userService.getUser(principal.getName()).orElse(null));
-        programService.editProgram(newProgram, principal.getName());
+        programService.editProgram(newProgramDto, principal.getName());
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.callumezmoney.timefit.mapper;
 
 import com.callumezmoney.timefit.dto.FrequencyRoutinePlanDTO;
+import com.callumezmoney.timefit.dto.RoutinePlanDTO;
 import com.callumezmoney.timefit.model.FrequencyRoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
 import lombok.AllArgsConstructor;
@@ -21,24 +22,30 @@ public class FrequencyRoutinePlanMapper  implements WebMapper<FrequencyRoutinePl
 
     @Override
     public FrequencyRoutinePlan dtoToEntity(FrequencyRoutinePlanDTO dto) {
-        return FrequencyRoutinePlan.builder()
+        FrequencyRoutinePlan routinePlan = FrequencyRoutinePlan.builder()
                 .id(dto.getId())
                 .program(null)
                 .routine(routineMapper.fromURI(dto.getRoutine()))
                 .startTime(dto.getStartTime())
                 .endTime(dto.getEndTime())
                 .build();
+        routinePlan.getRoutine().getFrequencyRoutinePlans().add(routinePlan);
+        return routinePlan;
     }
 
     @Override
     public FrequencyRoutinePlanDTO entityToDto(FrequencyRoutinePlan entity) {
-        return new FrequencyRoutinePlanDTO(
+        FrequencyRoutinePlanDTO routinePlan = new FrequencyRoutinePlanDTO(
                 entity.getId(),
                 ProgramMapper.toURI(entity.getProgram(), environment),
                 RoutineMapper.toURI(entity.getRoutine(), environment),
                 entity.getStartTime(),
-                entity.getEndTime()
+                entity.getEndTime(),
+                "frequency",
+                null,
+                null
         );
+        return routinePlan;
     }
 
     public static String toURI(FrequencyRoutinePlan object, Environment environment) {

@@ -1,6 +1,7 @@
 package com.callumezmoney.timefit.mapper;
 
 import com.callumezmoney.timefit.dto.IndividualRoutinePlanDTO;
+import com.callumezmoney.timefit.dto.RoutinePlanDTO;
 import com.callumezmoney.timefit.model.IndividualRoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
 import lombok.AllArgsConstructor;
@@ -21,26 +22,31 @@ public class IndividualRoutinePlanMapper  implements WebMapper<IndividualRoutine
 
     @Override
     public IndividualRoutinePlan dtoToEntity(IndividualRoutinePlanDTO dto) {
-        return IndividualRoutinePlan.builder()
-                .date(dto.getDate())
+        IndividualRoutinePlan routinePlan = IndividualRoutinePlan.builder()
                 .id(dto.getId())
                 .program(null)
                 .routine(routineMapper.fromURI(dto.getRoutine()))
                 .startTime(dto.getStartTime())
                 .endTime(dto.getEndTime())
+                .date(dto.getDate())
                 .build();
+        routinePlan.getRoutine().getIndividualRoutinePlans().add(routinePlan);
+        return routinePlan;
     }
 
     @Override
     public IndividualRoutinePlanDTO entityToDto(IndividualRoutinePlan entity) {
-        return new IndividualRoutinePlanDTO(
+        IndividualRoutinePlanDTO routinePlan = new IndividualRoutinePlanDTO(
                 entity.getId(),
                 ProgramMapper.toURI(entity.getProgram(), environment),
                 RoutineMapper.toURI(entity.getRoutine(), environment),
                 entity.getStartTime(),
                 entity.getEndTime(),
+                "individual",
+                null,
                 entity.getDate()
         );
+        return routinePlan;
     }
 
     public static String toURI(IndividualRoutinePlan object, Environment environment) {

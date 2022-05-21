@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.service;
 
+import com.callumezmoney.timefit.dto.ExerciseDTO;
 import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.repository.ExercisesRepository;
 import lombok.AllArgsConstructor;
@@ -41,7 +42,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void editExercise(Exercise exercise, String username) {
+    public void editExercise(ExerciseDTO exercise, String username) {
         Optional<Exercise> oldExercise = exercisesRepository.findById(exercise.getId());
         if(oldExercise.isPresent() && Objects.equals(oldExercise.get().getUser().getUsername(), username)){
             Exercise editedExercise = oldExercise.get();
@@ -55,8 +56,6 @@ public class ExerciseServiceImpl implements ExerciseService {
             editedExercise.setExerciseSoundLocation(exercise.getExerciseSoundLocation());
             editedExercise.setBreakSoundLocation(exercise.getBreakSoundLocation());
             editedExercise.setCountdownSoundLocation(exercise.getCountdownSoundLocation());
-
-            exercisesRepository.save(editedExercise);
         }
     }
 

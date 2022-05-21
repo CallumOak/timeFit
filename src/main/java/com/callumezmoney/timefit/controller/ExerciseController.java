@@ -59,8 +59,7 @@ public class ExerciseController {
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void editExercise(@RequestBody ExerciseDTO newExerciseDto, Principal principal){
-        Exercise newExercise = exerciseMapper.dtoToEntity(newExerciseDto);
-        exercisesService.editExercise(newExercise, principal.getName());
+        exercisesService.editExercise(newExerciseDto, principal.getName());
     }
 
     @DeleteMapping("/{id}")

@@ -1,17 +1,22 @@
 package com.callumezmoney.timefit.service;
 
+import com.callumezmoney.timefit.dto.FrequencyRoutinePlanDTO;
+import com.callumezmoney.timefit.dto.IndividualRoutinePlanDTO;
+import com.callumezmoney.timefit.dto.WeeklyRoutinePlanDTO;
 import com.callumezmoney.timefit.model.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface RoutinePlanService {
-    List<RoutinePlan> getRoutines();
+    List<WeeklyRoutinePlan> getWeeklyRoutinePlans();
+    List<FrequencyRoutinePlan> getFrequencyRoutinePlans();
+    List<IndividualRoutinePlan> getIndividualRoutinePlans();
+    Optional<WeeklyRoutinePlan> getWeeklyRoutinePlan(Long id, String username);
 
-    Optional<RoutinePlan> getRoutinePlan(Long id);
+    Optional<FrequencyRoutinePlan> getFrequencyRoutinePlan(Long id, String username);
 
-    Optional<RoutinePlan> getRoutinePlan(Long id, String username);
+    Optional<IndividualRoutinePlan> getIndividualRoutinePlan(Long id, String username);
 
     WeeklyRoutinePlan getWeeklyRoutinePlan(Long id);
 
@@ -19,15 +24,17 @@ public interface RoutinePlanService {
 
     IndividualRoutinePlan getIndividualRoutinePlan(Long id);
 
-    void editRoutinePlan(RoutinePlan routinePlan, String username);
+    void editRoutinePlan(WeeklyRoutinePlanDTO routinePlan, String username);
 
-    Optional<RoutinePlan> createRoutinePlan(RoutinePlan routinePlan, String username);
+    void editRoutinePlan(FrequencyRoutinePlanDTO routinePlan, String username);
 
-    WeeklyRoutinePlan editWeeklyRoutinePlan(Integer weekDay, Routine routine);
+    void editRoutinePlan(IndividualRoutinePlanDTO routinePlan, String username);
 
-    FrequencyRoutinePlan editFrequencyRoutinePlan(Integer index);
+    Optional<WeeklyRoutinePlan> createRoutinePlan(WeeklyRoutinePlan routinePlan, String username);
 
-    IndividualRoutinePlan editIndividualRoutinePlan(Date date);
+    Optional<FrequencyRoutinePlan> createRoutinePlan(FrequencyRoutinePlan routinePlan, String username);
+
+    Optional<IndividualRoutinePlan> createRoutinePlan(IndividualRoutinePlan routinePlan, String username);
 
     void deleteRoutinePlan(Long id, String username);
 }

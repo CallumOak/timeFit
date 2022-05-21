@@ -19,5 +19,7 @@ public class RoutineDTO {
     Integer numberOfCycles;
     Color color;
     List<String> exercises;
-    List<String> routinePlans;
+    List<String> weeklyRoutinePlans;
+    List<String> FrequencyRoutinePlans;
+    List<String> IndividualRoutinePlans;
 }

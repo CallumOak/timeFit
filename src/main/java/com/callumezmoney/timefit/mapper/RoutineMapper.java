@@ -32,6 +32,8 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
                 dto.getColor(),
                 dto.getExercises().stream().map(exerciseMapper::fromURI)
                         .collect(Collectors.toList()),
+                new ArrayList(),
+                new ArrayList(),
                 new ArrayList()
             );
         routine.getExercises().forEach(e -> e.getRoutines().add(routine));
@@ -48,7 +50,9 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
                 entity.getColor(),
                 entity.getExercises().stream().map(e -> ExerciseMapper.toURI(e, environment))
                         .collect(Collectors.toList()),
-                entity.getRoutinePlans().stream().map(r -> RoutinePlanMapper.toURI(r, environment)).collect(Collectors.toList())
+                entity.getWeeklyRoutinePlans().stream().map(r -> WeeklyRoutinePlanMapper.toURI(r, environment)).collect(Collectors.toList()),
+                entity.getFrequencyRoutinePlans().stream().map(r -> FrequencyRoutinePlanMapper.toURI(r, environment)).collect(Collectors.toList()),
+                entity.getIndividualRoutinePlans().stream().map(r -> IndividualRoutinePlanMapper.toURI(r, environment)).collect(Collectors.toList())
         );
         return routine;
     }

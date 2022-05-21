@@ -1,11 +1,17 @@
 package com.callumezmoney.timefit.service;
 
-import com.callumezmoney.timefit.model.*;
+import com.callumezmoney.timefit.dto.FrequencyRoutinePlanDTO;
+import com.callumezmoney.timefit.dto.IndividualRoutinePlanDTO;
+import com.callumezmoney.timefit.dto.WeeklyRoutinePlanDTO;
+import com.callumezmoney.timefit.mapper.RoutineMapper;
+import com.callumezmoney.timefit.model.FrequencyRoutinePlan;
+import com.callumezmoney.timefit.model.IndividualRoutinePlan;
+import com.callumezmoney.timefit.model.WeeklyRoutinePlan;
 import com.callumezmoney.timefit.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,26 +19,45 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class RoutinePlanServiceImpl implements RoutinePlanService {
-    private final RoutinePlanRepository routinePlanRepository;
     private final WeeklyRoutinePlanRepository weeklyRoutinePlanRepository;
     private final FrequencyRoutinePlanRepository frequencyRoutinePlanRepository;
     private final IndividualRoutinePlanRepository individualRoutinePlanRepository;
-    private final UserService userService;
 
     @Override
-    public List<RoutinePlan> getRoutines() {
-        List<RoutinePlan> routines = routinePlanRepository.findAll();
+    public List<WeeklyRoutinePlan> getWeeklyRoutinePlans() {
+        List<WeeklyRoutinePlan> routines = weeklyRoutinePlanRepository.findAll();
         return routines;
     }
 
     @Override
-    public Optional<RoutinePlan> getRoutinePlan(Long id) {
-        return routinePlanRepository.findById(id);
+    public List<FrequencyRoutinePlan> getFrequencyRoutinePlans() {
+        List<FrequencyRoutinePlan> routines = frequencyRoutinePlanRepository.findAll();
+        return routines;
     }
 
     @Override
-    public Optional<RoutinePlan> getRoutinePlan(Long id, String username) {
-        Optional<RoutinePlan> routinePlan = routinePlanRepository.findById(id);
+    public List<IndividualRoutinePlan> getIndividualRoutinePlans() {
+        List<IndividualRoutinePlan> routines = individualRoutinePlanRepository.findAll();
+        return routines;
+    }
+
+    @Override
+    public Optional<WeeklyRoutinePlan> getWeeklyRoutinePlan(Long id, String username) {
+        Optional<WeeklyRoutinePlan> routinePlan = weeklyRoutinePlanRepository.findById(id);
+        return routinePlan.isPresent() && validateUser(routinePlan.get(), username) ?
+                routinePlan : Optional.empty();
+    }
+
+    @Override
+    public Optional<FrequencyRoutinePlan> getFrequencyRoutinePlan(Long id, String username) {
+        Optional<FrequencyRoutinePlan> routinePlan = frequencyRoutinePlanRepository.findById(id);
+        return routinePlan.isPresent() && validateUser(routinePlan.get(), username) ?
+                routinePlan : Optional.empty();
+    }
+
+    @Override
+    public Optional<IndividualRoutinePlan> getIndividualRoutinePlan(Long id, String username) {
+        Optional<IndividualRoutinePlan> routinePlan = individualRoutinePlanRepository.findById(id);
         return routinePlan.isPresent() && validateUser(routinePlan.get(), username) ?
                 routinePlan : Optional.empty();
     }
@@ -53,44 +78,86 @@ public class RoutinePlanServiceImpl implements RoutinePlanService {
     }
 
     @Override
-    public void editRoutinePlan(RoutinePlan routinePlan, String username) {
-        Optional<RoutinePlan> oldRoutinePlan = routinePlanRepository.findById(routinePlan.getId());
-        if(oldRoutinePlan.isPresent() && validateUser(oldRoutinePlan.get(), username)){
-            routinePlanRepository.save(routinePlan);
+    @Transactional
+    public void editRoutinePlan(WeeklyRoutinePlanDTO routinePlan, String username) {
+        Optional<WeeklyRoutinePlan> oldRoutinePlan = weeklyRoutinePlanRepository.findById(routinePlan.getId());
+        if(oldRoutinePlan.isPresent() & validateUser(oldRoutinePlan.get(), username)) {
+            WeeklyRoutinePlan updatedRoutinePlan = oldRoutinePlan.get();
+            updatedRoutinePlan.setStartTime(routinePlan.getStartTime());
+            updatedRoutinePlan.setEndTime(routinePlan.getEndTime());
+            updatedRoutinePlan.setWeekDay(routinePlan.getWeekDay());
         }
     }
 
     @Override
-    public Optional<RoutinePlan> createRoutinePlan(RoutinePlan routinePlan, String username) {
+    @Transactional
+    public void editRoutinePlan(FrequencyRoutinePlanDTO routinePlan, String username) {
+        Optional<FrequencyRoutinePlan> oldRoutinePlan = frequencyRoutinePlanRepository.findById(routinePlan.getId());
+        if(oldRoutinePlan.isPresent() && validateUser(oldRoutinePlan.get(), username)){
+            FrequencyRoutinePlan updatedRoutinePlan = oldRoutinePlan.get();
+            updatedRoutinePlan.setStartTime(routinePlan.getStartTime());
+            updatedRoutinePlan.setEndTime(routinePlan.getEndTime());
+        }
+    }
+
+    @Override
+    @Transactional
+    public void editRoutinePlan(IndividualRoutinePlanDTO routinePlan, String username) {
+        Optional<IndividualRoutinePlan> oldRoutinePlan = individualRoutinePlanRepository.findById(routinePlan.getId());
+        if(oldRoutinePlan.isPresent() && validateUser(oldRoutinePlan.get(), username)){
+            IndividualRoutinePlan updatedRoutinePlan = oldRoutinePlan.get();
+            updatedRoutinePlan.setStartTime(routinePlan.getStartTime());
+            updatedRoutinePlan.setEndTime(routinePlan.getEndTime());
+            updatedRoutinePlan.setDate(routinePlan.getDate());
+        }
+    }
+
+    @Override
+    public Optional<WeeklyRoutinePlan> createRoutinePlan(WeeklyRoutinePlan routinePlan, String username) {
         return Objects.equals(routinePlan.getProgram().getUser().getUsername(), username) ?
-                Optional.of(routinePlanRepository.save(routinePlan)) : Optional.empty();
+                Optional.of(weeklyRoutinePlanRepository.save(routinePlan)) : Optional.empty();
     }
 
     @Override
-    public WeeklyRoutinePlan editWeeklyRoutinePlan(Integer weekDay, Routine routine) {
-        return null;
+    public Optional<FrequencyRoutinePlan> createRoutinePlan(FrequencyRoutinePlan routinePlan, String username) {
+        return Objects.equals(routinePlan.getProgram().getUser().getUsername(), username) ?
+                Optional.of(frequencyRoutinePlanRepository.save(routinePlan)) : Optional.empty();
     }
 
     @Override
-    public FrequencyRoutinePlan editFrequencyRoutinePlan(Integer index) {
-        return null;
-    }
-
-    @Override
-    public IndividualRoutinePlan editIndividualRoutinePlan(Date date) {
-        return null;
+    public Optional<IndividualRoutinePlan> createRoutinePlan(IndividualRoutinePlan routinePlan, String username) {
+        return Objects.equals(routinePlan.getProgram().getUser().getUsername(), username) ?
+                Optional.of(individualRoutinePlanRepository.save(routinePlan)) : Optional.empty();
     }
 
     @Override
     public void deleteRoutinePlan(Long id, String username) {
-        Optional<RoutinePlan> routinePlan = routinePlanRepository.findById(id);
-        if(routinePlan.isPresent() &&
-                validateUser(routinePlan.get(), username)){
-            routinePlanRepository.deleteById(id);
+        Optional<WeeklyRoutinePlan> weeklyRoutinePlan = weeklyRoutinePlanRepository.findById(id);
+        Optional<FrequencyRoutinePlan> frequencyRoutinePlan = frequencyRoutinePlanRepository.findById(id);
+        Optional<IndividualRoutinePlan> individualRoutinePlan = individualRoutinePlanRepository.findById(id);
+        if(weeklyRoutinePlan.isPresent() &&
+                validateUser(weeklyRoutinePlan.get(), username)){
+            weeklyRoutinePlanRepository.deleteById(id);
+        }
+        if(frequencyRoutinePlan.isPresent() &&
+                validateUser(frequencyRoutinePlan.get(), username)){
+            frequencyRoutinePlanRepository.deleteById(id);
+        }
+        if(individualRoutinePlan.isPresent() &&
+                validateUser(individualRoutinePlan.get(), username)){
+            individualRoutinePlanRepository.deleteById(id);
         }
     }
 
-    private Boolean validateUser(RoutinePlan routinePlan, String username) {
+    private Boolean validateUser(WeeklyRoutinePlan routinePlan, String username) {
+        return Objects.equals(routinePlan.getProgram().getUser().getUsername(), username);
+    }
+
+    private Boolean validateUser(FrequencyRoutinePlan routinePlan, String username) {
+        return Objects.equals(routinePlan.getProgram().getUser().getUsername(), username);
+    }
+
+    private Boolean validateUser(IndividualRoutinePlan routinePlan, String username) {
         return Objects.equals(routinePlan.getProgram().getUser().getUsername(), username);
     }
 }

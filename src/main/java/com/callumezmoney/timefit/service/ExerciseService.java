@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.service;
 
+import com.callumezmoney.timefit.dto.ExerciseDTO;
 import com.callumezmoney.timefit.model.Exercise;
 
 import java.util.List;
@@ -11,6 +12,6 @@ public interface ExerciseService {
     Optional<Exercise> getExercise(Long id, String username);
     Optional<Exercise> getExercise(Long id);
     Optional<Exercise> addExercise(Exercise exercise, String username);
-    void editExercise(Exercise exercise, String username);
+    void editExercise(ExerciseDTO exercise, String username);
     void deleteExercise(Long id, String username);
 }

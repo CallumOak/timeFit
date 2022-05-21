@@ -38,6 +38,28 @@ public class Exercise {
     @ToString.Exclude
     private List<Routine> routines;
 
+    public void setUser(User user) {
+        if(user == this.user){
+            return;
+        }
+        if(this.user != null){
+            this.user.getExercises().remove(this);
+        }
+        if(!user.getExercises().contains(this)){
+            user.getExercises().add(this);
+        }
+        this.user = user;
+    }
+
+    public void setRoutines(List<Routine> routines) {
+        if(routines == this.routines){
+            return;
+        }
+        this.routines.forEach(r -> {if(!routines.contains(r))r.getExercises().remove(r);});
+        routines.forEach(r -> {if(routines.contains(r))r.getExercises().add(this);});
+        this.routines = routines;
+    }
+
     public void remove(){
         routines.forEach(routine -> routine.getExercises().remove(this));
         routines = new ArrayList();

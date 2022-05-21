@@ -1,5 +1,7 @@
 package com.callumezmoney.timefit.service;
 
+import com.callumezmoney.timefit.dto.ExerciseDTO;
+import com.callumezmoney.timefit.mapper.ExerciseMapper;
 import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.model.Role;
 import com.callumezmoney.timefit.model.User;
@@ -37,7 +39,8 @@ class ExerciseServiceImplTest {
     private User userLele;
     private List<Exercise> exerciseList;
     private Exercise exercise1WithoutId;
-    
+    private ExerciseMapper exerciseMapper;
+
     @BeforeEach
     public void setUp(){
         Role role = new Role(1L, RoleEnum.ROLE_USER);
@@ -148,7 +151,7 @@ class ExerciseServiceImplTest {
         doReturn(Optional.of(exerciseList.get(0))).when(exercisesRepository).findById(1L);
         doReturn(exerciseList.get(0)).when(exercisesRepository).save(exerciseList.get(0));
 
-        exerciseService.editExercise(exerciseList.get(0), CALLUM);
+        exerciseService.editExercise(exerciseMapper.entityToDto(exerciseList.get(0)), CALLUM);
 
         verify(exercisesRepository).findById(1L);
         verify(exercisesRepository).save(exerciseList.get(0));
