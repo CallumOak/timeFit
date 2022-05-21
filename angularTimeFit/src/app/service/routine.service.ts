@@ -3,6 +3,8 @@ import {BehaviorSubject, Observable, of} from "rxjs";
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Routine} from '../model/routine.model';
+import {Exercise} from "../model/exercise.model";
+import {ExerciseService} from "./exercise.service";
 
 const API = environment.apiEndpoint + 'routines/';
 
@@ -17,7 +19,8 @@ export class RoutineService {
   routines$ = this._routines.asObservable();
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private exerciseService: ExerciseService) {
+    this.updateData();
   }
 
   private getAvailableRoutines(): Observable<Routine[]>{
@@ -37,6 +40,22 @@ export class RoutineService {
     let routines: Routine[] = [];
     this._routineUrls.forEach(url => this.getRoutine(url).subscribe(r => routines.push(r)));
     return of(routines);
+  }
+
+  createRoutine(routine: Routine){
+    this.http.post<Routine>(API, routine).subscribe(r => {
+      routine = r;
+      this.updateData();
+      this.exerciseService.updateData();
+    });
+    return routine;
+  }
+
+  updateRoutine(routine: Routine){
+    this.http.put(API, routine).subscribe(r => {
+      this.updateData();
+      this.exerciseService.updateData();
+    });
   }
 
   removeRoutine(routine: Routine){

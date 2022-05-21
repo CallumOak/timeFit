@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, ReplaySubject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Program} from "../model/program.model";
 import {environment} from "../../environments/environment";
@@ -11,11 +11,11 @@ const API = environment.apiEndpoint + 'api/program/';
 })
 export class ProgramService {
 
-  private _program: BehaviorSubject<Program[]> = new BehaviorSubject<Program[]>([]);
+  private _program: ReplaySubject<Program> = new ReplaySubject<Program>();
   program$= this._program.asObservable();
 
   constructor(private http: HttpClient) {
-    this.getProgram().subscribe(p => this._program.next(p));
+    this.updateData();
   }
 
   getProgram(): Observable<Program[]>{
@@ -27,6 +27,6 @@ export class ProgramService {
   }
 
   updateData(){
-    this.getProgram().subscribe(p => this._program.next(p));
+    this.getProgram().subscribe(p => this._program.next(p[0]));
   }
 }

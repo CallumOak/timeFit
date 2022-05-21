@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {RoutinePlan} from "../model/routine-plan.model";
 import {BehaviorSubject, Observable, of, ReplaySubject} from "rxjs";
 import {environment} from "../../environments/environment";
@@ -9,7 +9,7 @@ import {Routine} from "../model/routine.model";
 import {WeeklyRoutinePlan} from "../model/weekly-routine-plan.model";
 import {FrequencyRoutinePlan} from "../model/frequency-routine-plan.model";
 import {IndividualRoutinePlan} from "../model/individual-routine-plan.model";
-import { ProgramService } from './program.service';
+import {ProgramService} from './program.service';
 
 const API = environment.apiEndpoint + 'api/routinePlan/';
 
@@ -46,10 +46,10 @@ export class RoutinePlanService {
   constructor(private http: HttpClient, private programService: ProgramService) {
     this.programService.program$.subscribe(p => {
       this.update = false;
-      this.weeklyRoutinePlanUrls = p[0].weeklyRoutinePlans;
-      this.frequencyRoutinePlanUrls = p[0].frequencyRoutinePlans;
+      this.weeklyRoutinePlanUrls = p.weeklyRoutinePlans;
+      this.frequencyRoutinePlanUrls = p.frequencyRoutinePlans;
       this.update = true;
-      this.individualRoutinePlanUrls = p[0].individualRoutinePlans;
+      this.individualRoutinePlanUrls = p.individualRoutinePlans;
     })
   }
 
@@ -103,23 +103,62 @@ export class RoutinePlanService {
       case RoutineTypeEnum.weekly:
         this.selectedWeeklyRoutine$.subscribe((routinePlan: RoutinePlan) => {
           routinePlan.routine = API + "routine/" + routine.id;
-          this.http.put(API, routinePlan);
+          this.http.put(API, routinePlan).subscribe(r => this.updateData());
         });
         break;
       case RoutineTypeEnum.frequency:
         this.selectedFrequencyRoutine$.subscribe((routinePlan: RoutinePlan) => {
           routinePlan.routine = API + "routine/" + routine.id;
-          this.http.put(API, routinePlan);
+          this.http.put(API, routinePlan).subscribe(r => this.updateData());
         });
         break;
       case RoutineTypeEnum.individual:
         this.selectedIndivRoutine$.subscribe((routinePlan: RoutinePlan) => {
           routinePlan.routine = API + "routine/" + routine.id;
-          this.http.put(API, routinePlan);
+          this.http.put(API, routinePlan).subscribe(r => this.updateData());
         });
         break;
     }
-    this.updateData();
+  }
+
+  createWeeklyRoutinePlan(routinePlan: WeeklyRoutinePlan){
+    this.http.post<WeeklyRoutinePlan>(API, routinePlan).subscribe(e => {
+      routinePlan = e;
+      this.updateData();
+    });
+    return routinePlan;
+  }
+
+  createFrequencyRoutinePlan(routinePlan: FrequencyRoutinePlan){
+    this.http.post<FrequencyRoutinePlan>(API, routinePlan).subscribe(e => {
+      routinePlan = e;
+      this.updateData();
+    });
+    return routinePlan;
+  }
+
+  createIndividualRoutinePlan(routinePlan: IndividualRoutinePlan){
+    this.http.post<IndividualRoutinePlan>(API, routinePlan).subscribe(e => {
+      routinePlan = e;
+      this.updateData();
+    });
+    return routinePlan;
+  }
+
+  updateWeeklyRoutinePlan(routinePlan: WeeklyRoutinePlan){
+    this.http.put(API, routinePlan).subscribe(e => this.updateData());
+  }
+
+  updateFrequencyRoutinePlan(routinePlan: FrequencyRoutinePlan){
+    this.http.put(API, routinePlan).subscribe(e => this.updateData());
+  }
+
+  updateIndividualRoutinePlan(routinePlan: IndividualRoutinePlan){
+    this.http.put(API, routinePlan).subscribe(e => this.updateData());
+  }
+
+  deleteRoutinePlan(routinePlan: RoutinePlan){
+    this.http.delete(API + routinePlan.id).subscribe(e => this.updateData());
   }
 
   public updateData() {
