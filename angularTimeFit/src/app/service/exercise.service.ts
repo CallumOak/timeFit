@@ -18,7 +18,7 @@ export class ExerciseService {
 
   openedExercises$ = this._openedExercisesSource.asObservable();
 
-  constructor(private routineService: RoutineService, private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getExercises(): Exercise[] {
     let exercises : Exercise[] = [];
@@ -43,7 +43,6 @@ export class ExerciseService {
     this.http.post<Exercise>(API, exercise).subscribe(e => {
       exercise = e;
       this.updateData();
-      this.routineService.updateData();
     });
     return exercise;
   }
@@ -51,7 +50,6 @@ export class ExerciseService {
   updateExercise(exercise: Exercise){
     this.http.put(API, exercise).subscribe(e => {
       this.updateData();
-      this.routineService.updateData();
     });
   }
 
