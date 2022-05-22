@@ -37,6 +37,7 @@ import {ProgramService} from "./service/program.service";
 import {RoutinePlanService} from "./service/routine-plan.service";
 import {RoutineService} from "./service/routine.service";
 import {ExerciseService} from "./service/exercise.service";
+import { RoutineCardComponent } from './component/program/routine-card/routine-card.component';
 
 FullCalendarModule.registerPlugins([
   interactionPlugin,
@@ -65,7 +66,8 @@ FullCalendarModule.registerPlugins([
     WeeklyProgramComponent,
     FrequencyProgramComponent,
     RoutineVisualizerComponent,
-    DialogExerciseSelectComponent
+    DialogExerciseSelectComponent,
+    RoutineCardComponent
   ],
   imports: [
     BrowserModule,

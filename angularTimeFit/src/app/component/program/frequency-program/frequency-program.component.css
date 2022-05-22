@@ -1,0 +1,21 @@
+.fp-choices {
+  margin: 2rem;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.fp ul {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin: 0.1rem;
+}
+
+.fp {
+  background: white;
+  border-bottom: ridge;
+  border-right: ridge;
+  border-left: ridge;
+}

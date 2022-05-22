@@ -7,6 +7,7 @@ import {Program} from "../../../model/program.model";
 import {ProgramService} from "../../../service/program.service";
 import {RoutinePlanService} from "../../../service/routine-plan.service";
 import {WeeklyRoutinePlan} from "../../../model/weekly-routine-plan.model";
+import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 
 const ROUTINE_TYPE = RoutineTypeEnum.weekly
 const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -20,16 +21,27 @@ export class WeeklyProgramComponent implements OnInit {
   program!: Program;
   routineType = ROUTINE_TYPE;
   routinePlans!: WeeklyRoutinePlan[];
+  emptyRoutine = new Routine();
   tmpRoutines : Routine[] = [];
-  routines: (Routine)[] = [new Routine(),new Routine(),new Routine(),new Routine(),new Routine(),new Routine(),new Routine()];
+  modalOptions: NgbModalOptions;
+  tmpSelectedRoutine!: Routine;
+  selectedRoutine!: Routine;
+  closeResult!: string;
+  routines: (Routine)[] = [this.emptyRoutine, this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine];
   //subscription!: Subscription;
   weekDays: string[] = WEEK_DAYS;
   private _selectedWeekDay = 0;
 
   constructor(private routinePlanService: RoutinePlanService,
+              private modalService: NgbModal,
               public routineService: RoutineService,
               private navbarService: NavbarService,
               private programService: ProgramService) {
+
+    this.modalOptions = {
+      backdrop: 'static',
+      backdropClass: 'customBackdrop'
+    }
 
     this.programService.program$.subscribe(program => {
       this.program = program;
@@ -45,7 +57,7 @@ export class WeeklyProgramComponent implements OnInit {
 
     this.routineService.availableRoutines$.subscribe(rs => {
       this.tmpRoutines = rs;
-      this.routines = [new Routine(), new Routine(), new Routine(), new Routine(), new Routine(), new Routine(), new Routine()];
+      this.routines = [this.emptyRoutine, this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine];
       this.orderRoutines();
     })
 
@@ -61,7 +73,6 @@ export class WeeklyProgramComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.programService.updateData()
   }
 
 
@@ -75,6 +86,35 @@ export class WeeklyProgramComponent implements OnInit {
       if(this.routines[this.selectedWeekDay] != null){
         this.routineService.removeRoutine(this.routines[this.selectedWeekDay] as Routine);
       }
+  }
+
+  open(content: any) {
+    this.modalService.open(content, this.modalOptions).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`
+      this.selectedRoutine = this.tmpSelectedRoutine
+      //this.routines.push(this.selectedRoutine)
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
+      //this.tmpSelectedRoutine = ;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+  tmpSelect(selectedRoutine: Routine) {
+    this.tmpSelectedRoutine = selectedRoutine
+  }
+
+  select(selectedRoutine: Routine) {
+    this.selectedRoutine = selectedRoutine
   }
 
   orderRoutines(){

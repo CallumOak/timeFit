@@ -1,35 +1,41 @@
-<div class="row">
-  <div class="col-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th *ngFor="let day of weekDays; let i = index;" class="weekdayHeader">
-            {{day}}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td *ngFor="let routine of routines; let i = index;">
-          <button class="btn bg-light" [class.focus]="selectedWeekDay == i" [class.fa]="routine == null" [class.fa-plus]="routine == null" (click)="selectedWeekDay = i">
-            {{routine.name}}
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="wp">
+  <ul>
+    <li *ngFor="let day of weekDays; let i = index;" class="weekdayHeader" (mouseenter)="selectedWeekDay = i">
+      <div class="scrolling-wrapper-flexbox">
+        <div class="card">
+          <div class="card-header">
+            <small class="text-muted" >{{day}}</small>
+          </div>
+          <div *ngIf="routines[i] != emptyRoutine">
+            <app-routine-card (remove)="removeRoutine()" [id]="routines[i].id" [present]="routines[i] != emptyRoutine" [title]="routines[i].name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" >
+            </app-routine-card>
+          </div>
+          <div *ngIf="routines[i] == emptyRoutine" >
+            <app-routine-card (add)="open(mymodal)" [present]="routines[i] != emptyRoutine" [image]="'https://previews.123rf.com/images/discovod/discovod1208/discovod120800087/15210867-%EB%B8%94%EB%A3%A8-%EC%85%94%EC%B8%A0%EC%97%90-%ED%96%89%EB%B3%B5-%EB%9A%B1%EB%9A%B1%ED%95%9C-%EC%82%AC%EB%9E%8C-%EA%B3%A0%EB%A6%BD-%EB%90%9C.jpg'" >
+            </app-routine-card>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
-<div class="row">
-  <div class="col-9">
-    <app-routine-visualizer [routineType]="routineType" [routineService]="routineService"></app-routine-visualizer>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    Select routine
   </div>
-  <div class="col-3">
-    <div class="row m-2">
-      <a [routerLink]="['/addEditRoutine', routineType]" routerLinkActive="active" class="btn btn-primary">Edit</a>
-    </div>
-    <div class="row m-2">
-      <button class="btn btn-primary fa fa-trash" (click)="removeRoutine()"></button>
-    </div>
+
+  <div class="modal-content">
+    <ul>
+      <li *ngFor="let tmpRoutine of tmpRoutines" (click)="tmpSelect(tmpRoutine)">
+        <button class="btn">{{tmpRoutine.name}}</button>
+      </li>
+    </ul>
   </div>
-</div>
+  <div class="modal-footer">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>

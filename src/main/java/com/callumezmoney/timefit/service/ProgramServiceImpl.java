@@ -46,6 +46,8 @@ public class ProgramServiceImpl implements ProgramService {
     public void editProgram(ProgramDTO program, String username) {
         Optional<Program> oldProgram = programRepository.findById(program.getId());
         if(oldProgram.isPresent() && Objects.equals(oldProgram.get().getUser().getUsername(), username)){
+            Program updatedProgram = oldProgram.get();
+            updatedProgram.setName(program.getName());
         }
     }
 

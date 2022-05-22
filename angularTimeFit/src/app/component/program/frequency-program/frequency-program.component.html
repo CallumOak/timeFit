@@ -1,38 +1,27 @@
-<div class="row">
-  <div class="col-9">
-    <table class="table">
-      <thead>
-      <tr>
-        <th *ngFor="let item of routines; let i = index;" class="weekdayHeader">
-          #{{i + 1}}
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td *ngFor="let routine of routines; let i = index;">
-          <button class="btn bg-light" [class.focus]="selectedIndex == i"  [class.fa]="canAddRoutine(i)" [class.fa-plus]="canAddRoutine(i)" [class.disabled]="!canAddRoutine(i) && routine == null" (click)="selectedIndex = i">
-            {{routine}}
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="col-3">
+<div class="fp">
+  <ul>
+    <div class="scrolling-wrapper-flexbox">
+      <li *ngFor="let item of routines; let i = index;" class="weekdayHeader">
+        <app-routine-card (remove)="removeRoutine()" [id]="routines[i].id" [title]="item.name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" ></app-routine-card>
+      </li>
+      <li>
+        <button class="btn bg-light fa fa-plus"> </button>
+      </li>
+    </div>
+  </ul>
+  <div class="fp-choices">
     <div class="row">
-      <div class="col-5">
-        <label>starts on </label>
+      <div class="col-6 col-sm-1">
+        <label>start on </label>
       </div>
-      <div class="col-7">
+      <div class="col-6 col-sm-1">
         <input type="date">
       </div>
-    </div>
-    <div class="row">
-      <div class="col-5">
-        <label>workout every </label>
+      <div class="w-100"></div>
+      <div class="col-6 col-sm-1">
+        <label>repeat </label>
       </div>
-      <div class="col-4">
+      <div class="col-6 col-sm-1">
         <select style="width: 65px" class="form-select" aria-label="Default select example">
           <option selected> </option>
           <option value="1">1</option>
@@ -40,22 +29,11 @@
           <option value="3">3</option>
         </select>
       </div>
-      <div class="col-3">
+      <div class="col-6 col-sm-1">
         <span>day(s)</span>
       </div>
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-9">
-    <app-routine-visualizer [routineType]="routineType" [routineService]="routineService"></app-routine-visualizer>
-  </div>
-  <div class="col-3">
-    <div class="row m-2">
-      <a [href]="'/addEditRoutine/' + routineType" class="btn btn-primary">Edit</a>
-    </div>
-    <div class="row m-2">
-      <button class="btn btn-primary fa fa-trash" (click)="removeRoutine()"></button>
-    </div>
-  </div>
-</div>
+
+

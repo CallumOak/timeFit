@@ -15,3 +15,16 @@
   font-weight: bold;
   border-color: lightgray;
 }
+
+.editable{
+  border:none;
+  outline:none;
+  background:transparent;
+  width: 100%;
+  text-align: center;
+}
+
+li {
+  list-style-type: none;
+}
+

@@ -1,48 +1,15 @@
-<div class="container">
-  <div class="jumbotron row justify-content-center">
-    <div class="row w-100">
-      <h1>{{program.name}}</h1>
-      <input type="text" [attr.value]="program.name" (keydown.enter)="updateProgram($event)">
-      <nav class="navbar navbar-light bg-light col-2">
-        <ul class="navbar-nav mr-auto" routerLinkActive="active" style="width: 100%; height: 100%;">
-          <li class="nav-item">
-            <a  href="/weeklyProgram" class="nav-link bg-light" routerLink="weeklyProgram" [class.active]="this.router.url.includes('weekly')">
-              <span class="m-5">Weekly</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a  href="/frequencyProgram" class="nav-link bg-light" routerLink="frequencyProgram" [class.active]="this.router.url.includes('frequency')">
-              <span class="m-5">
-                Frequency
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="container bg-white col-10">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-    <!--div class="row mt-5 w-100 pt-3 pb-3 bg-white ">
-      <div class="col-9">
-        <app-routine-visualizer class="selectableRoutine" [routineType]="this.routineType" [routineService]="routineService"></app-routine-visualizer>
-      </div>
-      <div class="col-3">
-        <div class="row m-2">
-          <div class="col-5">
-            <label>Occurs on </label>
-          </div>
-          <div class="col-7">
-            <input type="date">
-          </div>
-        </div>
-        <div class="row m-2">
-          <a [href]="'/addEditRoutine/' + routineType" class="btn btn-primary">Edit</a>
-        </div>
-        <div class="row m-2">
-          <button class="btn btn-primary fa fa-trash" (click)="removeRoutine()"></button>
-        </div>
-      </div>
-    </div-->
-  </div>
+<div class="jumbotron row">
+  <h1><input type="text" [attr.value]="program.name" (keydown.enter)="updateProgram($event)" class="editable"></h1>
+  <li class="container">
+    <ul class="nav nav-tabs" id="myTab">
+      <li class="nav-item" role="presentation">
+        <a href="/weeklyProgram" routerLink="weeklyProgram" [class.active]="this.router.url.includes('weekly')" class="nav-link" tabindex="-1" role="button" aria-disabled="true">Weekly program</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a href="/frequencyProgram" routerLink="frequencyProgram" [class.active]="this.router.url.includes('frequency')" class="nav-link" tabindex="-1" role="button" aria-disabled="true">Frequency program</a>
+      </li>
+    </ul>
+  </li>
+  <router-outlet></router-outlet>
 </div>
+
