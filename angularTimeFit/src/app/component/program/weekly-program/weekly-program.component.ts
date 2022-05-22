@@ -84,7 +84,12 @@ export class WeeklyProgramComponent implements OnInit {
 
   removeRoutine() {
       if(this.routines[this.selectedWeekDay] != null){
-        this.routineService.removeRoutine(this.routines[this.selectedWeekDay] as Routine);
+
+        this.routinePlanService.deleteRoutinePlan(this.routinePlans[
+          this.routinePlans.findIndex(
+            rp => rp.routine.endsWith(this.routines[this.selectedWeekDay].id
+            ))
+          ].id);
       }
   }
 

@@ -2,18 +2,16 @@
   <ul>
     <li *ngFor="let day of weekDays; let i = index;" class="weekdayHeader" (mouseenter)="selectedWeekDay = i">
       <div class="scrolling-wrapper-flexbox">
-        <div class="card">
-          <div class="card-header">
-            <small class="text-muted" >{{day}}</small>
-          </div>
-          <div *ngIf="routines[i] != emptyRoutine">
-            <app-routine-card (remove)="removeRoutine()" [id]="routines[i].id" [present]="routines[i] != emptyRoutine" [title]="routines[i].name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" >
-            </app-routine-card>
-          </div>
-          <div *ngIf="routines[i] == emptyRoutine" >
-            <app-routine-card (add)="open(mymodal)" [present]="routines[i] != emptyRoutine" [image]="'https://previews.123rf.com/images/discovod/discovod1208/discovod120800087/15210867-%EB%B8%94%EB%A3%A8-%EC%85%94%EC%B8%A0%EC%97%90-%ED%96%89%EB%B3%B5-%EB%9A%B1%EB%9A%B1%ED%95%9C-%EC%82%AC%EB%9E%8C-%EA%B3%A0%EB%A6%BD-%EB%90%9C.jpg'" >
-            </app-routine-card>
-          </div>
+        <div class="card-header">
+          <small class="text-muted" >{{day}}</small>
+        </div>
+        <div *ngIf="routines[i] != emptyRoutine">
+          <app-routine-card (remove)="removeRoutine()" [id]="routines[i].id" [present]="routines[i] != emptyRoutine" [title]="routines[i].name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" >
+          </app-routine-card>
+        </div>
+        <div *ngIf="routines[i] == emptyRoutine" >
+          <app-routine-card (add)="open(mymodal)" [present]="routines[i] != emptyRoutine" [image]="'https://previews.123rf.com/images/discovod/discovod1208/discovod120800087/15210867-%EB%B8%94%EB%A3%A8-%EC%85%94%EC%B8%A0%EC%97%90-%ED%96%89%EB%B3%B5-%EB%9A%B1%EB%9A%B1%ED%95%9C-%EC%82%AC%EB%9E%8C-%EA%B3%A0%EB%A6%BD-%EB%90%9C.jpg'" >
+          </app-routine-card>
         </div>
       </div>
     </li>

@@ -1,22 +1,26 @@
-<img
+
+<div class="card">
+  <img
   src={{image}}
   class="card-img-top"
   alt="..."
   height="175px"
-/>
-<h5 class="card-title"> {{title}} </h5>
-<div class="card-body">
-  <!--p class="card-text">
-    This is a wider card
-  </p-->
-</div>
+  />
+  <h5 class="card-title"> {{title}} </h5>
+  <div class="card-body">
+    <!--p class="card-text">
+      This is a wider card
+    </p-->
+  </div>
 
 
-<div class="card-footer">
-  <button *ngIf="!present" class="btn bg-light fa fa-plus" [disabled]="present" [class.fa]="!present" [class.fa-plus]="!present" (click)="add.emit()">
-  </button>
-  <button *ngIf="present" class="btn bg-light fa fa-edit" [disabled]="!present" [class.fa]="present" [class.fa-edit]="present" [routerLink]="['/addEditRoutine/', id]" routerLinkActive="active" >
-  </button>
-  <button *ngIf="present" class="btn bg-light fa fa-trash" [disabled]="!present" [class.fa]="present" [class.fa-trash]="present" (click)="remove.emit()">
-  </button>
+  <div class="card-footer">
+    <button *ngIf="!present" class="btn bg-light fa fa-plus" [disabled]="present" [class.fa]="!present" [class.fa-plus]="!present" (click)="add.emit()">
+    </button>
+    <button *ngIf="present" class="btn bg-light fa fa-edit" [disabled]="!present" [class.fa]="present" [class.fa-edit]="present" [routerLink]="['/addEditRoutine/', id]" routerLinkActive="active" >
+    </button>
+    <button *ngIf="present" class="btn bg-light fa fa-trash" [disabled]="!present" [class.fa]="present" [class.fa-trash]="present" (click)="remove.emit()">
+    </button>
+  </div>
+
 </div>

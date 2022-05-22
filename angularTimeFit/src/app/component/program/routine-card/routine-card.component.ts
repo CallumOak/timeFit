@@ -20,10 +20,10 @@ export class RoutineCardComponent implements OnInit {
   id!: string;
 
   @Output()
-  add = new EventEmitter<string>();
+  add: EventEmitter<string> = new EventEmitter();
 
   @Output()
-  remove = new EventEmitter<string>();
+  remove: EventEmitter<string> = new EventEmitter();
 
   constructor() { }
 

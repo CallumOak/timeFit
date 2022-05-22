@@ -36,10 +36,10 @@ export class RoutineService {
     return this.http.get<Routine>(environment.apiEndpoint + url);
   }
 
-  getRoutines(): Observable<Routine[]> {
+  getRoutines(){
     let routines: Routine[] = [];
     this._routineUrls.forEach(url => this.getRoutine(url).subscribe(r => routines.push(r)));
-    return of(routines);
+    this._routines.next(routines);
   }
 
   createRoutine(routine: Routine){
@@ -63,8 +63,10 @@ export class RoutineService {
   }
 
   updateData(){
-    this.getRoutines().subscribe(r => this._routines.next(r));
-    this.getAvailableRoutines().subscribe(r => this._availableRoutines.next(r));
+    this.getAvailableRoutines().subscribe(r => {
+      this._availableRoutines.next(r);
+      this.getRoutines();
+    });
   }
 
   set routineUrls(value: string[]) {

@@ -131,18 +131,23 @@ export class RoutinePlanService {
 
   updateWeeklyRoutinePlan(routinePlan: WeeklyRoutinePlan){
     this.http.put(API, routinePlan).subscribe(e => this.updateData());
+    this.updateData();
   }
 
   updateFrequencyRoutinePlan(routinePlan: FrequencyRoutinePlan){
     this.http.put(API, routinePlan).subscribe(e => this.updateData());
+    this.updateData();
   }
 
   updateIndividualRoutinePlan(routinePlan: IndividualRoutinePlan){
     this.http.put(API, routinePlan).subscribe(e => this.updateData());
+    this.updateData();
   }
 
-  deleteRoutinePlan(routinePlan: RoutinePlan){
-    this.http.delete(API + routinePlan.id).subscribe(e => this.updateData());
+  deleteRoutinePlan(id: string){
+    this.http.delete(API + id).subscribe(e => {
+      this.updateData();
+    });
   }
 
   public updateData() {

@@ -54,7 +54,6 @@ export class FrequencyProgramComponent implements OnInit {
 
     this.routineService.availableRoutines$.subscribe(rs => {
       this.tmpRoutines = rs;
-      this.routines = [this.emptyRoutine, this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine];
       this.orderRoutines();
     })
   }
@@ -75,8 +74,9 @@ export class FrequencyProgramComponent implements OnInit {
     return i < this.routines.length && this.routines[i] == null && (i == 0 || this.routines[i - 1] != null);
   }
 
-  removeRoutine() {
-    this.routinePlanService.setRoutine(this.routineType, this.routines[this.selectedIndex])
+  removeRoutine(id: string) {
+    let routinePlanIndex = this.routinePlans.findIndex(rp => rp.routine.endsWith(id))
+    this.routinePlanService.deleteRoutinePlan(this.routinePlans[routinePlanIndex].id);
   }
 
 
@@ -87,7 +87,7 @@ export class FrequencyProgramComponent implements OnInit {
   }
 
   orderRoutines(){
-    this.routines = new Array<Routine>(this.tmpRoutines.length)
+    this.routines = new Array<Routine>(this.routinePlans.length)
     this.tmpRoutines.forEach((r : Routine) => {
       let rpIndex = this.routinePlans.findIndex(rp => rp.routine.endsWith(r.id.toString()))
       if (rpIndex > -1){

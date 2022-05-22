@@ -1,13 +1,13 @@
 <div class="fp">
   <ul>
-    <div class="scrolling-wrapper-flexbox">
-      <li *ngFor="let item of routines; let i = index;" class="weekdayHeader">
-        <app-routine-card (remove)="removeRoutine()" [id]="routines[i].id" [title]="item.name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" ></app-routine-card>
-      </li>
-      <li>
-        <button class="btn bg-light fa fa-plus"> </button>
-      </li>
-    </div>
+    <li *ngFor="let item of routines; let i = index;" class="weekdayHeader">
+      <div class="scrolling-wrapper-flexbox">
+        <app-routine-card (remove)="removeRoutine(item.id)" [id]="item.id" [title]="item.name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" ></app-routine-card>
+      </div>
+    </li>
+    <li class="btnplus">
+      <button class="btn bg-light fa fa-plus"> </button>
+    </li>
   </ul>
   <div class="fp-choices">
     <div class="row">
@@ -35,5 +35,3 @@
     </div>
   </div>
 </div>
-
-

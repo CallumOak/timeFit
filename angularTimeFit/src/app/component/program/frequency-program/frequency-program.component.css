@@ -19,3 +19,13 @@ ul {
   border-right: ridge;
   border-left: ridge;
 }
+
+.btnplus {
+  align-self: center;
+  margin: 2rem;
+}
+
+.active{
+  font-weight: bold;
+  border-color: lightgray;
+}
