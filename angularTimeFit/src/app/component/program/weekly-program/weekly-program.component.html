@@ -12,7 +12,7 @@
       <tr>
         <td *ngFor="let routine of routines; let i = index;">
           <button class="btn bg-light" [class.focus]="selectedWeekDay == i" [class.fa]="routine == null" [class.fa-plus]="routine == null" (click)="selectedWeekDay = i">
-            {{routine}}
+            {{routine.name}}
           </button>
         </td>
       </tr>
