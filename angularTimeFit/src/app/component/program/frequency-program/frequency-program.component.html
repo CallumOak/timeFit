@@ -6,7 +6,7 @@
       </div>
     </li>
     <li class="btnplus">
-      <button class="btn bg-light fa fa-plus"> </button>
+      <button class="btn bg-light fa fa-plus" (click)="open(mymodal)"> </button>
     </li>
   </ul>
   <div class="fp-choices">
@@ -35,3 +35,23 @@
     </div>
   </div>
 </div>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    Select routine
+  </div>
+
+  <div class="modal-content">
+    <ul>
+      <li *ngFor="let tmpRoutine of tmpRoutines" (click)="tmpSelect(tmpRoutine)">
+        <button class="btn">{{tmpRoutine.name}}</button>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>

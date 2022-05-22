@@ -95,13 +95,12 @@ export class WeeklyProgramComponent implements OnInit {
       this.selectedRoutine = this.tmpSelectedRoutine
       let routinePlan = new WeeklyRoutinePlan();
       routinePlan.routine = '/api/routine/' + this.selectedRoutine.id;
-      routinePlan.type = "weekly";
       routinePlan.program = '/api/program/' + this.program.id;
       routinePlan.weekDay = this.selectedWeekDay;
       this.routinePlanService.createWeeklyRoutinePlan(routinePlan)
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
-      //this.tmpSelectedRoutine = ;
+      this.tmpSelectedRoutine = this.emptyRoutine;
     });
   }
 

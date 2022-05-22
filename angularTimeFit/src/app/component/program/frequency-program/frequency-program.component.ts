@@ -5,9 +5,10 @@ import {Routine} from "../../../model/routine.model";
 import {RoutinePlanService} from "../../../service/routine-plan.service";
 import {FrequencyRoutinePlan} from "../../../model/frequency-routine-plan.model";
 import {Program} from "../../../model/program.model";
-import {NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
+import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {NavbarService} from "../../../service/navbar.service";
 import {ProgramService} from "../../../service/program.service";
+import {WeeklyRoutinePlan} from "../../../model/weekly-routine-plan.model";
 
 const ROUTINE_TYPE = RoutineTypeEnum.frequency
 
@@ -88,12 +89,47 @@ export class FrequencyProgramComponent implements OnInit {
 
   orderRoutines(){
     this.routines = new Array<Routine>(this.routinePlans.length)
-    this.tmpRoutines.forEach((r : Routine) => {
-      let rpIndex = this.routinePlans.findIndex(rp => rp.routine.endsWith(r.id.toString()))
-      if (rpIndex > -1){
-        //let index = this.routinePlans[].index
-        this.routines[rpIndex] = r;
+    let i = 0;
+    this.routinePlans.forEach((rp : FrequencyRoutinePlan) => {
+      let id = rp.routine.split("/")[rp.routine.split("/").length - 1]
+      let index = this.tmpRoutines.findIndex(r => r.id == id)
+      if (index > -1){
+        this.routines[i] = this.tmpRoutines[index];
+        i = i + 1;
       }
     })
+  }
+
+  open(content: any) {
+    this.modalService.open(content, this.modalOptions).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`
+      this.selectedRoutine = this.tmpSelectedRoutine
+      let routinePlan = new FrequencyRoutinePlan();
+      routinePlan.routine = '/api/routine/' + this.selectedRoutine.id;
+      routinePlan.program = '/api/program/' + this.program.id;
+      routinePlan.index = this.routines.length;
+      this.routinePlanService.createFrequencyRoutinePlan(routinePlan);
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
+      this.tmpSelectedRoutine = this.emptyRoutine;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+  tmpSelect(selectedRoutine: Routine) {
+    this.tmpSelectedRoutine = selectedRoutine
+  }
+
+  select(selectedRoutine: Routine) {
+    this.selectedRoutine = selectedRoutine
   }
 }
