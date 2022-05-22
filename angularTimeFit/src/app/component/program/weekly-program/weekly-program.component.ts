@@ -82,22 +82,23 @@ export class WeeklyProgramComponent implements OnInit {
       return urls;
   }
 
-  removeRoutine() {
-      if(this.routines[this.selectedWeekDay] != null){
-
-        this.routinePlanService.deleteRoutinePlan(this.routinePlans[
-          this.routinePlans.findIndex(
-            rp => rp.routine.endsWith(this.routines[this.selectedWeekDay].id
-            ))
-          ].id);
-      }
+  removeRoutine(i: number) {
+      this.routinePlanService.deleteRoutinePlan(this.routinePlans[
+        this.routinePlans.findIndex(
+          rp => rp.weekDay == i)
+        ].id);
   }
 
   open(content: any) {
     this.modalService.open(content, this.modalOptions).result.then((result) => {
       this.closeResult = `Closed with: ${result}`
       this.selectedRoutine = this.tmpSelectedRoutine
-      //this.routines.push(this.selectedRoutine)
+      let routinePlan = new WeeklyRoutinePlan();
+      routinePlan.routine = '/api/routine/' + this.selectedRoutine.id;
+      routinePlan.type = "weekly";
+      routinePlan.program = '/api/program/' + this.program.id;
+      routinePlan.weekDay = this.selectedWeekDay;
+      this.routinePlanService.createWeeklyRoutinePlan(routinePlan)
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
       //this.tmpSelectedRoutine = ;
@@ -123,11 +124,11 @@ export class WeeklyProgramComponent implements OnInit {
   }
 
   orderRoutines(){
-    this.tmpRoutines.forEach((r : Routine) => {
-      let index = this.routinePlans.findIndex(rp => rp.routine.endsWith(r.id.toString()))
+    this.routinePlans.forEach((rp : WeeklyRoutinePlan) => {
+      let id = rp.routine.split("/")[rp.routine.split("/").length - 1]
+      let index = this.tmpRoutines.findIndex(r => r.id == id)
       if (index > -1){
-        let day = this.routinePlans[index].weekDay
-        this.routines[day] = r;
+        this.routines[rp.weekDay] = this.tmpRoutines[index];
       }
     })
   }
