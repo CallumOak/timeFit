@@ -12,7 +12,6 @@ const NAV_PATH = "addEditExercise"
   styleUrls: ['./add-edit-exercise.component.css']
 })
 export class AddEditExerciseComponent implements OnInit {
-
   selectedExercise: Exercise = new Exercise();
   private navBarItemIndex: number;
 
@@ -24,8 +23,12 @@ export class AddEditExerciseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedExercise = this.exerciseService.getExercise(this.activatedRoute.snapshot.params['id']);
-    this.navbarService.editItem(this.navBarItemIndex, this.selectedExercise.name, `${NAV_PATH}/${this.selectedExercise.id}`)
+    this.exerciseService.updateData();
+    this.exerciseService.getExerciseById(this.activatedRoute.snapshot.params['id']).subscribe(e => {
+      this.selectedExercise = e;
+      this.navbarService.editItem(this.navBarItemIndex, this.selectedExercise.name, `${NAV_PATH}/${this.selectedExercise.id}`);
+    });
+    ;
   }
 
 }
