@@ -6,7 +6,7 @@ import {Routine} from '../model/routine.model';
 import {Exercise} from "../model/exercise.model";
 import {ExerciseService} from "./exercise.service";
 
-const API = environment.apiEndpoint + 'routines/';
+const API = environment.apiEndpoint + '/api/routine/';
 
 @Injectable({
   providedIn: 'root'

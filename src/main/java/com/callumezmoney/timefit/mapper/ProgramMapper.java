@@ -30,11 +30,11 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
                 dto.getName(),
                 dto.getProgramSetting(),
                 dto.getFrequency(),
-                dto.getWeeklyRoutines().stream().map(weeklyRoutinePlanMapper::fromURI)
+                dto.getWeeklyRoutinePlans().stream().map(weeklyRoutinePlanMapper::fromURI)
                         .collect(Collectors.toList()),
-                dto.getFrequencyRoutines().stream().map(frequencyRoutinePlanMapper::fromURI)
+                dto.getFrequencyRoutinePlans().stream().map(frequencyRoutinePlanMapper::fromURI)
                         .collect(Collectors.toList()),
-                dto.getIndividualRoutines().stream().map(individualRoutinePlanMapper::fromURI)
+                dto.getIndividualRoutinePlans().stream().map(individualRoutinePlanMapper::fromURI)
                         .collect(Collectors.toList()),
                 null
         );

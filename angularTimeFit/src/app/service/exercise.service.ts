@@ -5,7 +5,7 @@ import {RoutineService} from "./routine.service";
 import { environment } from '../../environments/environment';
 import {HttpClient} from "@angular/common/http";
 
-const API = environment.apiEndpoint + 'api/exercises/';
+const API = environment.apiEndpoint + '/api/exercises/';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,6 @@
 package com.callumezmoney.timefit.mapper;
 
 import com.callumezmoney.timefit.dto.FrequencyRoutinePlanDTO;
-import com.callumezmoney.timefit.dto.RoutinePlanDTO;
 import com.callumezmoney.timefit.model.FrequencyRoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
 import lombok.AllArgsConstructor;
@@ -49,11 +48,11 @@ public class FrequencyRoutinePlanMapper  implements WebMapper<FrequencyRoutinePl
     }
 
     public static String toURI(FrequencyRoutinePlan object, Environment environment) {
-        return environment.getProperty("callumezmoney.app.webapiprefix.routineplan") + "/" + object.getId();
+        return environment.getProperty("callumezmoney.app.webapiprefix.frequencyroutineplan") + "/" + object.getId();
     }
 
     @Override
     public FrequencyRoutinePlan fromURI(String uri) {
-        return routinePlanService.getFrequencyRoutinePlan(getIdFromURI(uri, environment, "routineplan"));
+        return routinePlanService.getFrequencyRoutinePlan(getIdFromURI(uri, environment, "frequencyroutineplan"));
     }
 }

@@ -1,12 +1,10 @@
 package com.callumezmoney.timefit.mapper;
 
-import com.callumezmoney.timefit.dto.RoutinePlanDTO;
 import com.callumezmoney.timefit.dto.WeeklyRoutinePlanDTO;
 import com.callumezmoney.timefit.model.WeeklyRoutinePlan;
 import com.callumezmoney.timefit.service.RoutinePlanService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -51,11 +49,11 @@ public class WeeklyRoutinePlanMapper implements WebMapper<WeeklyRoutinePlan, Wee
     }
 
     public static String toURI(WeeklyRoutinePlan object, Environment environment) {
-        return environment.getProperty("callumezmoney.app.webapiprefix.routineplan") + "/" + object.getId();
+        return environment.getProperty("callumezmoney.app.webapiprefix.weeklyroutineplan") + "/" + object.getId();
     }
 
     @Override
     public WeeklyRoutinePlan fromURI(String uri) {
-        return routinePlanService.getWeeklyRoutinePlan(getIdFromURI(uri, environment, "routineplan"));
+        return routinePlanService.getWeeklyRoutinePlan(getIdFromURI(uri, environment, "weeklyroutineplan"));
     }
 }

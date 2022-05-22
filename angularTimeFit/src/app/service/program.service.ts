@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Program} from "../model/program.model";
 import {environment} from "../../environments/environment";
 
-const API = environment.apiEndpoint + 'api/program/';
+const API = environment.apiEndpoint + '/api/program/';
 
 @Injectable({
   providedIn: 'root'

@@ -11,7 +11,7 @@ import {FrequencyRoutinePlan} from "../model/frequency-routine-plan.model";
 import {IndividualRoutinePlan} from "../model/individual-routine-plan.model";
 import {ProgramService} from './program.service';
 
-const API = environment.apiEndpoint + 'api/routinePlan/';
+const API = environment.apiEndpoint + '/api/routineplan/';
 
 @Injectable({
   providedIn: 'root'
@@ -44,13 +44,6 @@ export class RoutinePlanService {
   selectedFrequencyRoutine$ = this._selectedFrequencyRoutine.asObservable();
 
   constructor(private http: HttpClient, private programService: ProgramService) {
-    this.programService.program$.subscribe(p => {
-      this.update = false;
-      this.weeklyRoutinePlanUrls = p.weeklyRoutinePlans;
-      this.frequencyRoutinePlanUrls = p.frequencyRoutinePlans;
-      this.update = true;
-      this.individualRoutinePlanUrls = p.individualRoutinePlans;
-    })
   }
 
   private getWeeklyRoutinePlans() : Observable<WeeklyRoutinePlan[]> {
