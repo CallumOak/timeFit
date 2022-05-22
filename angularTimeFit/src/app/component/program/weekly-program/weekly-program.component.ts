@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {RoutineTypeEnum} from "../../../enums/routine-type-enum.enum";
 import {RoutineService} from "../../../service/routine.service";
-import {Subscription} from "rxjs";
 import {NavbarService} from "../../../service/navbar.service";
 import {Routine} from "../../../model/routine.model";
 import {Program} from "../../../model/program.model";
 import {ProgramService} from "../../../service/program.service";
-import {RoutinePlan} from "../../../model/routine-plan.model";
 import {RoutinePlanService} from "../../../service/routine-plan.service";
+import {WeeklyRoutinePlan} from "../../../model/weekly-routine-plan.model";
 
 const ROUTINE_TYPE = RoutineTypeEnum.weekly
 const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -20,8 +19,9 @@ const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Satu
 export class WeeklyProgramComponent implements OnInit {
   program!: Program;
   routineType = ROUTINE_TYPE;
-  routinePlans!: RoutinePlan[];
-  routines: (Routine | null)[] = [null,null,null,null,null,null,null];
+  routinePlans!: WeeklyRoutinePlan[];
+  tmpRoutines : Routine[] = [];
+  routines: (Routine)[] = [new Routine(),new Routine(),new Routine(),new Routine(),new Routine(),new Routine(),new Routine()];
   //subscription!: Subscription;
   weekDays: string[] = WEEK_DAYS;
   private _selectedWeekDay = 0;
@@ -30,12 +30,30 @@ export class WeeklyProgramComponent implements OnInit {
               public routineService: RoutineService,
               private navbarService: NavbarService,
               private programService: ProgramService) {
+
+    this.programService.program$.subscribe(program => {
+      this.program = program;
+
+      this.routinePlanService.weeklyRoutinePlanUrls = this.program.weeklyRoutinePlans;
+    })
+
+    this.routinePlanService.weeklyRoutinePlans$.subscribe(routinePlans => {
+      this.routinePlans = routinePlans;
+
+      this.routineService.routineUrls = this.routineUrls();
+    })
+
+    this.routineService.availableRoutines$.subscribe(rs => {
+      this.tmpRoutines = rs;
+      this.routines = [new Routine(), new Routine(), new Routine(), new Routine(), new Routine(), new Routine(), new Routine()];
+      this.orderRoutines();
+    })
+
   }
 
   get selectedWeekDay(): number {
     return this._selectedWeekDay;
   }
-
 
   set selectedWeekDay(value: number) {
     this._selectedWeekDay = value;
@@ -43,26 +61,30 @@ export class WeeklyProgramComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.programService.program$.subscribe(program => {
-      this.program = program[0]
-    })
     this.programService.updateData()
+  }
 
-    this.routinePlanService.weeklyRoutinePlanUrls = this.program.weeklyRoutinePlans;
-    let urls: string[] = [];
-    this.routinePlanService.individualRoutinePlans$.subscribe(routinePlans => {
-      this.routinePlans = routinePlans
+
+  routineUrls(): string[]{
+      let urls: string[] = [];
       this.routinePlans.forEach(rp => urls.push(rp.routine));
-    })
-    this.routinePlanService.updateData()
-    this.routineService.routines$.subscribe(routines => {routines.forEach(routine => this.routines.push(routine));});
-    this.routineService.routineUrls = urls;
+      return urls;
   }
 
   removeRoutine() {
-    if(this.routines[this.selectedWeekDay] != null){
-      this.routineService.removeRoutine(this.routines[this.selectedWeekDay] as Routine);
-    }
+      if(this.routines[this.selectedWeekDay] != null){
+        this.routineService.removeRoutine(this.routines[this.selectedWeekDay] as Routine);
+      }
+  }
+
+  orderRoutines(){
+    this.tmpRoutines.forEach((r : Routine) => {
+      let index = this.routinePlans.findIndex(rp => rp.routine.endsWith(r.id.toString()))
+      if (index > -1){
+        let day = this.routinePlans[index].weekDay
+        this.routines[day] = r;
+      }
+    })
   }
 
 }

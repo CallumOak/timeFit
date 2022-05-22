@@ -33,7 +33,7 @@ export class RoutineService {
   }
 
   getRoutine(url: string) {
-    return this.http.get<Routine>(url);
+    return this.http.get<Routine>(environment.apiEndpoint + url);
   }
 
   getRoutines(): Observable<Routine[]> {
@@ -69,5 +69,6 @@ export class RoutineService {
 
   set routineUrls(value: string[]) {
     this._routineUrls = value;
+    this.updateData();
   }
 }

@@ -46,32 +46,23 @@ export class RoutinePlanService {
   constructor(private http: HttpClient, private programService: ProgramService) {
   }
 
-  private getWeeklyRoutinePlans() : Observable<WeeklyRoutinePlan[]> {
-    let routinePlans: WeeklyRoutinePlan[] = [];
-    this._weeklyRoutinePlanUrls.forEach(url => this.http.get<WeeklyRoutinePlan>(environment.apiEndpoint + url)
-      .subscribe(rp => routinePlans.push(rp)));
-    return of(routinePlans);
+  private getWeeklyRoutinePlans(){
+    return this.http.get<WeeklyRoutinePlan[]>(API + "weekly");
   }
 
   private getFrequencyRoutinePlans(): Observable<FrequencyRoutinePlan[]>{
-    let routinePlans: FrequencyRoutinePlan[] = [];
-    this._frequencyRoutinePlanUrls.forEach(url => this.http.get<FrequencyRoutinePlan>(environment.apiEndpoint + url)
-      .subscribe(rp => routinePlans.push(rp)));
-    return of(routinePlans);
+    return this.http.get<FrequencyRoutinePlan[]>(API + "frequency");
   }
 
   private getIndividualRoutinePlans(): Observable<IndividualRoutinePlan[]> {
-    let routinePlans: IndividualRoutinePlan[] = [];
-    this._individualRoutinePlanUrls.forEach(url => this.http.get<IndividualRoutinePlan>(environment.apiEndpoint + url)
-      .subscribe(rp => routinePlans.push(rp)));
-    return of(routinePlans);
+    return this.http.get<IndividualRoutinePlan[]>(API + "individual");
   }
 
   private getWeeklyRoutinePlan(day: WeekDay): Observable<WeeklyRoutinePlan>  {
     let weeklyRoutinePlans: WeeklyRoutinePlan[] =[];
     let weeklyRoutinePlan: WeeklyRoutinePlan;
     this.weeklyRoutinePlans$.subscribe(rps => weeklyRoutinePlans = rps);
-    weeklyRoutinePlan = weeklyRoutinePlans[weeklyRoutinePlans.findIndex(rp => rp.day === day)]
+    weeklyRoutinePlan = weeklyRoutinePlans[weeklyRoutinePlans.findIndex(rp => rp.weekDay === day)]
     return of(weeklyRoutinePlan);
   }
 
