@@ -18,6 +18,7 @@ export class AddEditExerciseComponent implements OnInit {
   constructor(private navbarService : NavbarService,
               private exerciseService : ExerciseService,
               private activatedRoute: ActivatedRoute) {
+
     this.navBarItemIndex = this.navbarService.addItem('', '')
     console.log(this.navBarItemIndex);
   }
