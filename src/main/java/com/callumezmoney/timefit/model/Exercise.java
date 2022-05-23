@@ -31,12 +31,9 @@ public class Exercise {
     private String exerciseSoundLocation;
     private String breakSoundLocation;
     private String countdownSoundLocation;
-    @ManyToMany(cascade = {
-                    //CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Routine> routines;
+    private List<ExerciseRoutine> routines;
 
     public void setUser(User user) {
         if(user == this.user){
@@ -51,17 +48,30 @@ public class Exercise {
         this.user = user;
     }
 
+    // For explanations see setExercises in Routine
     public void setRoutines(List<Routine> routines) {
-        if(routines == this.routines){
+        List<Routine> tmpOldRoutines = new ArrayList<>();
+        this.routines.forEach(r -> tmpOldRoutines.add(r.getRoutine()));
+
+        if(routines.equals(tmpOldRoutines)){
             return;
         }
-        this.routines.forEach(r -> {if(!routines.contains(r))r.getExercises().remove(r);});
-        routines.forEach(r -> {if(routines.contains(r))r.getExercises().add(this);});
-        this.routines = routines;
+        ArrayList<Routine> tmpNewRoutines = new ArrayList<>(routines);
+        this.routines.forEach(r -> {
+            if(!routines.contains(r))r.getRoutine().getExercises().remove(r);
+            else tmpNewRoutines.remove(r);
+        });
+        tmpNewRoutines.forEach(r -> {
+            ExerciseRoutine er = new ExerciseRoutine();
+            er.setExercise(this);
+            er.setRoutine(r);
+            r.getExercises().add(er);
+            this.getRoutines().add(er);
+        });
     }
 
     public void remove(){
-        routines.forEach(routine -> routine.getExercises().remove(this));
+        routines.forEach(routine -> routine.getRoutine().getExercises().remove(routine));
         routines = new ArrayList();
     }
 

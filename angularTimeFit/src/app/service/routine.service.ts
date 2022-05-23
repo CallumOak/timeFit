@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of, ReplaySubject} from "rxjs";
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Routine} from '../model/routine.model';
@@ -15,9 +15,10 @@ export class RoutineService {
   private _routineUrls: string[] = [];
   _availableRoutines: BehaviorSubject<Routine[]> = new BehaviorSubject<Routine[]>([]);
   _routines: BehaviorSubject<Routine[]> = new BehaviorSubject<Routine[]>([]);
+  _selectedRoutine: ReplaySubject<Routine> = new ReplaySubject<Routine>();
   availableRoutines$ = this._availableRoutines.asObservable();
   routines$ = this._routines.asObservable();
-
+  selectedRoutine$ = this._selectedRoutine.asObservable();
 
   constructor(private http: HttpClient, private exerciseService: ExerciseService) {
     this.updateData();
@@ -27,12 +28,12 @@ export class RoutineService {
     return this.http.get<Routine[]>(API);
   }
 
-  getRoutineById(selectedRoutineId: string) {
+  getRoutineById(selectedRoutineId: string): Observable<Routine> {
     const path = API + selectedRoutineId;
     return this.http.get<Routine>(path);
   }
 
-  getRoutine(url: string) {
+  getRoutine(url: string): Observable<Routine> {
     return this.http.get<Routine>(environment.apiEndpoint + url);
   }
 
@@ -54,7 +55,6 @@ export class RoutineService {
   updateRoutine(routine: Routine){
     this.http.put(API, routine).subscribe(r => {
       this.updateData();
-      this.exerciseService.updateData();
     });
   }
 

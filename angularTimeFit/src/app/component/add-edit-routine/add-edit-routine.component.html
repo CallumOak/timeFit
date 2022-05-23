@@ -9,8 +9,8 @@
               <div class="col-12 text-center title pb-1 pt-1" >
                 {{selectedRoutine.name}}
               </div>
-              <div class="col text-center exercise" [class.focused]="this.selectedExercise == exercise" *ngFor="let exercise of exercises; let i = index">
-                <div class="row pointer" [id]="exercise" (click)="select(exercise)">
+              <div class="col text-center exercise" [class.focused]="this.selectedExercise == i" *ngFor="let exercise of exercises; let i = index">
+                <div class="row pointer" [id]="exercise" (click)="select(i)">
                   <div class="col-9 pb-5 pt-5 pointer activity">
                     <span>{{exercise.name}}</span>
                   </div>
@@ -30,12 +30,12 @@
           </a>
         </div>
         <div class="row mb-2">
-          <a class="btn btn-secondary" [routerLink]="['/addEditExercise', this.selectedExercise]" [class.disabled]="this.selectedExercise == emptyExercise">
+          <a class="btn btn-secondary" [routerLink]="['/addEditExercise/', selectedExerciseId()]" [class.disabled]="this.selectedExercise < 0 || this.selectedExercise >= this.exercises.length">
             <span class="fa fa-edit" style="color:black;"></span>
           </a>
         </div>
         <div class="row">
-          <a class="btn btn-secondary" (click)="removeSelectedExercise()" [class.disabled]="this.selectedExercise == emptyExercise">
+          <a class="btn btn-secondary" (click)="removeSelectedExercise()" [class.disabled]="this.selectedExercise < 0 || this.selectedExercise >= this.exercises.length">
             <span class="fa fa-trash" style="color:black;"></span>
           </a>
         </div>

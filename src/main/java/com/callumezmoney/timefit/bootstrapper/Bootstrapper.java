@@ -54,12 +54,14 @@ public class Bootstrapper implements CommandLineRunner {
         List<Exercise> exercises = createExercises(false);
 
         exercises.stream().forEach(e -> e.setUser(callum));
+        exercisesRepository.saveAll(exercises);
         exercises = exercisesRepository.findAll();
 
         //create test routines
         List<Routine> routines = createRoutines(exercises,false);
 
         routines.stream().forEach(r -> r.setUser(callum));
+        routineRepository.saveAll(routines);
         routines = routineRepository.findAll();
 
         //create test routine plans
@@ -129,22 +131,16 @@ public class Bootstrapper implements CommandLineRunner {
         List<Routine> routines = new ArrayList<>();
         //exercises.forEach(e -> e.setRoutines(new ArrayList<>()));
 
-        Routine legs = new Routine(setIds ? 1L : null, null, "Legs", 2, Color.BLUE, Arrays.asList(exercises.get(3), exercises.get(4), exercises.get(5)), Arrays.asList(), Arrays.asList(), Arrays.asList());
-        exercises.get(3).getRoutines().add(legs);
-        exercises.get(4).getRoutines().add(legs);
-        exercises.get(5).getRoutines().add(legs);
+        Routine legs = new Routine(setIds ? 1L : null, null, "Legs", 2, Color.BLUE, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        legs.setExercises(new ArrayList<>(Arrays.asList(exercises.get(3), exercises.get(4),exercises.get(5))));
         routines.add(legs);
 
-        Routine arms = new Routine(setIds ? 2L : null, null, "Arms", 2, Color.BLUE, Arrays.asList(exercises.get(0), exercises.get(1), exercises.get(2)), Arrays.asList(), Arrays.asList(), Arrays.asList());
-        exercises.get(0).getRoutines().add(arms);
-        exercises.get(1).getRoutines().add(arms);
-        exercises.get(2).getRoutines().add(arms);
+        Routine arms = new Routine(setIds ? 2L : null, null, "Arms", 2, Color.BLUE, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        arms.setExercises(new ArrayList<>(Arrays.asList(exercises.get(0), exercises.get(1),exercises.get(2))));
         routines.add(arms);
 
-        Routine core = new Routine(setIds ? 3L : null, null, "Core", 2, Color.BLUE, Arrays.asList(exercises.get(6), exercises.get(7), exercises.get(8)), Arrays.asList(), Arrays.asList(), Arrays.asList());
-        exercises.get(6).getRoutines().add(core);
-        exercises.get(7).getRoutines().add(core);
-        exercises.get(8).getRoutines().add(core);
+        Routine core = new Routine(setIds ? 3L : null, null, "Core", 2, Color.BLUE, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        core.setExercises(new ArrayList<>(Arrays.asList(exercises.get(0), exercises.get(1),exercises.get(2))));
         routines.add(core);
 
         return routines;

@@ -23,8 +23,8 @@ public class Routine {
     private String name;
     private Integer numberOfCycles;
     private Color color;
-    @ManyToMany(mappedBy = "routines")
-    private List<Exercise> exercises;
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL)
+    private List<ExerciseRoutine> exercises = new ArrayList<>();
     @OneToMany(
             mappedBy = "routine",
             //fetch = FetchType.LAZY,
@@ -47,16 +47,40 @@ public class Routine {
     private List<IndividualRoutinePlan> individualRoutinePlans = new ArrayList<>();
 
     public void remove(){
-        exercises.forEach(exercise -> exercise.getRoutines().remove(this));
+        exercises.forEach(exercise -> exercise.getExercise().getRoutines().remove(exercise));
         exercises = new ArrayList();
     }
+
+    /**
+     * Since there can be multiple of the same exercise,
+     * the join table must have a separate ID to allow multiple of the same relation and
+     * the logic must track how many are to be removed or added
+     * @param exercises
+     */
     public void setExercises(List<Exercise> exercises){
-        if(exercises == this.exercises){
+        //Check changes are needed
+        List<Exercise> tmpOldExercises = new ArrayList<>();
+        this.exercises.forEach(e -> tmpOldExercises.add(e.getExercise()));
+        if(exercises.equals(tmpOldExercises)){
             return;
         }
-        this.exercises.forEach(r -> {if(!exercises.contains(r))r.getRoutines().remove(r);});
-        exercises.forEach(r -> {if(exercises.contains(r))r.getRoutines().add(this);});
-        this.exercises = exercises;
+        //create a copy of the new exercises to allow removing already treated ones without affecting the actual list
+        List<Exercise> tmpNewExercises = new ArrayList<>(exercises);
+
+        //Remove this from the exercises that are not in the new list,
+        //or remove the exercise from new exercises copy to track that it's been counted
+        this.exercises.forEach(e -> {
+            if(!tmpNewExercises.contains(e.getExercise()))e.getExercise().getRoutines().remove(e);
+            else tmpNewExercises.remove(e.getExercise());
+        });
+        //Add this to the remaining exercises in new exercises copy and the remaining exercises to this
+        tmpNewExercises.forEach(e -> {
+            ExerciseRoutine er = new ExerciseRoutine();
+            er.setExercise(e);
+            er.setRoutine(this);
+            e.getRoutines().add(er);
+            this.exercises.add(er);
+        });
     }
 
     public void setWeeklyRoutinePlans(List<WeeklyRoutinePlan> weeklyRoutinePlans) {
@@ -64,7 +88,7 @@ public class Routine {
             return;
         }
         this.weeklyRoutinePlans.forEach(r -> {if(!weeklyRoutinePlans.contains(r))r.setRoutine(null);});
-        weeklyRoutinePlans.forEach(r -> {if(weeklyRoutinePlans.contains(r))r.setRoutine(this);});
+        weeklyRoutinePlans.forEach(r -> {if(!this.weeklyRoutinePlans.contains(r))r.setRoutine(this);});
         this.weeklyRoutinePlans = weeklyRoutinePlans;
     }
 
@@ -73,7 +97,7 @@ public class Routine {
             return;
         }
         this.frequencyRoutinePlans.forEach(r -> {if(!frequencyRoutinePlans.contains(r))r.setRoutine(null);});
-        frequencyRoutinePlans.forEach(r -> {if(frequencyRoutinePlans.contains(r))r.setRoutine(this);});
+        frequencyRoutinePlans.forEach(r -> {if(!this.frequencyRoutinePlans.contains(r))r.setRoutine(this);});
         this.frequencyRoutinePlans = frequencyRoutinePlans;
     }
 
@@ -82,7 +106,7 @@ public class Routine {
             return;
         }
         this.individualRoutinePlans.forEach(r -> {if(!individualRoutinePlans.contains(r))r.setRoutine(null);});
-        individualRoutinePlans.forEach(r -> {if(individualRoutinePlans.contains(r))r.setRoutine(this);});
+        individualRoutinePlans.forEach(r -> {if(!this.individualRoutinePlans.contains(r))r.setRoutine(this);});
         this.individualRoutinePlans = individualRoutinePlans;
     }
 

@@ -55,7 +55,7 @@ public class ExerciseMapper implements WebMapper<Exercise, ExerciseDTO> {
                 entity.getExerciseSoundLocation(),
                 entity.getBreakSoundLocation(),
                 entity.getCountdownSoundLocation(),
-                entity.getRoutines().stream().map(r -> RoutineMapper.toURI(r, environment)).collect(Collectors.toList())
+                entity.getRoutines().stream().map(r -> RoutineMapper.toURI(r.getRoutine(), environment)).collect(Collectors.toList())
         );
     }
 

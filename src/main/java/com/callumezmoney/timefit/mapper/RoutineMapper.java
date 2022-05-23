@@ -1,6 +1,8 @@
 package com.callumezmoney.timefit.mapper;
 
 import com.callumezmoney.timefit.dto.RoutineDTO;
+import com.callumezmoney.timefit.model.Exercise;
+import com.callumezmoney.timefit.model.ExerciseRoutine;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.service.RoutineService;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
@@ -30,13 +33,12 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
                 dto.getName(),
                 dto.getNumberOfCycles(),
                 dto.getColor(),
-                dto.getExercises().stream().map(exerciseMapper::fromURI)
-                        .collect(Collectors.toList()),
-                new ArrayList(),
-                new ArrayList(),
-                new ArrayList()
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
             );
-        routine.getExercises().forEach(e -> e.getRoutines().add(routine));
+        routine.setExercises(dto.getExercises().stream().map(exerciseMapper::fromURI).collect(Collectors.toList()));
         return routine;
     }
 
@@ -48,7 +50,7 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
                 entity.getName(),
                 entity.getNumberOfCycles(),
                 entity.getColor(),
-                entity.getExercises().stream().map(e -> ExerciseMapper.toURI(e, environment))
+                entity.getExercises().stream().map(e -> ExerciseMapper.toURI(e.getExercise(), environment))
                         .collect(Collectors.toList()),
                 entity.getWeeklyRoutinePlans().stream().map(r -> WeeklyRoutinePlanMapper.toURI(r, environment)).collect(Collectors.toList()),
                 entity.getFrequencyRoutinePlans().stream().map(r -> FrequencyRoutinePlanMapper.toURI(r, environment)).collect(Collectors.toList()),
