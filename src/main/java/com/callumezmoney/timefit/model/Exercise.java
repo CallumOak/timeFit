@@ -49,7 +49,7 @@ public class Exercise {
     }
 
     // For explanations see setExercises in Routine
-    public void setRoutines(List<Routine> routines) {
+    public void setRoutines(List<Routine> routines, List<Integer> positions) {
         List<Routine> tmpOldRoutines = new ArrayList<>();
         this.routines.forEach(r -> tmpOldRoutines.add(r.getRoutine()));
 
@@ -61,12 +61,15 @@ public class Exercise {
             if(!routines.contains(r))r.getRoutine().getExercises().remove(r);
             else tmpNewRoutines.remove(r);
         });
-        tmpNewRoutines.forEach(r -> {
+        for(int i = 0; i < routines.size(); i++){
             ExerciseRoutine er = new ExerciseRoutine();
             er.setExercise(this);
-            er.setRoutine(r);
-            r.getExercises().add(er);
+            er.setRoutine(routines.get(i));
+            er.setPosition(positions.get(i));
+            routines.get(i).getExercises().add(er);
             this.getRoutines().add(er);
+        }
+        tmpNewRoutines.forEach(r -> {
         });
     }
 

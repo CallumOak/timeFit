@@ -57,7 +57,7 @@ public class Routine {
      * the logic must track how many are to be removed or added
      * @param exercises
      */
-    public void setExercises(List<Exercise> exercises){
+    public void setExercises(List<Exercise> exercises, List<Integer> positions){
         //Check changes are needed
         List<Exercise> tmpOldExercises = new ArrayList<>();
         this.exercises.forEach(e -> tmpOldExercises.add(e.getExercise()));
@@ -74,13 +74,14 @@ public class Routine {
             else tmpNewExercises.remove(e.getExercise());
         });
         //Add this to the remaining exercises in new exercises copy and the remaining exercises to this
-        tmpNewExercises.forEach(e -> {
+        for(int i = 0; i < exercises.size(); i++){
             ExerciseRoutine er = new ExerciseRoutine();
-            er.setExercise(e);
             er.setRoutine(this);
-            e.getRoutines().add(er);
-            this.exercises.add(er);
-        });
+            er.setExercise(exercises.get(i));
+            er.setPosition(positions.get(i));
+            exercises.get(i).getRoutines().add(er);
+            this.getExercises().add(er);
+        }
     }
 
     public void setWeeklyRoutinePlans(List<WeeklyRoutinePlan> weeklyRoutinePlans) {

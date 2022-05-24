@@ -24,9 +24,7 @@ public class RoutineServiceImpl implements RoutineService {
     private Environment environment;
     private final RoutineRepository routineRepository;
     private final UserService userService;
-    private RoutinePlanService routinePlanService;
     private ExercisesRepository exercisesRepository;
-    private ExerciseMapper exerciseMapper;
 
     @Override
     public List<Routine> getRoutines(String username) {
@@ -63,7 +61,7 @@ public class RoutineServiceImpl implements RoutineService {
             List<Exercise> exerciseList = routine.getExercises().stream().map(
                     eUrl -> exercisesRepository.findById(MapperUtils.getIdFromURI(eUrl, environment, "exercise")).orElse(null)
                 ).collect(Collectors.toList());
-            persistedRoutine.setExercises(exerciseList);
+            persistedRoutine.setExercises(exerciseList, routine.getExercisePositions());
         }
     }
 

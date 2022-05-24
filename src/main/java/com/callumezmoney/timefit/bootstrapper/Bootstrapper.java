@@ -132,15 +132,15 @@ public class Bootstrapper implements CommandLineRunner {
         //exercises.forEach(e -> e.setRoutines(new ArrayList<>()));
 
         Routine legs = new Routine(setIds ? 1L : null, null, "Legs", 2, Color.BLUE, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        legs.setExercises(new ArrayList<>(Arrays.asList(exercises.get(3), exercises.get(4),exercises.get(5))));
+        legs.setExercises(new ArrayList<>(Arrays.asList(exercises.get(3), exercises.get(4),exercises.get(5))), Arrays.asList(0,1,2));
         routines.add(legs);
 
         Routine arms = new Routine(setIds ? 2L : null, null, "Arms", 2, Color.BLUE, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        arms.setExercises(new ArrayList<>(Arrays.asList(exercises.get(0), exercises.get(1),exercises.get(2))));
+        arms.setExercises(new ArrayList<>(Arrays.asList(exercises.get(0), exercises.get(1),exercises.get(2))), Arrays.asList(0,1,2));
         routines.add(arms);
 
         Routine core = new Routine(setIds ? 3L : null, null, "Core", 2, Color.BLUE, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        core.setExercises(new ArrayList<>(Arrays.asList(exercises.get(0), exercises.get(1),exercises.get(2))));
+        core.setExercises(new ArrayList<>(Arrays.asList(exercises.get(0), exercises.get(1),exercises.get(2))), Arrays.asList(0,1,2));
         routines.add(core);
 
         return routines;
@@ -167,15 +167,15 @@ public class Bootstrapper implements CommandLineRunner {
     public static List<FrequencyRoutinePlan> createFrequencyRoutinePlans(List<Routine> routines, Boolean setIds) throws ParseException {
         List<FrequencyRoutinePlan> routinePlans = new ArrayList<>();
         FrequencyRoutinePlan armsFrequency = FrequencyRoutinePlan.builder()
-                .id(setIds ? 4L : null).routine(routines.get(1)).startTime(LocalTime.of(15, 0)).build();
+                .id(setIds ? 4L : null).routine(routines.get(1)).startTime(LocalTime.of(15, 0)).position(0).build();
         routinePlans.add(armsFrequency);
         //arms.getRoutinePlans().add(armsFrequency);
         FrequencyRoutinePlan legsFrequency = FrequencyRoutinePlan.builder()
-                .id(setIds ? 5L : null).routine(routines.get(0)).startTime(LocalTime.of(15, 0)).build();
+                .id(setIds ? 5L : null).routine(routines.get(0)).startTime(LocalTime.of(15, 0)).position(1).build();
         routinePlans.add(legsFrequency);
         //legs.getRoutinePlans().add(legsFrequency);
         FrequencyRoutinePlan coreFrequency = FrequencyRoutinePlan.builder()
-                .id(setIds ? 6L : null).routine(routines.get(2)).startTime(LocalTime.of(15, 0)).build();
+                .id(setIds ? 6L : null).routine(routines.get(2)).startTime(LocalTime.of(15, 0)).position(2).build();
         routinePlans.add(coreFrequency);
         //core.getRoutinePlans().add(coreFrequency);
 

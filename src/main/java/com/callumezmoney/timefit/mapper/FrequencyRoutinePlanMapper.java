@@ -42,7 +42,8 @@ public class FrequencyRoutinePlanMapper  implements WebMapper<FrequencyRoutinePl
                 entity.getEndTime(),
                 "frequency",
                 null,
-                null
+                null,
+                entity.getPosition()
         );
         return routinePlan;
     }

@@ -8,6 +8,8 @@ import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
@@ -43,6 +45,7 @@ public class WeeklyRoutinePlanMapper implements WebMapper<WeeklyRoutinePlan, Wee
                 entity.getEndTime(),
                 "weekly",
                 entity.getWeekDay(),
+                null,
                 null
         );
         return routinePlan;

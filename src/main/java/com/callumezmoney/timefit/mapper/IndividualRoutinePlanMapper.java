@@ -8,6 +8,8 @@ import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
 
 @Data
@@ -43,7 +45,8 @@ public class IndividualRoutinePlanMapper  implements WebMapper<IndividualRoutine
                 entity.getEndTime(),
                 "individual",
                 null,
-                entity.getDate()
+                entity.getDate(),
+                null
         );
         return routinePlan;
     }

@@ -21,6 +21,7 @@ public class FrequencyRoutinePlan{
     private LocalTime endTime;
     @ManyToOne
     private Program program;
+    private Integer position;
 
     public void setRoutine(Routine routine) {
         if(routine == this.routine){

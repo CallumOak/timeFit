@@ -7,6 +7,7 @@ import lombok.Value;
 
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,4 +21,5 @@ public class RoutinePlanDTO {
     String type;
     Integer weekDay;
     Date date;
+    Integer position;
 }

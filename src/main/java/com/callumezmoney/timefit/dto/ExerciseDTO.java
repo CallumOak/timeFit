@@ -25,4 +25,5 @@ public class ExerciseDTO {
     String breakSoundLocation;
     String countdownSoundLocation;
     List<String> routines;
+    List<Integer> position;
 }
