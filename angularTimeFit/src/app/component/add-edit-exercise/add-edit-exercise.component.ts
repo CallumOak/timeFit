@@ -25,11 +25,13 @@ export class AddEditExerciseComponent implements OnInit {
 
   ngOnInit(): void {
     this.exerciseService.updateData();
+    this.onSubmit();
+  }
+
+  onSubmit() {
     this.exerciseService.getExerciseById(this.activatedRoute.snapshot.params['id']).subscribe(e => {
       this.selectedExercise = e;
       this.navbarService.editItem(this.navBarItemIndex, this.selectedExercise.name, `${NAV_PATH}/${this.selectedExercise.id}`);
     });
-    ;
   }
-
 }

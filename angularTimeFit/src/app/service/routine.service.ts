@@ -13,10 +13,13 @@ const API = environment.apiEndpoint + '/api/routine/';
 })
 export class RoutineService {
   private _routineUrls: string[] = [];
-  _availableRoutines: BehaviorSubject<Routine[]> = new BehaviorSubject<Routine[]>([]);
+
+  private _availableRoutines: BehaviorSubject<Routine[]> = new BehaviorSubject<Routine[]>([]);
+  availableRoutines$ = this._availableRoutines.asObservable();
+
   _routines: BehaviorSubject<Routine[]> = new BehaviorSubject<Routine[]>([]);
   _selectedRoutine: ReplaySubject<Routine> = new ReplaySubject<Routine>();
-  availableRoutines$ = this._availableRoutines.asObservable();
+
   routines$ = this._routines.asObservable();
   selectedRoutine$ = this._selectedRoutine.asObservable();
 
@@ -53,9 +56,8 @@ export class RoutineService {
   }
 
   updateRoutine(routine: Routine){
-    this.http.put(API, routine).subscribe(r => {
-      this.updateData();
-    });
+    this.http.put(API, routine).subscribe(r =>
+      this.updateData());
   }
 
   removeRoutine(routine: Routine){

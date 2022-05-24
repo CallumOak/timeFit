@@ -12,8 +12,6 @@ const API = environment.apiEndpoint + "/api/exercise/";
 })
 export class ExerciseService {
 
-  private exercises: Exercise[] = [];
-
   private _exercisesSource = new BehaviorSubject<Exercise[]>([]);
 
   exercises$ = this._exercisesSource.asObservable();

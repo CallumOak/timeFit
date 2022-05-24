@@ -5,6 +5,8 @@ import {RoutineTypeEnum} from "../../enums/routine-type-enum.enum";
 import {Subscription} from "rxjs";
 import {Routine} from "../../model/routine.model";
 import {RoutinePlanService} from "../../service/routine-plan.service";
+import {Exercise} from "../../model/exercise.model";
+import {ExerciseService} from "../../service/exercise.service";
 
 @Component({
   selector: 'app-routine-visualizer',
@@ -16,7 +18,8 @@ export class RoutineVisualizerComponent implements OnInit {
   @Input()
   routineType!: RoutineTypeEnum;
   @Input()
-  routineService!: RoutineService
+  routine!: Routine;
+  exercises: Exercise[] = [];
   closeResult: string = '';
   availableRoutines!: Routine[];
   tmpSelectedRoutine!: Routine;
@@ -25,13 +28,16 @@ export class RoutineVisualizerComponent implements OnInit {
   selectedRoutineSubscription!: Subscription;
   availableRoutinesSubscription!: Subscription;
 
-  constructor(private modalService: NgbModal, private routinePlanService: RoutinePlanService) {
+  constructor(private modalService: NgbModal,
+              private routinePlanService: RoutinePlanService,
+              private routineService: RoutineService,
+              private exerciseService : ExerciseService) {
     this.modalOptions = {
       backdrop:'static',
       backdropClass:'customBackdrop'
     }
   }
-
+/*
   private commitSelectedRoutine(){
     this.selectedRoutine = this.tmpSelectedRoutine
 
@@ -58,15 +64,24 @@ export class RoutineVisualizerComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
-
+*/
   ngOnInit(): void {
-    console.log(`Routine type : ${(this.routineType)}`)
-    let routineId: string = "10";
-    this.selectedRoutineSubscription = this.routineService.getRoutineById(routineId).subscribe((routine: Routine) => this.selectedRoutine = routine)
+    //console.log(`Routine type : ${(this.routineType)}`)
     this.availableRoutinesSubscription = this.routineService.availableRoutines$.subscribe(routines => {
       this.availableRoutines = routines;
+      this.exerciseService.updateData();
     })
-    this.routineService.updateData()
+    this.exerciseService.exercises$.subscribe(es =>{
+        this.exercises = [];
+        this.routine.exercises.forEach(e => {
+          let id = e.split("/")[e.split("/").length - 1];
+          let index = es.findIndex(er => er.id == id)
+          if(index > -1){
+            this.exercises.push(es[index])
+          }
+        })
+    }
+    )
     this.tmpSelectedRoutine = this.availableRoutines[0]
     console.log(`Selected routine : ${this.selectedRoutine}`)
   }

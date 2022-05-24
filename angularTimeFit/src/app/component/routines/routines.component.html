@@ -10,31 +10,10 @@
           <div class="card-body">
             <div class="scrollable">
               <ul class="list-group list-group-flush" style="list-style-type:none;">
-                <li>
+                <li *ngFor="let routine of routines">
                   <div class="row">
                     <div class="col-11">
-                      <app-routine-visualizer></app-routine-visualizer>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="row">
-                    <div class="col-11">
-                      <app-routine-visualizer></app-routine-visualizer>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="row">
-                    <div class="col-11">
-                      <app-routine-visualizer></app-routine-visualizer>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="row">
-                    <div class="col-11">
-                      <app-routine-visualizer></app-routine-visualizer>
+                      <app-routine-visualizer [routine]="routine"></app-routine-visualizer>
                     </div>
                   </div>
                 </li>

@@ -1,13 +1,13 @@
-<div class="row " (click)="open(mymodal)">
+<div class="row">
     <div class="container routineContainer mb-5">
       <div class="row routine">
         <div class="col-12 text-center bg-success title pb-1 pt-1" >
-          {{selectedRoutine}}
+          {{routine.name}}
         </div>
-        <div *ngFor="let i of counter(4)" class="col text-center exercise">
+        <div *ngFor="let exercise of routine.exercises" class="col text-center exercise">
           <div style="height: 100%" class="row">
             <div class="col-9 bg-primary  pb-5 pt-5">
-              Exercise
+              {{exercise}}
             </div>
             <div class="col-3 bg-secondary  pb-5 pt-5">
               Rest
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<ng-template #mymodal let-modal>
+<!--ng-template #mymodal let-modal>
   <div class="modal-header">
     Select exercise
   </div>
@@ -36,4 +36,4 @@
     </button>
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
   </div>
-</ng-template>
+</ng-template-->

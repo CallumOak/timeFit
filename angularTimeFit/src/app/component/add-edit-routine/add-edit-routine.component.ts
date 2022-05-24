@@ -41,6 +41,16 @@ export class AddEditRoutineComponent implements OnInit {
       backdropClass:'customBackdrop'
     }
     this.navBarItemIndex = this.navbarService.addItem('', '')
+
+    this.routineService.availableRoutines$.subscribe(rs => {
+      this.selectedRoutine = rs[rs.findIndex(r => r.id == this.activatedRoute.snapshot.params['id'])];
+      this.navbarService.editItem(this.navBarItemIndex, this.selectedRoutine.id, `${NAV_PATH}/${this.selectedRoutine.name}`)
+      this.exerciseService.updateData();
+    });
+    this.exerciseService.exercises$.subscribe(e => {
+      this.availableExercises = e;
+      this.filterExercises();
+    });
   }
 
   open(content: any) {
@@ -97,15 +107,6 @@ export class AddEditRoutineComponent implements OnInit {
 
   ngOnInit(): void {
     this.routineService.updateData();
-    this.routineService.routines$.subscribe(rs => {
-      this.selectedRoutine = rs[rs.findIndex(r => r.id == this.activatedRoute.snapshot.params['id'])];
-      this.navbarService.editItem(this.navBarItemIndex, this.selectedRoutine.id, `${NAV_PATH}/${this.selectedRoutine.name}`)
-      this.exerciseService.updateData();
-    });
     this.exerciseService.updateData();
-    this.exerciseService.getExercises().subscribe(e => {
-      this.availableExercises = e;
-      this.filterExercises();
-    });
   }
 }
