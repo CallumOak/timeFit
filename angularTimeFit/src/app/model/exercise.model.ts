@@ -11,13 +11,14 @@ export class Exercise /*implements Deserializable*/ {
   exerciseColor! :string;
   restColor! :string;
   illustrationLocation! :string;
-  position!: number;
+  routines: string[] = [];
+  positions: number[] = [];
 
   constructor() {
   }
 
   public setValues(id: string, name: string, exerciseDuration: string, restDuration: string, repetitions: string,
-                   exerciseColor: string, restColor: string, illustrationLocation: string, position: number){
+                   exerciseColor: string, restColor: string, illustrationLocation: string, positions: number[]){
     this.id = id;
     this.name = name;
     this.exerciseDuration = exerciseDuration;
@@ -26,7 +27,7 @@ export class Exercise /*implements Deserializable*/ {
     this.exerciseColor = exerciseColor;
     this.restColor = restColor;
     this.illustrationLocation = illustrationLocation;
-    this.position = position;
+    this.positions = positions;
   }
 
 /*  deserialize(input: any): this {

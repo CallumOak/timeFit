@@ -107,7 +107,7 @@ export class FrequencyProgramComponent implements OnInit {
       let routinePlan = new FrequencyRoutinePlan();
       routinePlan.routine = '/api/routine/' + this.selectedRoutine.id;
       routinePlan.program = '/api/program/' + this.program.id;
-      routinePlan.index = this.routines.length;
+      routinePlan.position = this.routines.length;
       this.routinePlanService.createFrequencyRoutinePlan(routinePlan);
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`

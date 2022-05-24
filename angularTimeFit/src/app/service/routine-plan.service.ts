@@ -70,7 +70,7 @@ export class RoutinePlanService {
     let frequencyRoutinePlans: FrequencyRoutinePlan[] =[];
     let frequencyRoutinePlan: FrequencyRoutinePlan;
     this.frequencyRoutinePlans$.subscribe(rps => frequencyRoutinePlans = rps);
-    frequencyRoutinePlan = frequencyRoutinePlans[frequencyRoutinePlans.findIndex(rp => rp.index === index)]
+    frequencyRoutinePlan = frequencyRoutinePlans[frequencyRoutinePlans.findIndex(rp => rp.position === index)]
     return of(frequencyRoutinePlan);
   }
 
