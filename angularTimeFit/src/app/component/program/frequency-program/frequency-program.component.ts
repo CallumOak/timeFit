@@ -64,19 +64,6 @@ export class FrequencyProgramComponent implements OnInit {
     let routinePlan = this.routinePlans[this.routinePlans.findIndex(rp => rp.position == event.previousIndex)];
     routinePlan.position = event.currentIndex;
     this.routinePlanService.updateFrequencyRoutinePlan(routinePlan);
-    /*
-    moveItemInArray(this.routines, event.previousIndex, event.currentIndex);
-
-    this.routinePlanService.update = false;
-    for(let i: number = 0; i < this.routinePlans.length; i++){
-      let rpIndex = this.routinePlans.findIndex(rp => rp.routine.split("/")[rp.routine.split("/").length - 1] == this.routines[i].id);
-      this.routinePlans[rpIndex].position = i;
-      this.routinePlanService.updateFrequencyRoutinePlan(this.routinePlans[i]);
-    }
-    this.routinePlanService.update = true;
-    this.routinePlanService.updateData();
-
-     */
   }
 
   get selectedIndex(): number {
