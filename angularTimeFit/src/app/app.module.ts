@@ -33,11 +33,9 @@ import { FrequencyProgramComponent } from './component/program/frequency-program
 import { RoutineVisualizerComponent } from './component/routine-visualizer/routine-visualizer.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { DialogExerciseSelectComponent } from './component/dialog-exercise-select/dialog-exercise-select.component';
-import {ProgramService} from "./service/program.service";
-import {RoutinePlanService} from "./service/routine-plan.service";
-import {RoutineService} from "./service/routine.service";
-import {ExerciseService} from "./service/exercise.service";
 import { RoutineCardComponent } from './component/program/routine-card/routine-card.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {DragDropModule} from  '@angular/cdk/drag-drop';
 
 FullCalendarModule.registerPlugins([
   interactionPlugin,
@@ -75,7 +73,9 @@ FullCalendarModule.registerPlugins([
     HttpClientModule,
     FullCalendarModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    NoopAnimationsModule,
+    DragDropModule
   ],
   providers: [
     authInterceptorProviders

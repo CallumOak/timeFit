@@ -17,7 +17,7 @@ const API = environment.apiEndpoint + '/api/routineplan/';
   providedIn: 'root'
 })
 export class RoutinePlanService {
-  private update: boolean = true;
+  update: boolean = true;
 
   private _weeklyRoutinePlanUrls: string[] = [];
   private _frequencyRoutinePlanUrls: string[] = [];
@@ -136,7 +136,9 @@ export class RoutinePlanService {
 
   updateFrequencyRoutinePlan(routinePlan: FrequencyRoutinePlan){
     this.http.put(API, routinePlan).subscribe(e => this.updateData());
-    this.updateData();
+    if(this.update){
+      this.updateData();
+    }
   }
 
   updateIndividualRoutinePlan(routinePlan: IndividualRoutinePlan){

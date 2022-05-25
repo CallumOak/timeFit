@@ -1,14 +1,14 @@
 <div class="fp">
-  <ul>
-    <li *ngFor="let item of routines; let i = index;" class="weekdayHeader">
+  <div class="list-group list-group-horizontal" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <div class="list-group-item weekdayHeader" *ngFor="let item of routines" cdkDrag>
       <div class="scrolling-wrapper-flexbox">
         <app-routine-card (remove)="removeRoutine(item.id)" [id]="item.id" [title]="item.name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" ></app-routine-card>
       </div>
-    </li>
+    </div>
     <li class="btnplus">
       <button class="btn bg-light fa fa-plus" (click)="open(mymodal)"> </button>
     </li>
-  </ul>
+  </div>
   <div class="fp-choices">
     <div class="row">
       <div class="col-6 col-sm-1">

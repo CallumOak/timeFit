@@ -15,6 +15,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 @Service
 @AllArgsConstructor
@@ -97,6 +101,21 @@ public class RoutinePlanServiceImpl implements RoutinePlanService {
             FrequencyRoutinePlan updatedRoutinePlan = oldRoutinePlan.get();
             updatedRoutinePlan.setStartTime(routinePlan.getStartTime());
             updatedRoutinePlan.setEndTime(routinePlan.getEndTime());
+
+            if(!Objects.equals(updatedRoutinePlan.getPosition(), routinePlan.getPosition())){
+                List<FrequencyRoutinePlan> routinePlans = frequencyRoutinePlanRepository.findAll().stream().filter(rp -> Objects.equals(rp.getProgram().getUser().getUsername(), username)).collect(Collectors.toList());
+
+                Integer low = min(routinePlan.getPosition(), updatedRoutinePlan.getPosition());
+                Integer high = max(routinePlan.getPosition(), updatedRoutinePlan.getPosition());
+                Integer increment = updatedRoutinePlan.getPosition() > routinePlan.getPosition() ? 1 : -1;
+                routinePlans.forEach(rp -> {
+                    if(rp.getPosition() >= low && rp.getPosition() <= high ){
+                        rp.setPosition(rp.getPosition() + increment);
+                    }
+                });
+
+                updatedRoutinePlan.setPosition(routinePlan.getPosition());
+            }
         }
     }
 

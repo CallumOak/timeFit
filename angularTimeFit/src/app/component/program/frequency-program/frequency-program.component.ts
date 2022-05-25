@@ -9,6 +9,7 @@ import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-b
 import {NavbarService} from "../../../service/navbar.service";
 import {ProgramService} from "../../../service/program.service";
 import {WeeklyRoutinePlan} from "../../../model/weekly-routine-plan.model";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 
 const ROUTINE_TYPE = RoutineTypeEnum.frequency
 
@@ -59,6 +60,25 @@ export class FrequencyProgramComponent implements OnInit {
     })
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    let routinePlan = this.routinePlans[this.routinePlans.findIndex(rp => rp.position == event.previousIndex)];
+    routinePlan.position = event.currentIndex;
+    this.routinePlanService.updateFrequencyRoutinePlan(routinePlan);
+    /*
+    moveItemInArray(this.routines, event.previousIndex, event.currentIndex);
+
+    this.routinePlanService.update = false;
+    for(let i: number = 0; i < this.routinePlans.length; i++){
+      let rpIndex = this.routinePlans.findIndex(rp => rp.routine.split("/")[rp.routine.split("/").length - 1] == this.routines[i].id);
+      this.routinePlans[rpIndex].position = i;
+      this.routinePlanService.updateFrequencyRoutinePlan(this.routinePlans[i]);
+    }
+    this.routinePlanService.update = true;
+    this.routinePlanService.updateData();
+
+     */
+  }
+
   get selectedIndex(): number {
     return this._selectedIndex;
   }
@@ -89,13 +109,11 @@ export class FrequencyProgramComponent implements OnInit {
 
   orderRoutines(){
     this.routines = new Array<Routine>(this.routinePlans.length)
-    let i = 0;
     this.routinePlans.forEach((rp : FrequencyRoutinePlan) => {
       let id = rp.routine.split("/")[rp.routine.split("/").length - 1]
       let index = this.tmpRoutines.findIndex(r => r.id == id)
       if (index > -1){
-        this.routines[i] = this.tmpRoutines[index];
-        i = i + 1;
+        this.routines[rp.position] = this.tmpRoutines[index];
       }
     })
   }
