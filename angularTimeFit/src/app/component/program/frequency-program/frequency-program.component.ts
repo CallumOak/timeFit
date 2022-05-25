@@ -61,6 +61,8 @@ export class FrequencyProgramComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.routines, event.previousIndex, event.currentIndex);
+
     let routinePlan = this.routinePlans[this.routinePlans.findIndex(rp => rp.position == event.previousIndex)];
     routinePlan.position = event.currentIndex;
     this.routinePlanService.updateFrequencyRoutinePlan(routinePlan);

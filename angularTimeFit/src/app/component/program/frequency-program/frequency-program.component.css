@@ -29,3 +29,10 @@ ul {
   font-weight: bold;
   border-color: lightgray;
 }
+
+.horizontal {
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}

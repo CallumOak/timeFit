@@ -49,6 +49,8 @@ export class AddEditRoutineComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.exercises, event.previousIndex, event.currentIndex);
+
     let movingValueIndex = this.selectedRoutine.exercisePositions.indexOf(event.previousIndex);
 
     let low = Math.min(event.previousIndex, event.currentIndex);
