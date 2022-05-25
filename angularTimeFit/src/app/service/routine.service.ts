@@ -42,7 +42,14 @@ export class RoutineService {
 
   getRoutines(){
     let routines: Routine[] = [];
-    this._routineUrls.forEach(url => this.getRoutine(url).subscribe(r => routines.push(r)));
+    this._routineUrls.forEach(url => {
+      let idIndex = url.split("/").length - 1;
+      let id = url.split("/")[idIndex];
+      let routineIndex = this._availableRoutines.value.findIndex(r => r.id == id);
+      if(routineIndex > -1 ){
+        routines.push(this._availableRoutines.value[routineIndex]);
+      }
+    });
     this._routines.next(routines);
   }
 
@@ -56,8 +63,7 @@ export class RoutineService {
   }
 
   updateRoutine(routine: Routine){
-    this.http.put(API, routine).subscribe(r =>
-      this.updateData());
+    this.http.put(API, routine).subscribe(r => this.updateData());
   }
 
   removeRoutine(routine: Routine){
@@ -66,8 +72,9 @@ export class RoutineService {
 
   updateData(){
     this.getAvailableRoutines().subscribe(r => {
+      console.log("routines : " + r.length);
       this._availableRoutines.next(r);
-      this.getRoutines();
+      //this.getRoutines();
     });
   }
 

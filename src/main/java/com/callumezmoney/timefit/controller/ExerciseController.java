@@ -31,11 +31,8 @@ public class ExerciseController {
     @GetMapping()
     public ResponseEntity<?> listExercise(Principal principal){
         List<Exercise> exercises = exercisesService.getAllExercises(principal.getName());
-        return ResponseEntity.ok(exercises.stream()
-                .map(exerciseMapper::entityToDto)
-                .collect(Collectors.toList()
-                )
-        );
+        List<ExerciseDTO> exerciseDTOs = exercises.stream().map(exerciseMapper::entityToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(exerciseDTOs);
     }
 
     @GetMapping("/{id}")

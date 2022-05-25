@@ -52,7 +52,7 @@
   <div class="modal-content">
     <ul>
       <li *ngFor="let availableExercise of availableExercises" (click)="tmpSelect(availableExercise)">
-        <button class="btn">{{availableExercise.name}}</button>
+        <button class="btn" (click)="selectedAvailableExercise = availableExercise">{{availableExercise.name}}</button>
       </li>
     </ul>
   </div>

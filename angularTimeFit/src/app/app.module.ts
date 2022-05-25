@@ -78,12 +78,7 @@ FullCalendarModule.registerPlugins([
     NgbModule
   ],
   providers: [
-    UserService,
-    authInterceptorProviders,
-    ProgramService,
-    RoutinePlanService,
-    RoutineService,
-    ExerciseService
+    authInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

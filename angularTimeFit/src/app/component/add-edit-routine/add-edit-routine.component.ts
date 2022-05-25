@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {NavbarService} from "../../service/navbar.service";
 import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {ActivatedRoute, ParamMap} from '@angular/router';
@@ -8,15 +8,17 @@ import { RoutinePlan } from 'src/app/model/routine-plan.model';
 import {Routine} from "../../model/routine.model";
 import {Exercise} from "../../model/exercise.model";
 import {ExerciseService} from "../../service/exercise.service";
+import {Subscription} from "rxjs";
 
 const NAV_PATH = "addEditRoutine";
+const EXERCISE_PATH = "/api/exercise/";
 
 @Component({
   selector: 'app-add-edit-routine',
   templateUrl: './add-edit-routine.component.html',
   styleUrls: ['./add-edit-routine.component.css']
 })
-export class AddEditRoutineComponent implements OnInit {
+export class AddEditRoutineComponent implements OnInit, OnDestroy {
   emptyExercise = new Exercise();
   selectedRoutine: Routine = new Routine();
   availableExercises: Exercise[] = [];
@@ -24,39 +26,32 @@ export class AddEditRoutineComponent implements OnInit {
   tmpSelectedAvailableExercise!: Exercise;
   selectedAvailableExercise!: Exercise;
   selectedExercise: number = -1;
-
+  routineSubscription!: Subscription;
+  exerciseSubscription!: Subscription;
   navBarItemIndex!: number;
   closeResult!: string;
   modalOptions:NgbModalOptions;
 
   constructor(private navbarService: NavbarService,
+              private routineService: RoutineService,
               private modalService: NgbModal,
               private activatedRoute: ActivatedRoute,
-              private exerciseService: ExerciseService,
-              private routineService: RoutineService) {
+              private exerciseService: ExerciseService) {
+
     this.navBarItemIndex = this.navbarService.addItem('', '')
     console.log(this.navBarItemIndex);
+
     this.modalOptions = {
       backdrop:'static',
       backdropClass:'customBackdrop'
     }
-    this.navBarItemIndex = this.navbarService.addItem('', '')
-
-    this.routineService.availableRoutines$.subscribe(rs => {
-      this.selectedRoutine = rs[rs.findIndex(r => r.id == this.activatedRoute.snapshot.params['id'])];
-      this.navbarService.editItem(this.navBarItemIndex, this.selectedRoutine.id, `${NAV_PATH}/${this.selectedRoutine.name}`)
-      this.exerciseService.updateData();
-    });
-    this.exerciseService.exercises$.subscribe(e => {
-      this.availableExercises = e;
-      this.filterExercises();
-    });
   }
 
   open(content: any) {
     this.modalService.open(content, this.modalOptions).result.then((result) => {
       this.closeResult = `Closed with: ${result}`
       this.selectedAvailableExercise = this.tmpSelectedAvailableExercise;
+      this.selectedRoutine.exercisePositions.push(this.selectedRoutine.exercisePositions.length);
       this.selectedRoutine.exercises.push("/api/exercise/" + this.selectedAvailableExercise.id);
       this.routineService.updateRoutine(this.selectedRoutine);
     }, (reason) => {
@@ -106,7 +101,24 @@ export class AddEditRoutineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.routineService.updateData();
-    this.exerciseService.updateData();
+    this.routineService.availableRoutines$.subscribe(rs => this.getRoutine());
+    this.exerciseSubscription = this.exerciseService.exercises$.subscribe(e => {
+      this.availableExercises = e;
+      this.filterExercises();
+    });
+  }
+
+  ngOnDestroy() {
+    this.routineSubscription.unsubscribe();
+    this.exerciseSubscription.unsubscribe();
+    console.log("destroyed")
+  }
+
+  getRoutine(){
+    this.routineSubscription = this.routineService.getRoutineById(this.activatedRoute.snapshot.params['id']).subscribe(r => {
+      this.selectedRoutine = r;
+      this.navbarService.editItem(this.navBarItemIndex, this.selectedRoutine.name, `${NAV_PATH}/${this.selectedRoutine.id}`);
+      this.exerciseService.updateData();
+    });
   }
 }

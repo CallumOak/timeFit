@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,9 +60,9 @@ public class Routine {
      */
     public void setExercises(List<Exercise> exercises, List<Integer> positions){
         //Check changes are needed
-        List<Exercise> tmpOldExercises = new ArrayList<>();
-        this.exercises.forEach(e -> tmpOldExercises.add(e.getExercise()));
-        if(exercises.equals(tmpOldExercises)){
+        List<Exercise> oldExercises = new ArrayList<>();
+        this.exercises.forEach(e -> oldExercises.add(e.getExercise()));
+        if(exercises.equals(oldExercises)){
             return;
         }
         //create a copy of the new exercises to allow removing already treated ones without affecting the actual list
@@ -69,18 +70,27 @@ public class Routine {
 
         //Remove this from the exercises that are not in the new list,
         //or remove the exercise from new exercises copy to track that it's been counted
-        this.exercises.forEach(e -> {
-            if(!tmpNewExercises.contains(e.getExercise()))e.getExercise().getRoutines().remove(e);
+        List<ExerciseRoutine> oldExerciseRoutines = new ArrayList<>(this.exercises);
+        oldExerciseRoutines.forEach(e -> {
+            if(!tmpNewExercises.contains(e.getExercise())) {
+                this.exercises.remove(e);
+                e.getExercise().getRoutines().remove(e);
+                e.setExercise(null);
+                e.setRoutine(null);
+            }
             else tmpNewExercises.remove(e.getExercise());
         });
         //Add this to the remaining exercises in new exercises copy and the remaining exercises to this
         for(int i = 0; i < exercises.size(); i++){
-            ExerciseRoutine er = new ExerciseRoutine();
-            er.setRoutine(this);
-            er.setExercise(exercises.get(i));
-            er.setPosition(positions.get(i));
-            exercises.get(i).getRoutines().add(er);
-            this.getExercises().add(er);
+            if(tmpNewExercises.contains(exercises.get(i))){
+                tmpNewExercises.remove(exercises.get(i));
+                ExerciseRoutine er = new ExerciseRoutine();
+                er.setRoutine(this);
+                er.setExercise(exercises.get(i));
+                er.setPosition(positions.get(i));
+                exercises.get(i).getRoutines().add(er);
+                this.getExercises().add(er);
+            }
         }
     }
 

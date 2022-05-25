@@ -6,7 +6,9 @@ import { environment } from '../../environments/environment';
 
 const API = environment.apiEndpoint + 'api/test/'
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
 
   constructor(private http: HttpClient) { }

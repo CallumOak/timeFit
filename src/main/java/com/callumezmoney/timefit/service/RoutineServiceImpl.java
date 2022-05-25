@@ -62,6 +62,7 @@ public class RoutineServiceImpl implements RoutineService {
                     eUrl -> exercisesRepository.findById(MapperUtils.getIdFromURI(eUrl, environment, "exercise")).orElse(null)
                 ).collect(Collectors.toList());
             persistedRoutine.setExercises(exerciseList, routine.getExercisePositions());
+            routineRepository.save(persistedRoutine);
         }
     }
 

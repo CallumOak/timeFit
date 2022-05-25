@@ -27,19 +27,21 @@ export class NavbarService {
 
   addItem(newText: string, newPath: string): number {
     let push: boolean = true;
+    let returnedIndex = -1;
     this._extraLinks.forEach((value) => {
       if(value.text === newText){
         push = false;
         console.log("Link already present in navbar")
+        returnedIndex = this._extraLinks.findIndex(v => value.text === v.text && value.path === v.path)
       }
     });
     if(push){
-      console.log(`Previous links list legnth : ${this._extraLinks.length}`)
+      console.log(`Previous links list length : ${this._extraLinks.length}`)
       this._extraLinks.push({ text: newText, path: newPath });
-      console.log(`New links list legnth : ${this._extraLinks.length}`)
-      return this._extraLinks.length - 1;
+      console.log(`New links list length : ${this._extraLinks.length}`)
+      returnedIndex = this._extraLinks.length - 1;
     }
-    return -1;
+    return returnedIndex;
   }
 
 

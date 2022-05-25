@@ -35,7 +35,6 @@ export class ProgramComponent implements OnInit {
     this.programService.program$.subscribe(program => {
       this.program = program;
     })
-    this.programService.updateData()
   }
 
   updateProgram(event: any){

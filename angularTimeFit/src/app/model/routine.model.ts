@@ -7,7 +7,7 @@ export class Routine /*implements Deserializable*/ {
   numberOfCycles!: number;
   color! : string;
   exercises : string[] = [];
-  positions: number[] = [];
+  exercisePositions: number[] = [];
   routinePlans : string[] = [];
 /*  deserialize(input: any): this {
     return undefined;

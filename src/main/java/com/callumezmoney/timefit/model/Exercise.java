@@ -50,16 +50,22 @@ public class Exercise {
 
     // For explanations see setExercises in Routine
     public void setRoutines(List<Routine> routines, List<Integer> positions) {
-        List<Routine> tmpOldRoutines = new ArrayList<>();
-        this.routines.forEach(r -> tmpOldRoutines.add(r.getRoutine()));
+        List<Routine> oldRoutines = new ArrayList<>();
+        this.routines.forEach(r -> oldRoutines.add(r.getRoutine()));
 
-        if(routines.equals(tmpOldRoutines)){
+        if(routines.equals(oldRoutines)){
             return;
         }
         ArrayList<Routine> tmpNewRoutines = new ArrayList<>(routines);
-        this.routines.forEach(r -> {
-            if(!routines.contains(r))r.getRoutine().getExercises().remove(r);
-            else tmpNewRoutines.remove(r);
+        ArrayList<ExerciseRoutine> tmpOldExerciseRoutines = new ArrayList<>(this.routines);
+        tmpOldExerciseRoutines.forEach(r -> {
+            if(!routines.contains(r.getRoutine())) {
+                this.routines.remove(r);
+                r.getRoutine().getExercises().remove(r);
+                r.setExercise(null);
+                r.setRoutine(null);
+            }
+            else tmpNewRoutines.remove(r.getRoutine());
         });
         for(int i = 0; i < routines.size(); i++){
             ExerciseRoutine er = new ExerciseRoutine();
