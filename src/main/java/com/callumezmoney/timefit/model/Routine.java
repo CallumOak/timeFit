@@ -61,8 +61,10 @@ public class Routine {
     public void setExercises(List<Exercise> exercises, List<Integer> positions){
         //Check changes are needed
         List<Exercise> oldExercises = new ArrayList<>();
+        List<Integer> oldPositions = new ArrayList<>();
         this.exercises.forEach(e -> oldExercises.add(e.getExercise()));
-        if(exercises.equals(oldExercises)){
+        this.exercises.forEach(e -> oldPositions.add(e.getPosition()));
+        if(exercises.equals(oldExercises) && positions.equals(oldPositions)){
             return;
         }
         //create a copy of the new exercises to allow removing already treated ones without affecting the actual list
@@ -82,7 +84,7 @@ public class Routine {
         });
         //Add this to the remaining exercises in new exercises copy and the remaining exercises to this
         for(int i = 0; i < exercises.size(); i++){
-            if(tmpNewExercises.contains(exercises.get(i))){
+            if(tmpNewExercises.contains(exercises.get(i))) {
                 tmpNewExercises.remove(exercises.get(i));
                 ExerciseRoutine er = new ExerciseRoutine();
                 er.setRoutine(this);
@@ -91,7 +93,11 @@ public class Routine {
                 exercises.get(i).getRoutines().add(er);
                 this.getExercises().add(er);
             }
+            else{
+                this.getExercises().get(i).setPosition(positions.get(i));
+            }
         }
+
     }
 
     public void setWeeklyRoutinePlans(List<WeeklyRoutinePlan> weeklyRoutinePlans) {

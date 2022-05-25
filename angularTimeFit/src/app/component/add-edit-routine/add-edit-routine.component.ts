@@ -9,6 +9,7 @@ import {Routine} from "../../model/routine.model";
 import {Exercise} from "../../model/exercise.model";
 import {ExerciseService} from "../../service/exercise.service";
 import {Subscription} from "rxjs";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 
 const NAV_PATH = "addEditRoutine";
 const EXERCISE_PATH = "/api/exercise/";
@@ -45,6 +46,25 @@ export class AddEditRoutineComponent implements OnInit, OnDestroy {
       backdrop:'static',
       backdropClass:'customBackdrop'
     }
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    let movingValueIndex = this.selectedRoutine.exercisePositions.indexOf(event.previousIndex);
+
+    let low = Math.min(event.previousIndex, event.currentIndex);
+    let high = Math.max(event.previousIndex, event.currentIndex);
+    let increment = event.previousIndex > event.currentIndex ? 1 : -1;
+
+    for (let i = 0; i < this.selectedRoutine.exercisePositions.length; i++){
+      let p = this.selectedRoutine.exercisePositions[i];
+      if(p >= low && p <= high){
+        this.selectedRoutine.exercisePositions[i] = p + increment;
+      }
+    }
+
+    this.selectedRoutine.exercisePositions[movingValueIndex] = event.currentIndex;
+
+    this.routineService.updateRoutine(this.selectedRoutine);
   }
 
   open(content: any) {
@@ -84,12 +104,15 @@ export class AddEditRoutineComponent implements OnInit, OnDestroy {
   }
 
   filterExercises() {
-    this.exercises = []
+
+    this.exercises = new Array<Exercise>(this.selectedRoutine.exercises.length);
+    let i = 0;
     this.selectedRoutine.exercises.forEach((eUrl : string) => {
       let index = this.availableExercises.findIndex(e => eUrl.endsWith("/" + e.id));
       if(index > -1) {
-        this.exercises.push(this.availableExercises[index]);
+        this.exercises[this.selectedRoutine.exercisePositions[i]] = this.availableExercises[index];
       }
+      i++;
     });
   }
 
