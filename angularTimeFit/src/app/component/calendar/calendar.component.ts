@@ -48,31 +48,29 @@ export class CalendarComponent implements OnInit, OnDestroy{
 
   fillEvents(){
     this.Events = [];
-    for(let i = 0; i < this.routines.length; i++){
-      if(this.program.programSetting == "weekly"){
-        let relevantIndex = this.weeklyRoutinePlans.findIndex(rp => rp.routine.endsWith("/" + this.routines[i].id));
-        if(relevantIndex > -1){
-          let relevantRoutinePlan: WeeklyRoutinePlan = this.weeklyRoutinePlans[relevantIndex];
-          let day: number = relevantRoutinePlan.weekDay.valueOf();
-          let event = {
-            title: this.routines[i].name,
-            rrule: {
-              freq: 'weekly',
-              interval: 1,
-              byweekday: [day],
-              dtstart: new Date().getFullYear() + '-01-01'
-            }
+    if(this.program.programSetting == "weekly"){
+      for(let i = 0; i < this.weeklyRoutinePlans.length; i++){
+        let routine = this.routine(this.weeklyRoutinePlans[i].routine);
+        let day: number = this.weeklyRoutinePlans[i].weekDay.valueOf();
+        let event = {
+          title: routine.name,
+          rrule: {
+            freq: 'weekly',
+            interval: 1,
+            byweekday: [day],
+            dtstart: new Date().getFullYear() + '-01-01'
           }
-          this.Events.push(event);
         }
+        this.Events.push(event);
       }
+    }
 
-      if(this.program.programSetting == "frequency"){
-        let relevantIndex = this.frequencyRoutinePlans.findIndex(rp => rp.routine.endsWith("/" + this.routines[i].id));
-        let relevantRoutinePlan: FrequencyRoutinePlan = this.frequencyRoutinePlans[relevantIndex];
+    if(this.program.programSetting == "frequency"){
+      for(let i = 0; i < this.frequencyRoutinePlans.length; i++){
+        let routine = this.routine(this.frequencyRoutinePlans[i].routine);
         let date: Date = this.addDays(this.program.frequency * i ,new Date(this.program.startDate));
         let event = {
-          title: this.routines[i].name,
+          title: routine.name,
           rrule: {
             freq: "daily",
             interval: this.program.frequency * this.program.frequencyRoutinePlans.length,
@@ -96,6 +94,12 @@ export class CalendarComponent implements OnInit, OnDestroy{
     let routinePlans : RoutinePlan[] = this.program.programSetting == "weekly" ? this.weeklyRoutinePlans : this.frequencyRoutinePlans;
     routinePlans.forEach(rp => urls.push(rp.routine));
     return urls;
+  }
+
+  routine(routineUrl: string): Routine{
+    let routineUrlParts: string[] = routineUrl.split("/");
+    let routineId = routineUrlParts[routineUrlParts.length - 1];
+    return this.routines[this.routines.findIndex(r=>r.id==routineId)];
   }
 
   ngOnInit(){
