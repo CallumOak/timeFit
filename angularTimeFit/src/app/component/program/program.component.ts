@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RoutineTypeEnum} from "../../enums/routine-type-enum.enum";
 import {RoutineService} from "../../service/routine.service";
 import {Router} from "@angular/router";
@@ -15,7 +15,7 @@ const ROUTINE_TYPE = RoutineTypeEnum.individual
   templateUrl: './program.component.html',
   styleUrls: ['./program.component.css']
 })
-export class ProgramComponent implements OnInit {
+export class ProgramComponent implements OnInit, OnDestroy {
   program!: Program;
   routineType = ROUTINE_TYPE;
   subscription!: Subscription;
@@ -32,7 +32,7 @@ export class ProgramComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.programService.program$.subscribe(program => {
+    this. subscription = this.programService.program$.subscribe(program => {
       this.program = program;
     })
   }
@@ -44,7 +44,7 @@ export class ProgramComponent implements OnInit {
     this.programService.updateProgram(newProgram);
   }
 
-  removeRoutine() {
-
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

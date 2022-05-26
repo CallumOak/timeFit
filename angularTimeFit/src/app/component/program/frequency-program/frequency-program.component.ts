@@ -10,6 +10,7 @@ import {NavbarService} from "../../../service/navbar.service";
 import {ProgramService} from "../../../service/program.service";
 import {WeeklyRoutinePlan} from "../../../model/weekly-routine-plan.model";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {Subscription} from "rxjs";
 
 const ROUTINE_TYPE = RoutineTypeEnum.frequency
 
@@ -30,6 +31,9 @@ export class FrequencyProgramComponent implements OnInit {
   closeResult!: string;
   routines: Routine[] = [];
   private _selectedIndex: number = 0;
+  programSubscription!: Subscription;
+  routinePlanSubscription!: Subscription;
+  routineSubscription!: Subscription;
 
   constructor(public routinePlanService: RoutinePlanService,
               private modalService: NgbModal,
@@ -42,19 +46,19 @@ export class FrequencyProgramComponent implements OnInit {
       backdropClass: 'customBackdrop'
     }
 
-    this.programService.program$.subscribe(program => {
+    this.programSubscription = this.programService.program$.subscribe(program => {
       this.program = program;
 
       this.routinePlanService.weeklyRoutinePlanUrls = this.program.weeklyRoutinePlans;
     })
 
-    this.routinePlanService.frequencyRoutinePlans$.subscribe(routinePlans => {
+    this.routinePlanSubscription = this.routinePlanService.frequencyRoutinePlans$.subscribe(routinePlans => {
       this.routinePlans = routinePlans;
 
       this.routineService.routineUrls = this.routineUrls();
     })
 
-    this.routineService.availableRoutines$.subscribe(rs => {
+    this.routineSubscription = this.routineService.availableRoutines$.subscribe(rs => {
       this.tmpRoutines = rs;
       this.orderRoutines();
     })
@@ -138,5 +142,11 @@ export class FrequencyProgramComponent implements OnInit {
 
   select(selectedRoutine: Routine) {
     this.selectedRoutine = selectedRoutine
+  }
+
+  ngOnDestroy(): void {
+    this.programSubscription.unsubscribe();
+    this.routinePlanSubscription.unsubscribe();
+    this.routineSubscription.unsubscribe();
   }
 }

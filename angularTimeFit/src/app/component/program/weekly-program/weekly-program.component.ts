@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RoutineTypeEnum} from "../../../enums/routine-type-enum.enum";
 import {RoutineService} from "../../../service/routine.service";
 import {NavbarService} from "../../../service/navbar.service";
@@ -8,6 +8,7 @@ import {ProgramService} from "../../../service/program.service";
 import {RoutinePlanService} from "../../../service/routine-plan.service";
 import {WeeklyRoutinePlan} from "../../../model/weekly-routine-plan.model";
 import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
+import {Subscription} from "rxjs";
 
 const ROUTINE_TYPE = RoutineTypeEnum.weekly
 const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -17,7 +18,7 @@ const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Satu
   templateUrl: './weekly-program.component.html',
   styleUrls: ['./weekly-program.component.css']
 })
-export class WeeklyProgramComponent implements OnInit {
+export class WeeklyProgramComponent implements OnInit, OnDestroy {
   program!: Program;
   routineType = ROUTINE_TYPE;
   routinePlans!: WeeklyRoutinePlan[];
@@ -31,6 +32,9 @@ export class WeeklyProgramComponent implements OnInit {
   //subscription!: Subscription;
   weekDays: string[] = WEEK_DAYS;
   private _selectedWeekDay = 0;
+  programSubscription!: Subscription;
+  routinePlanSubscription!: Subscription;
+  routineSubscription!: Subscription;
 
   constructor(private routinePlanService: RoutinePlanService,
               private modalService: NgbModal,
@@ -43,19 +47,19 @@ export class WeeklyProgramComponent implements OnInit {
       backdropClass: 'customBackdrop'
     }
 
-    this.programService.program$.subscribe(program => {
+    this.programSubscription = this.programService.program$.subscribe(program => {
       this.program = program;
 
       this.routinePlanService.weeklyRoutinePlanUrls = this.program.weeklyRoutinePlans;
     })
 
-    this.routinePlanService.weeklyRoutinePlans$.subscribe(routinePlans => {
+    this.routinePlanSubscription = this.routinePlanService.weeklyRoutinePlans$.subscribe(routinePlans => {
       this.routinePlans = routinePlans;
 
       this.routineService.routineUrls = this.routineUrls();
     })
 
-    this.routineService.availableRoutines$.subscribe(rs => {
+    this.routineSubscription = this.routineService.availableRoutines$.subscribe(rs => {
       this.tmpRoutines = rs;
       this.routines = [this.emptyRoutine, this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine ,this.emptyRoutine];
       this.orderRoutines();
@@ -130,6 +134,12 @@ export class WeeklyProgramComponent implements OnInit {
         this.routines[rp.weekDay] = this.tmpRoutines[index];
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.programSubscription.unsubscribe();
+    this.routinePlanSubscription.unsubscribe();
+    this.routineSubscription.unsubscribe();
   }
 
 }

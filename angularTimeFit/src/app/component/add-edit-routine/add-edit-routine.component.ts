@@ -126,7 +126,7 @@ export class AddEditRoutineComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routineService.availableRoutines$.subscribe(rs => this.getRoutine());
+    this.routineSubscription = this.routineService.availableRoutines$.subscribe(rs => this.getRoutine());
     this.exerciseSubscription = this.exerciseService.exercises$.subscribe(e => {
       this.availableExercises = e;
       this.filterExercises();
@@ -140,7 +140,7 @@ export class AddEditRoutineComponent implements OnInit, OnDestroy {
   }
 
   getRoutine(){
-    this.routineSubscription = this.routineService.getRoutineById(this.activatedRoute.snapshot.params['id']).subscribe(r => {
+    this.routineService.getRoutineById(this.activatedRoute.snapshot.params['id']).subscribe(r => {
       this.selectedRoutine = r;
       this.navbarService.editItem(this.navBarItemIndex, this.selectedRoutine.name, `${NAV_PATH}/${this.selectedRoutine.id}`);
       this.exerciseService.updateData();
