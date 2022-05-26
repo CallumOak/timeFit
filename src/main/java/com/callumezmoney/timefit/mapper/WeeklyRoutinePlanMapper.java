@@ -45,7 +45,6 @@ public class WeeklyRoutinePlanMapper implements WebMapper<WeeklyRoutinePlan, Wee
                 entity.getEndTime(),
                 "weekly",
                 entity.getWeekDay(),
-                null,
                 null
         );
         return routinePlan;

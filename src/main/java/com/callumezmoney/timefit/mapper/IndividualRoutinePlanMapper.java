@@ -29,7 +29,6 @@ public class IndividualRoutinePlanMapper  implements WebMapper<IndividualRoutine
                 .routine(routineMapper.fromURI(dto.getRoutine()))
                 .startTime(dto.getStartTime())
                 .endTime(dto.getEndTime())
-                .date(dto.getDate())
                 .build();
         routinePlan.getRoutine().getIndividualRoutinePlans().add(routinePlan);
         return routinePlan;
@@ -45,7 +44,6 @@ public class IndividualRoutinePlanMapper  implements WebMapper<IndividualRoutine
                 entity.getEndTime(),
                 "individual",
                 null,
-                entity.getDate(),
                 null
         );
         return routinePlan;

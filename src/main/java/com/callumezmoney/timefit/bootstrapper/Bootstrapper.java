@@ -4,6 +4,7 @@ import com.callumezmoney.timefit.controller.AuthController;
 import com.callumezmoney.timefit.model.*;
 import com.callumezmoney.timefit.payload.request.SignupRequest;
 import com.callumezmoney.timefit.repository.*;
+import com.callumezmoney.timefit.util.ProgramSetting;
 import com.callumezmoney.timefit.util.RoleEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +18,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -200,6 +202,8 @@ public class Bootstrapper implements CommandLineRunner {
                 .weeklyRoutines(new ArrayList<>())
                 .frequencyRoutines(new ArrayList<>())
                 .individualRoutines(new ArrayList<>())
+                .programSetting(ProgramSetting.WEEKLY)
+                .startDate(new Date())
                 .build();
         programs.add(callumProgram);
         weeklyRoutinePlans.forEach(r -> r.setProgram(callumProgram));

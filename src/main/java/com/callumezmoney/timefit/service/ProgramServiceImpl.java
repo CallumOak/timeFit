@@ -3,6 +3,7 @@ package com.callumezmoney.timefit.service;
 import com.callumezmoney.timefit.dto.ProgramDTO;
 import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.repository.ProgramRepository;
+import com.callumezmoney.timefit.util.ProgramSetting;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.callumezmoney.timefit.util.ProgramSetting.fromValue;
 
 @Service
 @AllArgsConstructor
@@ -48,6 +51,7 @@ public class ProgramServiceImpl implements ProgramService {
         if(oldProgram.isPresent() && Objects.equals(oldProgram.get().getUser().getUsername(), username)){
             Program updatedProgram = oldProgram.get();
             updatedProgram.setName(program.getName());
+            updatedProgram.setProgramSetting(fromValue(program.getProgramSetting()));
         }
     }
 

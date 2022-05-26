@@ -4,4 +4,7 @@ export class Program {
   public weeklyRoutinePlans: string[] = [];
   public frequencyRoutinePlans: string[] = [];
   public individualRoutinePlans: string[] = [];
+  public programSetting!: string;
+  public frequency!: number;
+  public startDate!: string;
 }

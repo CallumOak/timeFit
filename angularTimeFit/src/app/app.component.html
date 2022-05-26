@@ -9,7 +9,7 @@
         <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="calendar">Calendar<span *ngIf="this.router.url.includes('calendar')" class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a href="/program" class="nav-link" *ngIf="isLoggedIn" routerLink="program/weeklyProgram">Program<span *ngIf="this.router.url.includes('weeklyProgram')" class="sr-only">(current)</span></a>
+        <a href="/program" class="nav-link" *ngIf="isLoggedIn" routerLink="{{this.programLink()}}">Program<span *ngIf="this.router.url.includes('weeklyProgram')" class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a href="/routines" class="nav-link" *ngIf="isLoggedIn" routerLink="routines">Routines<span *ngIf="this.router.url.includes('routines')" class="sr-only">(current)</span></a>

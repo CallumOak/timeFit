@@ -4,12 +4,11 @@ import com.callumezmoney.timefit.util.ProgramSetting;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.springframework.core.env.Environment;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,6 +24,7 @@ public class Program {
     private String name;
     private ProgramSetting programSetting = ProgramSetting.WEEKLY;
     private Integer frequency = 1;
+    private Date startDate = new Date();
     @OneToMany(
             mappedBy = "program",
             cascade = CascadeType.ALL,

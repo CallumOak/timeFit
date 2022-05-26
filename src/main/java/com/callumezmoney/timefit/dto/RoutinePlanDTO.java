@@ -20,6 +20,5 @@ public class RoutinePlanDTO {
     LocalTime endTime;
     String type;
     Integer weekDay;
-    Date date;
     Integer position;
 }

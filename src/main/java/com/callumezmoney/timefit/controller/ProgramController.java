@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class ProgramController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addProgram(@RequestBody ProgramDTO newProgramDto, Principal principal){
+    public ResponseEntity<?> addProgram(@RequestBody ProgramDTO newProgramDto, Principal principal) throws ParseException {
         Program newProgram = programMapper.dtoToEntity(newProgramDto);
         newProgram.setUser(userService.getUser(principal.getName()).orElse(null));
         return ResponseEntity.ok(programMapper.entityToDto(programService.addProgram(newProgram, principal.getName()).get()));

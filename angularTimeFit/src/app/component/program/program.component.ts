@@ -23,7 +23,6 @@ export class ProgramComponent implements OnInit, OnDestroy {
   constructor(private programService: ProgramService,
               public routinePlanService: RoutinePlanService,
               public routineService: RoutineService,
-              private userService: UserService,
               public router: Router) {
   }
 
@@ -32,7 +31,7 @@ export class ProgramComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this. subscription = this.programService.program$.subscribe(program => {
+    this.subscription = this.programService.program$.subscribe(program => {
       this.program = program;
     })
   }
@@ -46,5 +45,15 @@ export class ProgramComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  setWeekly() {
+    this.program.programSetting = "weekly";
+    this.programService.updateProgram(this.program);
+  }
+
+  setFrequency() {
+    this.program.programSetting = "frequency";
+    this.programService.updateProgram(this.program);
   }
 }

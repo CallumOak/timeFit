@@ -127,7 +127,6 @@ public class RoutinePlanServiceImpl implements RoutinePlanService {
             IndividualRoutinePlan updatedRoutinePlan = oldRoutinePlan.get();
             updatedRoutinePlan.setStartTime(routinePlan.getStartTime());
             updatedRoutinePlan.setEndTime(routinePlan.getEndTime());
-            updatedRoutinePlan.setDate(routinePlan.getDate());
         }
     }
 

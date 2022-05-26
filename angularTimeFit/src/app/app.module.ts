@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import {UserService} from "./service/user.service";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,8 +17,9 @@ import { SignupComponent } from './component/signup/signup.component';
 
 import { authInterceptorProviders } from './helper/auth.interceptor';
 
-import { FullCalendarModule } from '@fullcalendar/angular';
+import {FullCalendarModule} from '@fullcalendar/angular';
 import interactionPlugin from '@fullcalendar/interaction';
+import rrulePlugin from '@fullcalendar/rrule';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarComponent } from './component/calendar/calendar.component';
 import { ProgramComponent } from './component/program/program.component';
@@ -39,7 +39,8 @@ import {DragDropModule} from  '@angular/cdk/drag-drop';
 
 FullCalendarModule.registerPlugins([
   interactionPlugin,
-  dayGridPlugin
+  dayGridPlugin,
+  rrulePlugin
 ]);
 
 @NgModule({

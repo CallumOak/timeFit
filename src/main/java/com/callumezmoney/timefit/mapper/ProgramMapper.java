@@ -8,15 +8,18 @@ import lombok.Data;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.stream.Collectors;
 
 import static com.callumezmoney.timefit.util.MapperUtils.getIdFromURI;
+import static com.callumezmoney.timefit.util.ProgramSetting.fromValue;
 
 @Data
 @Component
 @AllArgsConstructor
 public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
-
     private Environment environment;
     private WeeklyRoutinePlanMapper weeklyRoutinePlanMapper;
     private FrequencyRoutinePlanMapper frequencyRoutinePlanMapper;
@@ -24,12 +27,14 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
     private ProgramService programService;
 
     @Override
-    public Program dtoToEntity(ProgramDTO dto) {
+    public Program dtoToEntity(ProgramDTO dto) throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Program program = new Program(
                 dto.getId(),
                 dto.getName(),
-                dto.getProgramSetting(),
+                fromValue(dto.getProgramSetting()),
                 dto.getFrequency(),
+                formatter.parse(dto.getStartDate()),
                 dto.getWeeklyRoutinePlans().stream().map(weeklyRoutinePlanMapper::fromURI)
                         .collect(Collectors.toList()),
                 dto.getFrequencyRoutinePlans().stream().map(frequencyRoutinePlanMapper::fromURI)
@@ -49,11 +54,13 @@ public class ProgramMapper implements WebMapper<Program, ProgramDTO> {
 
     @Override
     public ProgramDTO entityToDto(Program entity) {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return new ProgramDTO(
                 entity.getId(),
                 entity.getName(),
-                entity.getProgramSetting(),
+                entity.getProgramSetting().value(),
                 entity.getFrequency(),
+                formatter.format(entity.getStartDate()),
                 entity.getWeeklyRoutines().stream().map(r -> WeeklyRoutinePlanMapper.toURI(r, environment))
                         .collect(Collectors.toList()),
                 entity.getFrequencyRoutines().stream().map(r -> FrequencyRoutinePlanMapper.toURI(r, environment))

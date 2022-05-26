@@ -3,10 +3,10 @@
   <li class="container">
     <ul class="nav nav-tabs" id="myTab">
       <li class="nav-item" role="presentation">
-        <a href="/weeklyProgram" routerLink="weeklyProgram" [class.active]="this.router.url.includes('weekly')" class="nav-link" tabindex="-1" role="button" aria-disabled="true">Weekly program</a>
+        <a href="/weeklyProgram" routerLink="weeklyProgram" [class.active]="this.router.url.includes('weekly')" class="nav-link" tabindex="-1" role="button" aria-disabled="true" (click)="setWeekly()">Weekly program</a>
       </li>
       <li class="nav-item" role="presentation">
-        <a href="/frequencyProgram" routerLink="frequencyProgram" [class.active]="this.router.url.includes('frequency')" class="nav-link" tabindex="-1" role="button" aria-disabled="true">Frequency program</a>
+        <a href="/frequencyProgram" routerLink="frequencyProgram" [class.active]="this.router.url.includes('frequency')" class="nav-link" tabindex="-1" role="button" aria-disabled="true" (click)="setFrequency()">Frequency program</a>
       </li>
     </ul>
   </li>
