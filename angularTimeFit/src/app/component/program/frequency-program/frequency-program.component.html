@@ -15,18 +15,22 @@
         <label>start on </label>
       </div>
       <div class="col-6 col-sm-1">
-        <input type="date">
+        <input type="date" [value]="program.startDate" (change)="updateStartDate($event)">
       </div>
       <div class="w-100"></div>
       <div class="col-6 col-sm-1">
         <label>repeat </label>
       </div>
       <div class="col-6 col-sm-1">
-        <select style="width: 65px" class="form-select" aria-label="Default select example">
+        <select style="width: 65px" [value]="program.frequency" (change)="updateFrequency($event)" class="form-select" aria-label="Default select example">
           <option selected> </option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
+          <option value=1>1</option>
+          <option value=2>2</option>
+          <option value=3>3</option>
+          <option value=4>4</option>
+          <option value=5>5</option>
+          <option value=6>6</option>
+          <option value=7>7</option>
         </select>
       </div>
       <div class="col-6 col-sm-1">

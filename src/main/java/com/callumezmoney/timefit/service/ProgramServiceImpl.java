@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,6 +55,12 @@ public class ProgramServiceImpl implements ProgramService {
             Program updatedProgram = oldProgram.get();
             updatedProgram.setName(program.getName());
             updatedProgram.setProgramSetting(fromValue(program.getProgramSetting()));
+            try {
+                updatedProgram.setStartDate((new SimpleDateFormat("yyyy-MM-dd")).parse(program.getStartDate()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            updatedProgram.setFrequency(program.getFrequency());
         }
     }
 

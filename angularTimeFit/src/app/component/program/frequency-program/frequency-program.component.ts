@@ -93,6 +93,19 @@ export class FrequencyProgramComponent implements OnInit {
     this.routinePlanService.deleteRoutinePlan(this.routinePlans[routinePlanIndex].id);
   }
 
+  updateStartDate(event: any){
+    this.program.startDate = event.target.value;
+    this.updateProgram();
+  }
+
+  updateFrequency(event: any){
+    this.program.frequency = event.target.value;
+    this.updateProgram();
+  }
+
+  updateProgram(){
+    this.programService.updateProgram(this.program);
+  }
 
   routineUrls(): string[]{
     let urls: string[] = [];
