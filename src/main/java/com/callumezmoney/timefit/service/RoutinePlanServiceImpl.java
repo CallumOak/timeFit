@@ -150,20 +150,23 @@ public class RoutinePlanServiceImpl implements RoutinePlanService {
     }
 
     @Override
+    @Transactional
     public void deleteRoutinePlan(Long id, String username) {
         Optional<WeeklyRoutinePlan> weeklyRoutinePlan = weeklyRoutinePlanRepository.findById(id);
-        Optional<FrequencyRoutinePlan> frequencyRoutinePlan = frequencyRoutinePlanRepository.findById(id);
-        Optional<IndividualRoutinePlan> individualRoutinePlan = individualRoutinePlanRepository.findById(id);
-        if(weeklyRoutinePlan.isPresent() &&
-                validateUser(weeklyRoutinePlan.get(), username)){
+        if(weeklyRoutinePlan.isPresent() && validateUser(weeklyRoutinePlan.get(), username)){
             weeklyRoutinePlanRepository.deleteById(id);
+            return;
         }
-        if(frequencyRoutinePlan.isPresent() &&
-                validateUser(frequencyRoutinePlan.get(), username)){
+        Optional<FrequencyRoutinePlan> frequencyRoutinePlan = frequencyRoutinePlanRepository.findById(id);
+        if(frequencyRoutinePlan.isPresent() && validateUser(frequencyRoutinePlan.get(), username)){
+            frequencyRoutinePlanRepository.findAll().stream()
+                    .filter(frp -> Objects.equals(frp.getProgram().getUser().getUsername(), username) && frp.getPosition() > frequencyRoutinePlan.get().getPosition())
+                    .forEach(frp -> frp.setPosition(frp.getPosition() - 1));
             frequencyRoutinePlanRepository.deleteById(id);
+            return;
         }
-        if(individualRoutinePlan.isPresent() &&
-                validateUser(individualRoutinePlan.get(), username)){
+        Optional<IndividualRoutinePlan> individualRoutinePlan = individualRoutinePlanRepository.findById(id);
+        if(individualRoutinePlan.isPresent() && validateUser(individualRoutinePlan.get(), username)){
             individualRoutinePlanRepository.deleteById(id);
         }
     }

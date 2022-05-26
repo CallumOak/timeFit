@@ -27,6 +27,7 @@ public class FrequencyRoutinePlanMapper  implements WebMapper<FrequencyRoutinePl
                 .routine(routineMapper.fromURI(dto.getRoutine()))
                 .startTime(dto.getStartTime())
                 .endTime(dto.getEndTime())
+                .position(dto.getPosition())
                 .build();
         routinePlan.getRoutine().getFrequencyRoutinePlans().add(routinePlan);
         return routinePlan;

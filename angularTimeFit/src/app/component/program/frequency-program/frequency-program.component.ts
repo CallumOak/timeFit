@@ -89,7 +89,7 @@ export class FrequencyProgramComponent implements OnInit {
   }
 
   removeRoutine(id: string) {
-    let routinePlanIndex = this.routinePlans.findIndex(rp => rp.routine.endsWith(id))
+    let routinePlanIndex = this.routinePlans.findIndex(rp => rp.routine.endsWith("/" + id));
     this.routinePlanService.deleteRoutinePlan(this.routinePlans[routinePlanIndex].id);
   }
 
@@ -114,12 +114,14 @@ export class FrequencyProgramComponent implements OnInit {
   open(content: any) {
     this.modalService.open(content, this.modalOptions).result.then((result) => {
       this.closeResult = `Closed with: ${result}`
-      this.selectedRoutine = this.tmpSelectedRoutine
-      let routinePlan = new FrequencyRoutinePlan();
-      routinePlan.routine = '/api/routine/' + this.selectedRoutine.id;
-      routinePlan.program = '/api/program/' + this.program.id;
-      routinePlan.position = this.routines.length;
-      this.routinePlanService.createFrequencyRoutinePlan(routinePlan);
+      if(this.selectedRoutine != this.emptyRoutine){
+        this.selectedRoutine = this.tmpSelectedRoutine
+        let routinePlan = new FrequencyRoutinePlan();
+        routinePlan.routine = '/api/routine/' + this.selectedRoutine.id;
+        routinePlan.program = '/api/program/' + this.program.id;
+        routinePlan.position = this.routinePlans.length;
+        this.routinePlanService.createFrequencyRoutinePlan(routinePlan);
+      }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
       this.tmpSelectedRoutine = this.emptyRoutine;
