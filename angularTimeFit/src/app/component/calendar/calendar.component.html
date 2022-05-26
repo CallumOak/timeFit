@@ -17,7 +17,7 @@
 
         <div class="row mt-3">
           <div class="input-group">
-            <a name="selectedRoutine" routerLink="../workout" class="btn btn-secondary">
+            <a id="selectedRoutine" routerLink="../workout" class="btn btn-secondary">
               Upper body <span class="fa fa-play"></span>
             </a>
           </div>
@@ -29,13 +29,9 @@
     <div class="col-1">
       <div class="d-flex justify-content-center">
 
-        <a name="addRoutine" routerLink="../program/weeklyProgram" class="btn btn-secondary ml-1 mr-1">
+        <a id="addRoutine" routerLink="../program/weeklyProgram" class="btn btn-secondary ml-1 mr-1">
           <span class="fa fa-plus"></span>
         </a>
-
-        <button name="removeRoutine" type="button" (click)="removerSelectedRoutine()" class="btn btn-secondary ml-1">
-          <span class="fa fa-trash"></span>
-        </button>
 
       </div>
     </div>
