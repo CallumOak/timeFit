@@ -44,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy{
   logout(): void {
     this.tokenStorageService.signout();
     window.location.reload();
+    this.router.navigate(['/home'])
   }
 
   removeNavItem(name: string){

@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a href="#" class="navbar-brand">CallumCoder</a>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
-      <li class="nav-item">
+      <li *ngIf="!isLoggedIn" class="nav-item">
         <a href="/home" class="nav-link" routerLink="home">Home<span *ngIf="this.router.url.includes('home')" class="sr-only">(current)</span> </a>
       </li>
       <li class="nav-item">
