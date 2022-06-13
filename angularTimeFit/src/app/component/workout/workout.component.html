@@ -8,8 +8,16 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-2"></div>
+      <div class="col-2">
+        <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
+      </div>
       <div class="col-8">
+        <div>
+          <button (click)="cd.pause()" class="btn btn-link btn-sm">pause</button>
+          <button (click)="cd.resume()" class="btn btn-link btn-sm">resume</button>
+          <button (click)="cd.stop()" class="btn btn-link btn-sm">stop</button>
+          <button (click)="cd.restart()" class="btn btn-link btn-sm">restart</button>
+        </div>
       </div>
     </div>
   </div>

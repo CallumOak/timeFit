@@ -36,6 +36,7 @@ import { DialogExerciseSelectComponent } from './component/dialog-exercise-selec
 import { RoutineCardComponent } from './component/program/routine-card/routine-card.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from  '@angular/cdk/drag-drop';
+import { CountdownModule } from 'ngx-countdown';
 
 FullCalendarModule.registerPlugins([
   interactionPlugin,
@@ -76,7 +77,8 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     NgbModule,
     NoopAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    CountdownModule
   ],
   providers: [
     authInterceptorProviders

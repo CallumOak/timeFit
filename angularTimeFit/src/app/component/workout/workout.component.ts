@@ -4,6 +4,7 @@ import {Subscription} from "rxjs";
 import {ExerciseService} from 'src/app/service/exercise.service';
 import {Routine} from "../../model/routine.model";
 import {RoutineService} from 'src/app/service/routine.service';
+import {CountdownConfig, CountdownEvent} from "ngx-countdown";
 
 @Component({
   selector: 'app-workout',
@@ -19,6 +20,15 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   selectedExercises: Exercise[] = [];
   exerciseSubscription!: Subscription;
   routineSubscriptions!: Subscription;
+  config: CountdownConfig = {leftTime: 60,
+    format: 'HH:mm:ss',
+    prettyText: (text) => {
+      return text
+        .split(':')
+        .map((v) => `<span class="item">${v}</span>`)
+        .join('');
+    },
+  };
 
   constructor(private exerciseService: ExerciseService,
               private routineService: RoutineService) { }
@@ -59,5 +69,9 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.exerciseSubscription.unsubscribe();
+  }
+
+  handleEvent(e: CountdownEvent) {
+    console.log('Actions', e);
   }
 }
