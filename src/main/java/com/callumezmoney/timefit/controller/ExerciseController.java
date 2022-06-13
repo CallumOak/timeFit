@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Api(value = "Exercise API")
 public class ExerciseController {
-    ExerciseService exercisesService;
-    ExerciseMapper exerciseMapper;
+    private ExerciseService exercisesService;
+    private ExerciseMapper exerciseMapper;
     private UserService userService;
 
     @GetMapping()

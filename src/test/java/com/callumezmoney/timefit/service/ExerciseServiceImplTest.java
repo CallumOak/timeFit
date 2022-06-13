@@ -94,6 +94,7 @@ class ExerciseServiceImplTest {
     @Test
     void getAllExercises() {
         doReturn(exerciseList).when(exercisesRepository).findAll();
+        assert(exercisesRepository.findAllByUser(userCallum) != null);
 
         List<Exercise> exercises = exerciseService.getAllExercises(userCallum.getUsername());
         assertNotNull(exercises);

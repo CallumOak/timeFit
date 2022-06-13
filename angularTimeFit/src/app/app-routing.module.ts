@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: 'calendar', component: CalendarComponent },
-  { path: 'workout', component: WorkoutComponent },
+  { path: 'workout/:id', component: WorkoutComponent },
   { path: 'routines', component: RoutinesComponent },
   { path: 'exercises', component: ExercisesComponent },
   { path: 'program', component: ProgramComponent, children: [

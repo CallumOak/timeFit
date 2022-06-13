@@ -13,5 +13,5 @@ public interface ExercisesRepository extends CrudRepository<Exercise, Long> {
 
     Optional<Exercise> findByIdAndUser(Long id, User user);
 
-    List<Exercise> findByUser(User user);
+    List<Exercise> findAllByUser(User user);
 }

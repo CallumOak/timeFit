@@ -3,9 +3,7 @@
     <div class="row mb-5">
         <div class="col-2">
         <select class="form-select" aria-label="routine selector">
-          <option value="1">Legs</option>
-          <option selected value="2">Upper body</option>
-          <option value="3">Cardio</option>
+          <option *ngFor="let routine of availableRoutines; let i = index" value="{{routine.id}}">{{routine.name}}</option>
         </select>
       </div>
     </div>

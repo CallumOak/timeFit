@@ -16,7 +16,6 @@ public class RoutineDTO {
     Long id;
     String user;
     String name;
-    Integer numberOfCycles;
     Color color;
     List<String> exercises;
     List<Integer> exercisePositions;

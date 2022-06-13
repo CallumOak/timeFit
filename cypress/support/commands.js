@@ -23,3 +23,26 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('loginHTTP', (username, password) => {
+    const optionsLogin = {
+        method : 'POST',
+        url : 'http://localhost:8080/api/auth/login',
+        body : {
+            "username": username,
+            "password": password
+        },
+        form : true,
+        followRedirect: true
+    }
+    cy.request(optionsLogin).then((response) =>{
+        sessionStorage.setItem("lh-cred", response.body['access_token'])
+    })
+})
+
+Cypress.Commands.add('setupdb', () => {
+    const optionsLogin = {
+        method : 'GET',
+        url : 'http://localhost:8080/api/test/setupdb'
+    }
+    cy.request(optionsLogin)
+})

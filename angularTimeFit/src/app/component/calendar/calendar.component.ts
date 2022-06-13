@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {HttpClient} from '@angular/common/http';
 import {RoutineService} from "../../service/routine.service";
@@ -11,6 +11,8 @@ import {ProgramService} from "../../service/program.service";
 import {WeeklyRoutinePlan} from "../../model/weekly-routine-plan.model";
 import {FrequencyRoutinePlan} from 'src/app/model/frequency-routine-plan.model';
 import {CalendarOptions} from "@fullcalendar/core";
+import {FullCalendarComponent} from "@fullcalendar/angular";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -19,6 +21,8 @@ import {CalendarOptions} from "@fullcalendar/core";
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit, OnDestroy{
+  @ViewChild('calendar')
+  calendarComponent!: FullCalendarComponent;
   program!: Program;
   weeklyRoutinePlans: WeeklyRoutinePlan[] = [];
   frequencyRoutinePlans: FrequencyRoutinePlan[] = [];
@@ -33,18 +37,15 @@ export class CalendarComponent implements OnInit, OnDestroy{
 
   calendarOptions : CalendarOptions = {
     initialView: 'dayGridMonth',
-    dateClick: this.onDateClick.bind(this),
-    events: this.Events
+    events: this.Events,
+
   };
 
   constructor(private httpClient: HttpClient,
+              private router: Router,
               private programService: ProgramService,
               private routinePlanService: RoutinePlanService,
               private routineService: RoutineService){ }
-
-  onDateClick(res : any) {
-    alert('Clicked on date : ' + res.dateStr)
-  }
 
   fillEvents(){
     this.Events = [];
@@ -59,7 +60,8 @@ export class CalendarComponent implements OnInit, OnDestroy{
             interval: 1,
             byweekday: [day],
             dtstart: new Date().getFullYear() + '-01-01'
-          }
+          },
+          url: "http://localhost:4200/workout/" + routine.id
         }
         this.Events.push(event);
       }
@@ -136,5 +138,10 @@ export class CalendarComponent implements OnInit, OnDestroy{
     this.weeklyRoutinePlanSubscription.unsubscribe();
     this.frequencyRoutinePlanSubscription.unsubscribe();
     this.routineSubscription.unsubscribe();
+  }
+
+  todayEvent() {
+    let calendarApi = this.calendarComponent.getApi();
+    calendarApi.getCurrentData();
   }
 }

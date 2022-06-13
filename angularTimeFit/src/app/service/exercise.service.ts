@@ -12,9 +12,11 @@ const API = environment.apiEndpoint + "/api/exercise/";
 })
 export class ExerciseService {
   public emptyExercise = new Exercise();
+
   private _exercisesSource = new BehaviorSubject<Exercise[]>([]);
-  private _selectedExercise = new ReplaySubject<Exercise>();
   exercises$ = this._exercisesSource.asObservable();
+
+  private _selectedExercise = new ReplaySubject<Exercise>();
   selectedExercise$ = this._selectedExercise.asObservable();
   public exerciseId?: string;
 

@@ -22,7 +22,6 @@ public class Routine {
     @ManyToOne
     private User user;
     private String name;
-    private Integer numberOfCycles;
     private Color color;
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL)
     private List<ExerciseRoutine> exercises = new ArrayList<>();
@@ -146,7 +145,6 @@ public class Routine {
                 "id=" + id +
                 ", user=" + user.getUsername() +
                 ", name='" + name + '\'' +
-                ", numberOfCycles=" + numberOfCycles +
                 ", color=" + color +
                 '}';
     }

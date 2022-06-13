@@ -78,27 +78,4 @@ public class Exercise {
         tmpNewRoutines.forEach(r -> {
         });
     }
-
-    public void remove(){
-        routines.forEach(routine -> routine.getRoutine().getExercises().remove(routine));
-        routines = new ArrayList();
-    }
-
-    @Override
-    public String toString() {
-        return "Exercise{" +
-                "id=" + id +
-                ", user=" + user.getUsername() +
-                ", name='" + name + '\'' +
-                ", exerciseDuration=" + exerciseDuration +
-                ", exerciseBreak=" + exerciseBreak +
-                ", repetitions=" + repetitions +
-                ", exerciseColor=" + exerciseColor +
-                ", breakColor=" + breakColor +
-                ", illustrationLocation='" + illustrationLocation + '\'' +
-                ", exerciseSoundLocation='" + exerciseSoundLocation + '\'' +
-                ", breakSoundLocation='" + breakSoundLocation + '\'' +
-                ", countdownSoundLocation='" + countdownSoundLocation + '\'' +
-                '}';
-    }
 }

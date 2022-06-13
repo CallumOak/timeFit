@@ -31,7 +31,6 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
                 dto.getId(),
                 null,
                 dto.getName(),
-                dto.getNumberOfCycles(),
                 dto.getColor(),
                 new ArrayList<>(),
                 new ArrayList<>(),
@@ -51,7 +50,6 @@ public class RoutineMapper implements WebMapper<Routine, RoutineDTO> {
                 entity.getId(),
                 null,
                 entity.getName(),
-                entity.getNumberOfCycles(),
                 entity.getColor(),
                 entity.getExercises().stream().map(e -> ExerciseMapper.toURI(e.getExercise(), environment))
                         .collect(Collectors.toList()),

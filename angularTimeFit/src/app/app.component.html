@@ -3,27 +3,27 @@
     <a href="#" class="navbar-brand">CallumCoder</a>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li *ngIf="!isLoggedIn" class="nav-item">
-        <a href="/home" class="nav-link" routerLink="home">Home<span *ngIf="this.router.url.includes('home')" class="sr-only">(current)</span> </a>
+        <a id="home" href="/home" class="nav-link" routerLink="home">Home<span *ngIf="this.router.url.includes('home')" class="sr-only">(current)</span> </a>
       </li>
       <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="calendar">Calendar<span *ngIf="this.router.url.includes('calendar')" class="sr-only">(current)</span></a>
+        <a id="calendar" href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="calendar">Calendar<span *ngIf="this.router.url.includes('calendar')" class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a href="/program" class="nav-link" *ngIf="isLoggedIn" routerLink="{{this.programLink()}}">Program<span *ngIf="this.router.url.includes('weeklyProgram')" class="sr-only">(current)</span></a>
+        <a id="program" href="/program" class="nav-link" *ngIf="isLoggedIn" routerLink="{{this.programLink()}}">Program<span *ngIf="this.router.url.includes('weeklyProgram')" class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a href="/routines" class="nav-link" *ngIf="isLoggedIn" routerLink="routines">Routines<span *ngIf="this.router.url.includes('routines')" class="sr-only">(current)</span></a>
+        <a id="routines" href="/routines" class="nav-link" *ngIf="isLoggedIn" routerLink="routines">Routines<span *ngIf="this.router.url.includes('routines')" class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a href="/workout" class="nav-link" *ngIf="isLoggedIn" routerLink="workout">Workout
+        <a id="workout" href="/workout" class="nav-link" *ngIf="isLoggedIn" routerLink="workout">Workout
           <span *ngIf="this.router.url.includes('workout')" class="sr-only">
             (current)
           </span>
         </a>
       </li>
-      <li *ngFor="let navItem of this.navbarService.extraLinks">
+      <li *ngFor="let navItem of this.navbarService.extraLinks; let i = index">
         <a class="nav-link" *ngIf="isLoggedIn" >
-          <a routerLink="{{navItem.path}}">
+          <a id="{{i}}" routerLink="{{navItem.path}}">
             <span>{{navItem.text}}
               <span *ngIf="this.router.url.includes(navItem.path)" class="sr-only">
                 (current)
@@ -39,10 +39,10 @@
 
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
       <li class="nav-item">
-        <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
+        <a id="register" href="/register" class="nav-link" routerLink="register">Sign Up</a>
       </li>
       <li class="nav-item">
-        <a href="/login" class="nav-link" routerLink="login">Login</a>
+        <a id="login" href="/login" class="nav-link" routerLink="login">Login</a>
       </li>
     </ul>
 
@@ -51,7 +51,7 @@
         <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
       </li>
       <li class="nav-item">
-        <a href="/home" class="nav-link" (click)="logout()">LogOut</a>
+        <a id="logout" href="/home" class="nav-link" (click)="logout()">LogOut</a>
       </li>
     </ul>
   </nav>

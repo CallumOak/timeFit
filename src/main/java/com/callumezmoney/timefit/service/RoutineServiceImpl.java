@@ -57,7 +57,6 @@ public class RoutineServiceImpl implements RoutineService {
             Routine persistedRoutine = oPersistedRoutine.get();
             persistedRoutine.setName(routine.getName());
             persistedRoutine.setColor(routine.getColor());
-            persistedRoutine.setNumberOfCycles(routine.getNumberOfCycles());
             List<Exercise> exerciseList = routine.getExercises().stream().map(
                     eUrl -> exercisesRepository.findById(MapperUtils.getIdFromURI(eUrl, environment, "exercise")).orElse(null)
                 ).collect(Collectors.toList());
