@@ -23,10 +23,10 @@ export class RoutineVisualizerComponent implements OnInit {
   closeResult: string = '';
   availableRoutines!: Routine[];
   tmpSelectedRoutine!: Routine;
-  selectedRoutine!: Routine;
+  selectedRoutine: Routine = RoutineService.emptyRoutine;
   private modalOptions: NgbModalOptions;
-  selectedRoutineSubscription!: Subscription;
-  availableRoutinesSubscription!: Subscription;
+  selectedRoutineSubscription: Subscription = new Subscription();
+  availableRoutinesSubscription: Subscription = new Subscription();
 
   constructor(private modalService: NgbModal,
               private routinePlanService: RoutinePlanService,

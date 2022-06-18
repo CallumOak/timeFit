@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy{
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
-  program!: Program;
+  program?: Program;
   programSubscription: Subscription = new Subscription();
 
   constructor(private tokenStorageService: TokenStorageService,
@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   programLink(): string {
-    return "program/" + this.program.programSetting + "Program";
+    return this.program === undefined ? "" : "program/" + this.program.programSetting + "Program";
   }
 
   ngOnDestroy(): void {

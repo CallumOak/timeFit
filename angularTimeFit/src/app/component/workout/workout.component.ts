@@ -5,6 +5,7 @@ import {ExerciseService} from 'src/app/service/exercise.service';
 import {Routine} from "../../model/routine.model";
 import {RoutineService} from 'src/app/service/routine.service';
 import {CountdownConfig, CountdownEvent} from "ngx-countdown";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-workout',
@@ -13,10 +14,10 @@ import {CountdownConfig, CountdownEvent} from "ngx-countdown";
 })
 export class WorkoutComponent implements OnInit, OnDestroy {
   exercises: Exercise[] = [];
-  runningExerciseIndex: number = 0;
-  runningExercise!: Exercise;
+  //runningExerciseIndex: number = 0;
+  //runningExercise!: Exercise;
   availableRoutines!: Routine[];
-  private _selectedRoutine!: Routine;
+  private _selectedRoutine: Routine = RoutineService.emptyRoutine;
   selectedExercises: Exercise[] = [];
   exerciseSubscription!: Subscription;
   routineSubscriptions!: Subscription;
@@ -31,7 +32,9 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   };
 
   constructor(private exerciseService: ExerciseService,
-              private routineService: RoutineService) { }
+              private routineService: RoutineService,
+              private activatedRoute: ActivatedRoute) {
+    }
 
   set selectedRoutine(value: Routine) {
     this._selectedRoutine = value;
@@ -43,6 +46,8 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     })
     this.orderExercises();
   }
+
+  get selectedRoutine() { return this._selectedRoutine; }
 
   private orderExercises() {
     this.selectedExercises.sort((a, b) => this.getRelevantPosition(a) - this.getRelevantPosition(b));
@@ -60,6 +65,14 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.routineService.availableRoutines$.subscribe(rs => {
+      this.availableRoutines = rs;
+      let selectedRoutineId = this.activatedRoute.snapshot.params['id'];
+      let selectedRoutineIndex = selectedRoutineId != undefined ?
+        this.availableRoutines.findIndex(r => r.id == selectedRoutineId) : 0;
+      this.selectedRoutine = this.availableRoutines[selectedRoutineIndex];
+    }
+    )
     this.routineService.availableRoutines$.subscribe(rs => {
         this.availableRoutines = rs;
       }

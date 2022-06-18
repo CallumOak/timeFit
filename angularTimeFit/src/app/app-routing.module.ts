@@ -31,6 +31,7 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'workout/:id', component: WorkoutComponent },
+  { path: 'workout', component: WorkoutComponent },
   { path: 'routines', component: RoutinesComponent },
   { path: 'exercises', component: ExercisesComponent },
   { path: 'program', component: ProgramComponent, children: [

@@ -12,6 +12,7 @@ const API = environment.apiEndpoint + '/api/routine/';
   providedIn: 'root'
 })
 export class RoutineService {
+  public static readonly emptyRoutine: Routine = new Routine();
   private _routineUrls: string[] = [];
 
   private _availableRoutines: BehaviorSubject<Routine[]> = new BehaviorSubject<Routine[]>([]);
