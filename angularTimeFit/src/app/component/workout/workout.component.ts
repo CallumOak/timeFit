@@ -62,6 +62,7 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
       this.selectedExercises.push(this.exercises[index]);
     })
     this.orderExercises();
+    this.resetRoutine()
   }
 
   get selectedRoutine() { return this._selectedRoutine; }
@@ -99,7 +100,7 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
         this.countdown.begin();
       }
       else{
-        this.resetRoutine()
+        this.resetRoutine();
       }
     }
   }
