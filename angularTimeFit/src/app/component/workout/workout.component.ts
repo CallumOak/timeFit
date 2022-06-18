@@ -1,21 +1,34 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Exercise} from "../../model/exercise.model";
 import {Subscription} from "rxjs";
 import {ExerciseService} from 'src/app/service/exercise.service';
 import {Routine} from "../../model/routine.model";
 import {RoutineService} from 'src/app/service/routine.service';
-import {CountdownConfig, CountdownEvent} from "ngx-countdown";
+import {CountdownComponent, CountdownConfig, CountdownEvent} from "ngx-countdown";
 import { ActivatedRoute } from '@angular/router';
+import {RoutineVisualizerComponent} from "../routine-visualizer/routine-visualizer.component";
 
 @Component({
   selector: 'app-workout',
   templateUrl: './workout.component.html',
   styleUrls: ['./workout.component.css']
 })
-export class WorkoutComponent implements OnInit, OnDestroy {
+export class WorkoutComponent implements  OnDestroy, AfterViewInit {
+  @ViewChild(RoutineVisualizerComponent)
+  routineVisualizer!: RoutineVisualizerComponent;
+  @ViewChild(CountdownComponent)
+  countdown!: CountdownComponent;
   exercises: Exercise[] = [];
-  //runningExerciseIndex: number = 0;
-  //runningExercise!: Exercise;
+  runningExerciseIndex: number = 0;
+  runningExercise(){
+    if(this.routineVisualizer
+      && this.routineVisualizer.exercises
+      && this.routineVisualizer.exercises[this.runningExerciseIndex]){
+      return this.routineVisualizer.exercises[this.runningExerciseIndex];
+    }
+    return this.exerciseService.emptyExercise;
+  };
+  rest: boolean = false;
   availableRoutines!: Routine[];
   private _selectedRoutine: Routine = RoutineService.emptyRoutine;
   selectedExercises: Exercise[] = [];
@@ -31,13 +44,17 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private exerciseService: ExerciseService,
+  constructor(public exerciseService: ExerciseService,
               private routineService: RoutineService,
               private activatedRoute: ActivatedRoute) {
     }
 
   set selectedRoutine(value: Routine) {
+    if(value == undefined) {
+      value = RoutineService.emptyRoutine;
+    }
     this._selectedRoutine = value;
+    this.routineVisualizer.routine = value;
     this.selectedExercises = [];
     this._selectedRoutine.exercises.forEach(eUrl => {
       let id = this.getId(eUrl);
@@ -64,14 +81,46 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     return url.split('/')[url.split('/').length - 1];
   }
 
-  ngOnInit(): void {
-    this.routineService.availableRoutines$.subscribe(rs => {
-      this.availableRoutines = rs;
-      let selectedRoutineId = this.activatedRoute.snapshot.params['id'];
-      let selectedRoutineIndex = selectedRoutineId != undefined ?
-        this.availableRoutines.findIndex(r => r.id == selectedRoutineId) : 0;
-      this.selectedRoutine = this.availableRoutines[selectedRoutineIndex];
+  ngOnDestroy(): void {
+    this.exerciseSubscription.unsubscribe();
+  }
+
+  handleEvent(e: CountdownEvent) {
+    if(e.action == "done"){
+      if(this.runningExerciseIndex < this.selectedRoutine.exercises.length - 1 || !this.rest){
+        if(this.rest){
+          this.runningExerciseIndex += 1;
+          this.rest = false;
+        }
+        else(
+          this.rest = true
+        )
+        this.resetCountdown();
+        this.countdown.begin();
+      }
+      else{
+        this.resetRoutine()
+      }
     }
+  }
+
+  resetRoutine() {
+    this.runningExerciseIndex = 0;
+    this.rest = false;
+    this.resetCountdown();
+  }
+
+  ngAfterViewInit() {
+    this.countdown.pause();
+    this.routineService.availableRoutines$.subscribe(rs => {
+        this.availableRoutines = rs;
+        let selectedRoutineId = this.activatedRoute.snapshot.params['id'];
+        console.log(selectedRoutineId);
+        let selectedRoutineIndex = selectedRoutineId != undefined ?
+          this.availableRoutines.findIndex(r => r.id == selectedRoutineId) : 0;
+        console.log(selectedRoutineIndex);
+        this.selectedRoutine = this.availableRoutines[selectedRoutineIndex];
+      }
     )
     this.routineService.availableRoutines$.subscribe(rs => {
         this.availableRoutines = rs;
@@ -80,11 +129,15 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.exerciseSubscription = this.exerciseService.exercises$.subscribe(es => this.exercises = es);
   }
 
-  ngOnDestroy(): void {
-    this.exerciseSubscription.unsubscribe();
-  }
+  resetCountdown() {
+    if(this.routineVisualizer != undefined && this.countdown != undefined){
+      if(this.routineVisualizer.exercises != undefined && this.routineVisualizer.exercises.length > 0){
+        this.config.leftTime = this.rest ? +this.runningExercise().exerciseBreak : +this.runningExercise().exerciseDuration;
+        this.countdown.config = this.config;
+      }
+      this.countdown.restart();
+      this.countdown.pause();
+    }
 
-  handleEvent(e: CountdownEvent) {
-    console.log('Actions', e);
   }
 }

@@ -2,13 +2,16 @@
   <div class="jumbotron row justify-content-center">
     <div class="row mb-5">
         <div class="col-2">
-        <select class="form-select" aria-label="routine selector" [value]="selectedRoutine">
-          <option *ngFor="let routine of availableRoutines; let i = index" value="{{routine}}">{{routine.name}}</option>
+        <select class="form-select" aria-label="routine selector" [(ngModel)]="selectedRoutine">
+          <option *ngFor="let routine of availableRoutines; let i = index" [ngValue]="routine">{{routine.name}}</option>
         </select>
       </div>
     </div>
     <div class="row">
-      <app-routine-visualizer [routine]="selectedRoutine"></app-routine-visualizer>
+      <app-routine-visualizer [routine]="selectedRoutine" (updateExercisesEvent)="resetCountdown()"></app-routine-visualizer>
+    </div>
+    <div class="row">
+      <span *ngIf="runningExercise() != exerciseService.emptyExercise">{{runningExercise().name}}</span>
     </div>
     <div class="row">
       <div class="col-2">
@@ -16,10 +19,9 @@
       </div>
       <div class="col-8">
         <div>
-          <button (click)="cd.pause()" class="btn btn-link btn-sm">pause</button>
-          <button (click)="cd.resume()" class="btn btn-link btn-sm">resume</button>
-          <button (click)="cd.stop()" class="btn btn-link btn-sm">stop</button>
-          <button (click)="cd.restart()" class="btn btn-link btn-sm">restart</button>
+          <button (click)="cd.resume()" class="btn btn-link btn-sm">Go</button>
+          <button (click)="cd.pause()" class="btn btn-link btn-sm">Pause</button>
+          <button (click)="resetRoutine()" class="btn btn-link btn-sm">Restart</button>
         </div>
       </div>
     </div>

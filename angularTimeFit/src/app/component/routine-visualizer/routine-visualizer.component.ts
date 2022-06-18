@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {RoutineService} from "../../service/routine.service";
 import {RoutineTypeEnum} from "../../enums/routine-type-enum.enum";
@@ -17,86 +17,59 @@ import {ExerciseService} from "../../service/exercise.service";
 export class RoutineVisualizerComponent implements OnInit {
   @Input()
   routineType!: RoutineTypeEnum;
-  @Input()
-  routine!: Routine;
-  exercises: Exercise[] = [];
-  closeResult: string = '';
+  private _routine!: Routine;
+  @Output()
+  updateExercisesEvent = new EventEmitter();
+  private _exercises: Exercise[] = [];
   availableRoutines!: Routine[];
-  tmpSelectedRoutine!: Routine;
-  selectedRoutine: Routine = RoutineService.emptyRoutine;
-  private modalOptions: NgbModalOptions;
-  selectedRoutineSubscription: Subscription = new Subscription();
-  availableRoutinesSubscription: Subscription = new Subscription();
+  exercisesSubscription: Subscription = new Subscription();
 
   constructor(private modalService: NgbModal,
               private routinePlanService: RoutinePlanService,
               private routineService: RoutineService,
               private exerciseService : ExerciseService) {
-    this.modalOptions = {
-      backdrop:'static',
-      backdropClass:'customBackdrop'
-    }
-  }
-/*
-  private commitSelectedRoutine(){
-    this.selectedRoutine = this.tmpSelectedRoutine
-
-    this.routinePlanService.setRoutine(this.routineType, this.selectedRoutine)
   }
 
-  open(content: any) {
-    this.modalService.open(content, this.modalOptions).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`
-      this.commitSelectedRoutine()
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
-    });
-    this.tmpSelectedRoutine = this.availableRoutines[0]
-    console.log(this.closeResult)
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-*/
   ngOnInit(): void {
-    //console.log(`Routine type : ${(this.routineType)}`)
-    this.availableRoutinesSubscription = this.routineService.availableRoutines$.subscribe(routines => {
-      this.availableRoutines = routines;
-      this.exerciseService.updateData();
-    })
-    this.exerciseService.exercises$.subscribe(es =>{
-        this.exercises = [];
+    this.exercisesSubscription = this.exerciseService.exercises$.subscribe(es =>{
+        let exercises: Exercise[] = [];
         this.routine.exercises.forEach(e => {
           let id = e.split("/")[e.split("/").length - 1];
           let index = es.findIndex(er => er.id == id)
           if(index > -1){
-            this.exercises.push(es[index])
+            exercises.push(es[index])
           }
         })
+        this.exercises = exercises;
     }
     )
-    this.tmpSelectedRoutine = this.availableRoutines[0]
-    console.log(`Selected routine : ${this.selectedRoutine}`)
-  }
-
-  tmpSelect(routine: Routine) {
-    this.tmpSelectedRoutine = routine
   }
 
   counter(i: number) {
     return new Array(i);
   }
 
+  @Input()
+  set routine(value: Routine) {
+    this._routine = value;
+    this.exerciseService.updateData();
+  }
+
+  get routine(): Routine {
+    return this._routine;
+  }
+
+  get exercises(): Exercise[] {
+    return this._exercises;
+  }
+
+  set exercises(value: Exercise[]) {
+    this._exercises = value;
+    this.updateExercisesEvent.emit(value);
+  }
+
   ngOnDestroy(): void {
-    this.selectedRoutineSubscription.unsubscribe();
-    this.availableRoutinesSubscription.unsubscribe();
+    this.exercisesSubscription.unsubscribe();
   }
 
 }
