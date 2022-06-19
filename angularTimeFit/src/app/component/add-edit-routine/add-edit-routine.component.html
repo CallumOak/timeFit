@@ -6,10 +6,10 @@
         <div class="row ">
           <div class="container routineContainer mb-5">
             <div class="row routine" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-              <div class="col-12 text-center title pb-1 pt-1" style="{{'background-color: ' + selectedRoutine.color}}">
-                {{selectedRoutine.name}}
-              </div>
-              <div class="col text-center exercise" [class.focused]="this.selectedExercise == i" *ngFor="let exercise of exercises; let i = index" cdkDrag>
+              <input type="text" [attr.value]="selectedRoutine.name" class="col-12 text-center title pb-1 pt-1"
+                     style="{{'background-color: ' + selectedRoutine.color}}" (keyup)="updateRoutineName($event)">
+              <div class="col text-center exercise" [class.focused]="this.selectedExercise == i"
+                   *ngFor="let exercise of exercises; let i = index" cdkDrag>
                 <div class="row pointer" [id]="exercise" (click)="select(i)">
                   <div class="col-9 pb-5 pt-5 pointer activity" style="{{'background-color: ' + exercise.exerciseColor}}">
                     <span>{{exercise.name}}</span>

@@ -21,7 +21,7 @@ export class ExerciseService {
   public exerciseId?: string;
 
   constructor(private http: HttpClient) {
-    this.emptyExercise.setValues("-1", "empty", 0, 0, "0", "", "", "", []);
+    this.emptyExercise.setValues("-1", "", 0, 0, "0", "#8d92dd", "#8d92dd", "", []);
   }
 
   getExercises(): Observable<Exercise[]> {

@@ -46,10 +46,11 @@ public class RoutineController {
     public ResponseEntity<?> addRoutine(@RequestBody RoutineDTO routineDto, Principal principal){
         Routine routine = routineMapper.dtoToEntity(routineDto);
         routine.setUser(userService.getUser(principal.getName()).orElse(null));
+        routine.setColor("#a0caa0");
         routine = routineService.createRoutine(routine, principal.getName()).get();
         routine.setName("new " + routine.getId());
         routineService.updateRoutine(routineMapper.entityToDto(routine), principal.getName());
-        routine = routineService.createRoutine(routine, principal.getName()).get();
+        routine = routineService.getRoutine(routine.getId(), principal.getName()).get();
         return ResponseEntity.ok(routineMapper.entityToDto(routine));
     }
 

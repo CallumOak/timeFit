@@ -44,11 +44,6 @@ public class Routine {
     )
     private List<IndividualRoutinePlan> individualRoutinePlans = new ArrayList<>();
 
-    public void remove(){
-        exercises.forEach(exercise -> exercise.getExercise().getRoutines().remove(exercise));
-        exercises = new ArrayList();
-    }
-
     /**
      * Since there can be multiple of the same exercise,
      * the join table must have a separate ID to allow multiple of the same relation and
