@@ -1,5 +1,6 @@
 package com.callumezmoney.timefit.controller;
 
+import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.payload.request.LoginRequest;
 import com.callumezmoney.timefit.payload.request.SignupRequest;
@@ -8,6 +9,7 @@ import com.callumezmoney.timefit.payload.response.MessageResponse;
 import com.callumezmoney.timefit.repository.UserRepository;
 import com.callumezmoney.timefit.security.jwt.JwtUtils;
 import com.callumezmoney.timefit.security.service.UserDetailsImpl;
+import com.callumezmoney.timefit.service.ProgramService;
 import com.callumezmoney.timefit.service.RoleService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 public class AuthController {
     AuthenticationManager authenticationManager;
     UserRepository userRepository;
+    ProgramService programService;
     RoleService roleService;
     PasswordEncoder encoder;
     JwtUtils jwtUtils;
@@ -78,6 +81,11 @@ public class AuthController {
         String strRole = signUpRequest.getRole();
         user.setRole(roleService.getRole(strRole));
         userRepository.save(user);
+        Program program = new Program();
+        program.setUser(user);
+        program.setName(user.getUsername() + "'s program");
+        user.getPrograms().add(program);
+        programService.addProgram(program, user.getUsername());
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

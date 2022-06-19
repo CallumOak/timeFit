@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -51,19 +52,19 @@ public class RoutinePlanController {
     @GetMapping("/weekly")
     public ResponseEntity<?> listWeeklyRoutinePlans(Principal principal){
         List<RoutinePlanDTO> routinePlanDtos = routinePlanService.getWeeklyRoutinePlans()
-                        .stream().map(weeklyRoutinePlanMapper::entityToDto).collect(Collectors.toList());
+                        .stream().filter(frp -> Objects.equals(frp.getProgram().getUser().getUsername(), principal.getName())).map(weeklyRoutinePlanMapper::entityToDto).collect(Collectors.toList());
         return ResponseEntity.ok(routinePlanDtos);
     }
     @GetMapping("/frequency")
     public ResponseEntity<?> listFrequencyRoutinePlans(Principal principal){
         List<RoutinePlanDTO> routinePlanDtos = routinePlanService.getFrequencyRoutinePlans()
-                .stream().map(frequencyRoutinePlanMapper::entityToDto).collect(Collectors.toList());
+                .stream().filter(frp -> Objects.equals(frp.getProgram().getUser().getUsername(), principal.getName())).map(frequencyRoutinePlanMapper::entityToDto).collect(Collectors.toList());
         return ResponseEntity.ok(routinePlanDtos);
     }
     @GetMapping("/individual")
     public ResponseEntity<?> listIndividualRoutinePlans(Principal principal){
         List<RoutinePlanDTO> routinePlanDtos = routinePlanService.getIndividualRoutinePlans()
-                .stream().map(individualRoutinePlanMapper::entityToDto).collect(Collectors.toList());
+                .stream().filter(frp -> Objects.equals(frp.getProgram().getUser().getUsername(), principal.getName())).map(individualRoutinePlanMapper::entityToDto).collect(Collectors.toList());
         return ResponseEntity.ok(routinePlanDtos);
     }
 
