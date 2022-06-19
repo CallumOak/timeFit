@@ -146,4 +146,9 @@ export class AddEditRoutineComponent implements OnInit, OnDestroy {
       this.exerciseService.updateData();
     });
   }
+
+  updateRoutineColor(event: any) {
+    this.selectedRoutine.color = event.target.value;
+    this.routineService.updateRoutine(this.selectedRoutine);
+  }
 }

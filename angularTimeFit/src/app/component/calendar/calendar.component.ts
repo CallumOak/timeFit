@@ -61,6 +61,7 @@ export class CalendarComponent implements OnInit, OnDestroy{
             byweekday: [day],
             dtstart: new Date().getFullYear() + '-01-01'
           },
+          backgroundColor: routine.color,
           url: "http://localhost:4200/workout/" + routine.id
         }
         this.Events.push(event);
@@ -77,7 +78,8 @@ export class CalendarComponent implements OnInit, OnDestroy{
             freq: "daily",
             interval: this.program.frequency * this.program.frequencyRoutinePlans.length,
             dtstart: date
-          }
+          },
+          backgroundColor: routine.color
         }
         this.Events.push(event);
       }

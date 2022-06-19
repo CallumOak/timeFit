@@ -22,7 +22,7 @@ public class Routine {
     @ManyToOne
     private User user;
     private String name;
-    private Color color;
+    private String color;
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL)
     private List<ExerciseRoutine> exercises = new ArrayList<>();
     @OneToMany(
