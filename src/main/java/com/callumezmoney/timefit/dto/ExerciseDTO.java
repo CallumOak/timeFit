@@ -18,8 +18,8 @@ public class ExerciseDTO {
     Duration exerciseDuration;
     Duration exerciseBreak;
     Integer repetitions;
-    Color exerciseColor;
-    Color breakColor;
+    String exerciseColor;
+    String breakColor;
     String illustrationLocation;
     String exerciseSoundLocation;
     String breakSoundLocation;

@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy{
 
   removeNavItem(name: string){
     if( this.router.url.includes((this.navbarService.getByName(name)).path)){
-      this.router.navigate(["/home"])
+      this.router.navigate(["/calendar"])
     }
     this.navbarService.removeItem(name);
   }

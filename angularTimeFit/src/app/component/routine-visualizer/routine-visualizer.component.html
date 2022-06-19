@@ -4,12 +4,12 @@
         <div class="col-12 text-center bg-success title pb-1 pt-1" >
           {{routine.name}}
         </div>
-        <div *ngFor="let exercise of routine.exercises" class="col text-center exercise">
+        <div *ngFor="let exercise of exercises" class="col text-center exercise">
           <div style="height: 100%" class="row">
-            <div class="col-9 bg-primary  pb-5 pt-5">
-              {{exercise}}
+            <div class="col-9  pb-5 pt-5" style="{{'background-color: ' + exercise.exerciseColor}}">
+              {{exercise.name}}
             </div>
-            <div class="col-3 bg-secondary  pb-5 pt-5">
+            <div class="col-3 pb-5 pt-5" style="{{'background-color: ' + exercise.breakColor}}">
               Rest
             </div>
           </div>

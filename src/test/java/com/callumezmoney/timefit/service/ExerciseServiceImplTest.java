@@ -57,36 +57,36 @@ class ExerciseServiceImplTest {
         exerciseList = new ArrayList<>();
         exercise1WithoutId = new Exercise(
                 null, userCallum, EXERCISE_1, Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         Exercise bicepCurl = new Exercise(
                 1L, userCallum, EXERCISE_1, Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exerciseList.add(bicepCurl);
         Exercise pushups = new Exercise(
                 2L, userCallum, "Pushups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exerciseList.add(pushups);
         Exercise pullups = new Exercise(
                 3L, userCallum, "Pullups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exerciseList.add(pullups);
         Exercise squats = new Exercise(
                 4L, userLele, "Squats", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exerciseList.add(squats);
         Exercise lunges = new Exercise(
                 5L, userLele, "Lunges", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exerciseList.add(lunges);
         Exercise sideRaise = new Exercise(
                 6L, userLele, "Side raises", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exerciseList.add(sideRaise);
     }

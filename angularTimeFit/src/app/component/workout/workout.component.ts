@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core';
 import {Exercise} from "../../model/exercise.model";
 import {Subscription} from "rxjs";
 import {ExerciseService} from 'src/app/service/exercise.service';
@@ -57,7 +57,7 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
     this.routineVisualizer.routine = value;
     this.selectedExercises = [];
     this._selectedRoutine.exercises.forEach(eUrl => {
-      let id = this.getId(eUrl);
+      let id = WorkoutComponent.getId(eUrl);
       let index = this.exercises.findIndex(e => e.id == id);
       this.selectedExercises.push(this.exercises[index]);
     })
@@ -73,12 +73,12 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
 
   private getRelevantPosition(exercise: Exercise): number{
     return exercise.routines.findIndex(rUrl => {
-      let id = this.getId(rUrl);
+      let id = WorkoutComponent.getId(rUrl);
       return this._selectedRoutine.id == id;
     });
   }
 
-  private getId(url: string): string{
+  private static getId(url: string): string{
     return url.split('/')[url.split('/').length - 1];
   }
 

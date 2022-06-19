@@ -26,15 +26,50 @@ export class AddEditExerciseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.exerciseService.updateData();
-    this.onSubmit();
-  }
-
-  onSubmit() {
-    this.exerciseSubscription = this.exerciseService.getExerciseById(this.activatedRoute.snapshot.params['id']).subscribe(e => {
-      this.selectedExercise = e;
+    this.exerciseSubscription = this.exerciseService.exercises$.subscribe(es => {
+      let exerciseIndex = es.findIndex(e => e.id == this.activatedRoute.snapshot.params['id']);
+      this.selectedExercise = es[exerciseIndex];
       this.navbarService.editItem(this.navBarItemIndex, this.selectedExercise.name, `${NAV_PATH}/${this.selectedExercise.id}`);
     });
+  }
+
+  updateName(event: any){
+    this.selectedExercise.name = event.target.value;
+    this.update()
+  }
+
+  updateTime(event: any){
+    this.selectedExercise.exerciseDuration = +event.target.value;
+    this.update()
+  }
+
+  updateReps(event: any){
+    this.selectedExercise.repetitions = event.target.value;
+    this.update()
+  }
+
+  updateRest(event: any){
+    this.selectedExercise.exerciseBreak = +event.target.value;
+    this.update()
+  }
+
+  updateExerciseColor(event: any){
+    this.selectedExercise.exerciseColor = event.target.value;
+    this.update()
+  }
+
+  updateRestColor(event: any){
+    this.selectedExercise.breakColor = event.target.value;
+    this.update()
+  }
+
+  updateIllustration(event: any){
+    this.selectedExercise.illustrationLocation = event.target.value;
+    this.update()
+  }
+
+  update(){
+    this.exerciseService.updateExercise(this.selectedExercise);
   }
 
   ngOnDestroy(): void {

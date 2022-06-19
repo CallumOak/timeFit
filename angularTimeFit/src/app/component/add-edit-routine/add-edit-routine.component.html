@@ -11,10 +11,10 @@
               </div>
               <div class="col text-center exercise" [class.focused]="this.selectedExercise == i" *ngFor="let exercise of exercises; let i = index" cdkDrag>
                 <div class="row pointer" [id]="exercise" (click)="select(i)">
-                  <div class="col-9 pb-5 pt-5 pointer activity">
+                  <div class="col-9 pb-5 pt-5 pointer activity" style="{{'background-color: ' + exercise.exerciseColor}}">
                     <span>{{exercise.name}}</span>
                   </div>
-                  <div class="col-3 pb-5 pt-5 pointer rest">
+                  <div class="col-3 pb-5 pt-5 pointer rest" style="{{'background-color: ' + exercise.breakColor}}">
                     Rest
                   </div>
                 </div>

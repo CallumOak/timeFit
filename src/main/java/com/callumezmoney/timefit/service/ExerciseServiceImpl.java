@@ -5,6 +5,7 @@ import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.repository.ExercisesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +43,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional
     public void editExercise(ExerciseDTO exercise, String username) {
         Optional<Exercise> oldExercise = exercisesRepository.findById(exercise.getId());
         if(oldExercise.isPresent() && Objects.equals(oldExercise.get().getUser().getUsername(), username)){

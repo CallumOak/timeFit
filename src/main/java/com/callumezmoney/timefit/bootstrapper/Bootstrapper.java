@@ -85,47 +85,47 @@ public class Bootstrapper implements CommandLineRunner {
 
         Exercise bicepCurl = new Exercise(
                 setIds ? 1L : null, null, "Bicep curl", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(bicepCurl);
         Exercise pushups = new Exercise(
                 setIds ? 2L : null, null, "Pushups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(pushups);
         Exercise pullups = new Exercise(
                 setIds ? 3L : null, null, "Pullups", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(pullups);
         Exercise squats = new Exercise(
                 setIds ? 4L : null, null, "Squats", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(squats);
         Exercise lunges = new Exercise(
                 setIds ? 5L : null, null, "Lunges", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(lunges);
         Exercise sideRaise = new Exercise(
                 setIds ? 6L : null, null, "Side raises", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(sideRaise);
         Exercise crunches = new Exercise(
                 setIds ? 7L : null, null, "Crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(crunches);
         Exercise sideCrunch = new Exercise(
                 setIds ? 8L : null, null, "Side crunches", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(sideCrunch);
         Exercise plank = new Exercise(
                 setIds ? 9L : null, null, "Plank", Duration.ofSeconds(20), Duration.ofSeconds(10), 5,
-                Color.RED, Color.GREEN, "", "", "",
+                "#8d92dd", "#8f8f8f", "", "", "",
                 "", new ArrayList<>());
         exercises.add(plank);
 
@@ -145,7 +145,7 @@ public class Bootstrapper implements CommandLineRunner {
         routines.add(arms);
 
         Routine core = new Routine(setIds ? 3L : null, null, "Core", Color.BLUE, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        core.setExercises(new ArrayList<>(Arrays.asList(exercises.get(0), exercises.get(1),exercises.get(2))), Arrays.asList(0,1,2));
+        core.setExercises(new ArrayList<>(Arrays.asList(exercises.get(6), exercises.get(7),exercises.get(8))), Arrays.asList(0,1,2));
         routines.add(core);
 
         return routines;
