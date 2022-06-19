@@ -88,8 +88,8 @@ export class FrequencyProgramComponent implements OnInit {
     return i < this.routines.length && this.routines[i] == null && (i == 0 || this.routines[i - 1] != null);
   }
 
-  removeRoutine(id: string) {
-    let routinePlanIndex = this.routinePlans.findIndex(rp => rp.routine.endsWith("/" + id));
+  removeRoutine(i: number) {
+    let routinePlanIndex = this.routinePlans.findIndex(rp => rp.position == i);
     this.routinePlanService.deleteRoutinePlan(this.routinePlans[routinePlanIndex].id);
   }
 

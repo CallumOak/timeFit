@@ -2,7 +2,7 @@
 
 .card {
   flex: 0 0 auto;
-  max-width: 10rem;
+  width: 10rem;
   margin: 0.2rem;
 }
 

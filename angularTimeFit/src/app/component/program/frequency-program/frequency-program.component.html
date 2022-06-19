@@ -1,8 +1,8 @@
 <div class="fp">
   <div class="horizontal" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-    <div class="weekdayHeader" *ngFor="let item of routines" cdkDrag>
+    <div class="weekdayHeader" *ngFor="let item of routines; let i = index" cdkDrag>
       <div class="scrolling-wrapper-flexbox">
-        <app-routine-card (remove)="removeRoutine(item.id)" [id]="item.id" [title]="item.name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" ></app-routine-card>
+        <app-routine-card (remove)="removeRoutine(i)" [id]="item.id" [title]="item.name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" ></app-routine-card>
       </div>
     </div>
     <div class="btnplus">
