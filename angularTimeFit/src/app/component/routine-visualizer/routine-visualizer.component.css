@@ -27,3 +27,7 @@
 .exercise{
   height: 80%;
 }
+
+.focused{
+  border-color:#ffd042;
+}

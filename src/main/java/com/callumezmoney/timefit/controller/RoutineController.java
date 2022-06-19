@@ -46,7 +46,11 @@ public class RoutineController {
     public ResponseEntity<?> addRoutine(@RequestBody RoutineDTO routineDto, Principal principal){
         Routine routine = routineMapper.dtoToEntity(routineDto);
         routine.setUser(userService.getUser(principal.getName()).orElse(null));
-        return ResponseEntity.ok(routineMapper.entityToDto(routineService.createRoutine(routine, principal.getName()).get()));
+        routine = routineService.createRoutine(routine, principal.getName()).get();
+        routine.setName("new " + routine.getId());
+        routineService.updateRoutine(routineMapper.entityToDto(routine), principal.getName());
+        routine = routineService.createRoutine(routine, principal.getName()).get();
+        return ResponseEntity.ok(routineMapper.entityToDto(routine));
     }
 
     @PutMapping

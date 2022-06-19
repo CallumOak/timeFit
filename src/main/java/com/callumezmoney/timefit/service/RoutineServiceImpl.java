@@ -5,6 +5,7 @@ import com.callumezmoney.timefit.mapper.ExerciseMapper;
 import com.callumezmoney.timefit.model.Exercise;
 import com.callumezmoney.timefit.model.Routine;
 import com.callumezmoney.timefit.repository.ExercisesRepository;
+import com.callumezmoney.timefit.repository.FrequencyRoutinePlanRepository;
 import com.callumezmoney.timefit.repository.RoutineRepository;
 import com.callumezmoney.timefit.util.MapperUtils;
 import lombok.AllArgsConstructor;
@@ -23,8 +24,10 @@ import java.util.stream.Collectors;
 public class RoutineServiceImpl implements RoutineService {
     private Environment environment;
     private final RoutineRepository routineRepository;
+    private final FrequencyRoutinePlanRepository frequencyRoutinePlanRepository;
     private final UserService userService;
     private ExercisesRepository exercisesRepository;
+
 
     @Override
     public List<Routine> getRoutines(String username) {
@@ -69,7 +72,11 @@ public class RoutineServiceImpl implements RoutineService {
         Optional<Routine> routine = routineRepository.findById(id);
         if(routine.isPresent() &&
                 Objects.equals(routine.get().getUser().getUsername(), username)){
-            routine.get().remove();
+            routine.get().getFrequencyRoutinePlans().forEach(frequencyRoutinePlan ->{
+                frequencyRoutinePlanRepository.findAll().stream()
+                        .filter(frp -> Objects.equals(frp.getProgram().getUser().getUsername(), username) && frp.getPosition() > frequencyRoutinePlan.getPosition())
+                        .forEach(frp -> frp.setPosition(frp.getPosition() - 1));
+            });
             routineRepository.deleteById(id);
         }
     }

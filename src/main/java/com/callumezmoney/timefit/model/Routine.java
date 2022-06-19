@@ -27,13 +27,11 @@ public class Routine {
     private List<ExerciseRoutine> exercises = new ArrayList<>();
     @OneToMany(
             mappedBy = "routine",
-            //fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<WeeklyRoutinePlan> weeklyRoutinePlans = new ArrayList<>();
     @OneToMany(
             mappedBy = "routine",
-            //fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

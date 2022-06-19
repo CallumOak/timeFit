@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {Routine} from '../model/routine.model';
 import {Exercise} from "../model/exercise.model";
 import {ExerciseService} from "./exercise.service";
+import { RoutinePlanService } from './routine-plan.service';
 
 const API = environment.apiEndpoint + '/api/routine/';
 
@@ -24,7 +25,9 @@ export class RoutineService {
   routines$ = this._routines.asObservable();
   selectedRoutine$ = this._selectedRoutine.asObservable();
 
-  constructor(private http: HttpClient, private exerciseService: ExerciseService) {
+  constructor(private http: HttpClient,
+              private exerciseService: ExerciseService,
+              private routinePlanService : RoutinePlanService) {
     this.updateData();
   }
 
@@ -54,13 +57,9 @@ export class RoutineService {
     this._routines.next(routines);
   }
 
-  createRoutine(routine: Routine){
-    this.http.post<Routine>(API, routine).subscribe(r => {
-      routine = r;
-      this.updateData();
-      this.exerciseService.updateData();
-    });
-    return routine;
+  createRoutine(){
+    let routine:Routine = new Routine();
+    return this.http.post<Routine>(API, routine);
   }
 
   updateRoutine(routine: Routine){
@@ -68,7 +67,10 @@ export class RoutineService {
   }
 
   removeRoutine(routine: Routine){
-    this.http.delete<Routine>(API + routine.id).subscribe(this.updateData);
+    this.http.delete<Routine>(API + routine.id).subscribe(r => {
+      this.updateData();
+      this.routinePlanService.updateData();
+    });
   }
 
   updateData(){
@@ -82,5 +84,9 @@ export class RoutineService {
   set routineUrls(value: string[]) {
     this._routineUrls = value;
     this.updateData();
+  }
+
+  updateSelectedRoutine(routine: Routine){
+    this._selectedRoutine.next(routine);
   }
 }

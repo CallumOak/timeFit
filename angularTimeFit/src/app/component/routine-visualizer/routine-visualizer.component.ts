@@ -23,6 +23,8 @@ export class RoutineVisualizerComponent implements OnInit {
   private _exercises: Exercise[] = [];
   availableRoutines!: Routine[];
   exercisesSubscription: Subscription = new Subscription();
+  focusedRoutine?: Routine;
+  routineSubscription: Subscription = new Subscription();
 
   constructor(private modalService: NgbModal,
               private routinePlanService: RoutinePlanService,
@@ -41,8 +43,10 @@ export class RoutineVisualizerComponent implements OnInit {
           }
         })
         this.exercises = exercises;
-    }
-    )
+    })
+    this.routineSubscription = this.routineService.selectedRoutine$.subscribe(r =>{
+        this.focusedRoutine = r;
+    })
   }
 
   counter(i: number) {
@@ -70,6 +74,7 @@ export class RoutineVisualizerComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.exercisesSubscription.unsubscribe();
+    this.routineSubscription.unsubscribe();
   }
 
 }
