@@ -156,4 +156,9 @@ export class AddEditRoutineComponent implements OnInit, OnDestroy {
     this.selectedRoutine.name = event.target.value;
     this.routineService.updateRoutine(this.selectedRoutine);
   }
+
+  updateIllustration(event: any) {
+    this.selectedRoutine.illustrationLocation = event.target.value;
+    this.routineService.updateRoutine(this.selectedRoutine);
+  }
 }

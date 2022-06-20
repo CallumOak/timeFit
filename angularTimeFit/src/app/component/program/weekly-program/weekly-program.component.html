@@ -6,7 +6,7 @@
           <small class="text-muted" >{{day}}</small>
         </div>
         <div *ngIf="routines[i] != emptyRoutine">
-          <app-routine-card (remove)="removeRoutine(i)" [id]="routines[i].id" [present]="routines[i] != emptyRoutine" [title]="routines[i].name" [image]="'https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg'" >
+          <app-routine-card (remove)="removeRoutine(i)" [id]="routines[i].id" [present]="routines[i] != emptyRoutine" [title]="routines[i].name" [image]="routines[i].illustrationLocation" >
           </app-routine-card>
         </div>
         <div *ngIf="routines[i] == emptyRoutine" >

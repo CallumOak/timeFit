@@ -136,15 +136,15 @@ public class Bootstrapper implements CommandLineRunner {
         List<Routine> routines = new ArrayList<>();
         //exercises.forEach(e -> e.setRoutines(new ArrayList<>()));
 
-        Routine legs = new Routine(setIds ? 1L : null, null, "Legs", "#a0b4ca", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Routine legs = new Routine(setIds ? 1L : null, null, "Legs", "#a0b4ca", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "https://www.objectifs-fitness.com/wp-content/uploads/2016/10/entrainement-quadriceps-cuisse-fitness-musculation.jpg");
         legs.setExercises(new ArrayList<>(Arrays.asList(exercises.get(3), exercises.get(4),exercises.get(5))), Arrays.asList(0,1,2));
         routines.add(legs);
 
-        Routine arms = new Routine(setIds ? 2L : null, null, "Arms", "#c0aaa0", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Routine arms = new Routine(setIds ? 2L : null, null, "Arms", "#c0aaa0", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "https://static8.depositphotos.com/1049680/1017/i/450/depositphotos_10171107-stock-photo-strong-biceps.jpg");
         arms.setExercises(new ArrayList<>(Arrays.asList(exercises.get(0), exercises.get(1),exercises.get(2))), Arrays.asList(0,1,2));
         routines.add(arms);
 
-        Routine core = new Routine(setIds ? 3L : null, null, "Core", "#a0caa0", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Routine core = new Routine(setIds ? 3L : null, null, "Core", "#a0caa0", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "https://toughmudder.co.uk/wp-content/uploads/2020/09/core_muscles-scaled.jpg");
         core.setExercises(new ArrayList<>(Arrays.asList(exercises.get(6), exercises.get(7),exercises.get(8))), Arrays.asList(0,1,2));
         routines.add(core);
 

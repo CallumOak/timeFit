@@ -43,6 +43,7 @@ public class Routine {
             orphanRemoval = true
     )
     private List<IndividualRoutinePlan> individualRoutinePlans = new ArrayList<>();
+    private String illustrationLocation;
 
     /**
      * Since there can be multiple of the same exercise,

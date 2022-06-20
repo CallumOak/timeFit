@@ -64,9 +64,12 @@
             <label>Illustration : </label>
           </div>
           <div class="col-8">
-            <input type="text" [attr.value]="selectedExercise.illustrationLocation" (change)="updateIllustration($event)">
+            <input type="url" [attr.value]="selectedExercise.illustrationLocation" (change)="updateIllustration($event)">
           </div>
         </div>
+      </div>
+      <div class="col-4">
+        <img [src]="selectedExercise.illustrationLocation" width="400px" alt="Image not found">
       </div>
     </div>
       </form>

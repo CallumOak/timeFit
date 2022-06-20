@@ -22,4 +22,5 @@ public class RoutineDTO {
     List<String> weeklyRoutinePlans;
     List<String> frequencyRoutinePlans;
     List<String> individualRoutinePlans;
+    String illustrationLocation;
 }

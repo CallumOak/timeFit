@@ -11,4 +11,5 @@ export class Routine {
   weeklyRoutinePlans : string[] = [];
   frequencyRoutinePlans : string[] = [];
   individualRoutinePlans : string[] = [];
+  illustrationLocation! : string;
 }

@@ -11,18 +11,25 @@
       <app-routine-visualizer [routine]="selectedRoutine" (updateExercisesEvent)="resetCountdown()"></app-routine-visualizer>
     </div>
     <div class="row">
-      <span *ngIf="runningExercise() != exerciseService.emptyExercise">{{runningExercise().name}}</span>
-      <span *ngIf="runningExercise() != exerciseService.emptyExercise">{{rest ? "Rest" : "Work!!!"}}</span>
-    </div>
-    <div class="row">
-      <div class="col-2">
-        <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
+      <div class="col-6">
+        <img *ngIf="runningExercise() != exerciseService.emptyExercise"
+             [src]="runningExercise().illustrationLocation" [alt]="runningExercise().name"
+              width="400">
       </div>
-      <div class="col-8">
-        <div>
-          <button (click)="cd.resume()" class="btn btn-link btn-sm">Go</button>
-          <button (click)="cd.pause()" class="btn btn-link btn-sm">Pause</button>
-          <button (click)="resetRoutine()" class="btn btn-link btn-sm">Restart</button>
+      <div class="col-6">
+        <span *ngIf="runningExercise() != exerciseService.emptyExercise">{{rest ? "Rest" : "Work!!!"}}</span>
+
+        <div class="row">
+          <div class="col-2">
+            <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
+          </div>
+          <div class="col-8">
+            <div>
+              <button (click)="cd.resume()" class="btn btn-link btn-sm">Go</button>
+              <button (click)="cd.pause()" class="btn btn-link btn-sm">Pause</button>
+              <button (click)="resetRoutine()" class="btn btn-link btn-sm">Restart</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
