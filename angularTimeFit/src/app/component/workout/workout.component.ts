@@ -16,10 +16,15 @@ import {RoutineVisualizerComponent} from "../routine-visualizer/routine-visualiz
 export class WorkoutComponent implements  OnDestroy, AfterViewInit {
   @ViewChild(RoutineVisualizerComponent)
   routineVisualizer!: RoutineVisualizerComponent;
-  @ViewChild(CountdownComponent)
+  @ViewChild('cd')
   countdown!: CountdownComponent;
+  @ViewChild('rcd')
+  repsCountdown!: CountdownComponent;
   exercises: Exercise[] = [];
   runningExerciseIndex: number = 0;
+  remainingReps: number = 0;
+  repAudio = new Audio("https://www.soundjay.com/buttons/beep-02.mp3")
+
   runningExercise(){
     if(this.routineVisualizer
       && this.routineVisualizer.exercises
@@ -43,6 +48,9 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
         .join('');
     },
   };
+  repsConfig: CountdownConfig = {
+    format: 'ss:SSS'
+  };
 
   constructor(public exerciseService: ExerciseService,
               private routineService: RoutineService,
@@ -62,7 +70,8 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
       this.selectedExercises.push(this.exercises[index]);
     })
     this.orderExercises();
-    this.resetRoutine()
+    this.resetRoutine();
+    this.resetRepsCountdown();
   }
 
   get selectedRoutine() { return this._selectedRoutine; }
@@ -98,9 +107,35 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
         )
         this.resetCountdown();
         this.countdown.begin();
+        if(!this.rest){
+          this.repsCountdown.begin();
+          this.repSound();
+        }
       }
       else{
         this.resetRoutine();
+      }
+    }
+    if(e.action == "pause"){
+      this.repsCountdown.pause();
+    }
+    if(e.action == "start"){
+      this.repsCountdown.begin();
+    }
+    if(e.action == "resume"){
+      this.repsCountdown.resume();
+      if(!this.rest && this.config.leftTime && this.countdown.left == this.config.leftTime * 1000){
+        this.repSound();
+      }
+    }
+  }
+
+  handleRepsEvent(e: CountdownEvent) {
+    if(e.action == "done"){
+      if(this.remainingReps > 0){
+        this.remainingReps -= 1;
+        this.repsCountdown.restart();
+        this.repSound();
       }
     }
   }
@@ -109,6 +144,8 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
     this.runningExerciseIndex = 0;
     this.rest = false;
     this.resetCountdown();
+    this.resetRepsCountdown();
+
   }
 
   ngAfterViewInit() {
@@ -128,6 +165,7 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
       }
     )
     this.exerciseSubscription = this.exerciseService.exercises$.subscribe(es => this.exercises = es);
+    this.repAudio.load();
   }
 
   resetCountdown() {
@@ -135,10 +173,28 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
       if(this.routineVisualizer.exercises != undefined && this.routineVisualizer.exercises.length > 0){
         this.config.leftTime = this.rest ? +this.runningExercise().exerciseBreak : +this.runningExercise().exerciseDuration;
         this.countdown.config = this.config;
+        this.resetRepsCountdown();
       }
       this.countdown.restart();
       this.countdown.pause();
     }
 
+  }
+  resetRepsCountdown() {
+    if(this.routineVisualizer != undefined && this.repsCountdown != undefined) {
+      if (this.routineVisualizer.exercises != undefined && this.routineVisualizer.exercises.length > 0) {
+        this.repsConfig.leftTime = this.rest ? 0 : parseFloat(this.runningExercise().exerciseDuration + ".000") / parseFloat(this.runningExercise().repetitions + ".000");
+        this.remainingReps = +this.runningExercise().repetitions;
+        this.repsCountdown.config = this.repsConfig;
+      }
+      this.repsCountdown.restart();
+      this.repsCountdown.pause();
+    }
+  }
+
+  private repSound() {
+    if(!this.rest){
+      this.repAudio.play();
+    }
   }
 }
