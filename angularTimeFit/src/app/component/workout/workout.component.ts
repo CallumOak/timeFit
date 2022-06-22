@@ -40,16 +40,10 @@ export class WorkoutComponent implements  OnDestroy, AfterViewInit {
   exerciseSubscription!: Subscription;
   routineSubscriptions!: Subscription;
   config: CountdownConfig = {leftTime: 60,
-    format: 'HH:mm:ss',
-    prettyText: (text) => {
-      return text
-        .split(':')
-        .map((v) => `<span class="item">${v}</span>`)
-        .join('');
-    },
+    format: 'mm:ss'
   };
   repsConfig: CountdownConfig = {
-    format: 'ss:SSS'
+    format: 'ss:S'
   };
 
   constructor(public exerciseService: ExerciseService,
