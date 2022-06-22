@@ -1,1 +1,49 @@
-<p>exercises works!</p>
+<div class="container">
+  <div class="jumbotron row justify-content-center" style="max-height: 760px">
+    <div class="row m-2">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <div class="card">
+          <div class="card-header">
+            Exercises list
+          </div>
+          <div class="card-body">
+            <div class="scrollable">
+              <div class="col-3 card"  (click)="select(i)" *ngFor="let exercise of exercises; let i = index">
+                <div class="exerciseContainer" [class.focused]="selectedExercise?.id == exercise.id" style="{{'background-color: ' + exercise.exerciseColor}}">
+                  <div class="img-container">
+                    <img
+                      [src]="exercise.illustrationLocation"
+                      class="card-img-top"
+                      alt="..."
+                      height="100%"
+                    />
+                  </div>
+                  <h5 class="card-title"> {{exercise.name}} </h5>
+                  <div class="card-body">
+                    <span>{{exercise.exerciseDuration}}</span>
+                    <span> seconds</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row m-2">
+      <div class="col-8"></div>
+      <div class="col-1">
+        <button class="btn btn-secondary fa fa-plus" (click)="addExercise()"></button>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-secondary fa fa-edit" [disabled]="selectedExercise == undefined" [routerLink]="['/addEditExercise/', selectedExercise?.id]"></button>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-secondary fa fa-trash" [disabled]="selectedExercise == undefined" (click)="deleteExercise()"></button>
+      </div>
+      <div class="col-1"></div>
+    </div>
+  </div>
+</div>

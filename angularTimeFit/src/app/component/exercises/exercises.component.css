@@ -1,0 +1,41 @@
+.exerciseContainer{
+  float: left;
+  padding-bottom: 20%;
+  height: 200px;
+  cursor:pointer;
+  border: 3px solid #61c4ff;
+}
+
+.exerciseContainer:hover{
+  border-color: #4dff74;
+}
+
+.exerciseContainer:active{
+  border-color: #ffd042;
+}
+
+.img-container{
+  height: 80%;
+  width: 100%;
+}
+
+.card .card{
+  border: none;
+  margin-bottom: 20px;
+  float:left;
+}
+
+.focused{
+  border-color:#ffd042;
+}
+
+img {
+  object-fit: contain;
+}
+
+.scrollable{
+  padding-left: 10px;
+  max-height: 530px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

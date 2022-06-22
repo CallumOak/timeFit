@@ -58,7 +58,7 @@ export class RoutineService {
   }
 
   createRoutine(){
-    let routine:Routine = new Routine();
+    let routine: Routine = new Routine();
     return this.http.post<Routine>(API, routine);
   }
 

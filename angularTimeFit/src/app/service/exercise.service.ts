@@ -18,7 +18,6 @@ export class ExerciseService {
 
   private _selectedExercise = new ReplaySubject<Exercise>();
   selectedExercise$ = this._selectedExercise.asObservable();
-  public exerciseId?: string;
 
   constructor(private http: HttpClient) {
     this.emptyExercise.setValues("-1", "", 0, 0, "0", "#8d92dd", "#8d92dd", "", []);
@@ -39,12 +38,8 @@ export class ExerciseService {
     return exercise;
   }
 
-  createExercise(exercise: Exercise){
-    this.http.post<Exercise>(API, exercise).subscribe(e => {
-      exercise = e;
-      this.updateData();
-    });
-    return exercise;
+  createExercise(){
+    return this.http.post<Exercise>(API, this.emptyExercise);
   }
 
   updateExercise(exercise: Exercise){
@@ -57,9 +52,9 @@ export class ExerciseService {
     this.http.delete(API + exercise.id).subscribe(e => this.updateData());
   }
 
-  selectExercise(){
+  selectExercise(id: string){
     this._exercisesSource.value.forEach(e=>{
-        if(e.id == this.exerciseId) this._selectedExercise.next(e);
+        if(e.id == id) this._selectedExercise.next(e);
       }
     )
   }
@@ -67,10 +62,11 @@ export class ExerciseService {
   updateData(){
     this.getExercises().subscribe(e => {
       this._exercisesSource.next(e);
-      if(!this.exerciseId){
-        this.exerciseId = e[0].id;
-      }
-      this.selectExercise();
+      this.selectedExercise$.subscribe(exercise =>{
+        if(!exercise){
+          this.selectExercise(e[0].id);
+        }
+      })
     });
   }
 }

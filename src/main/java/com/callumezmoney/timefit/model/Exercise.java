@@ -27,6 +27,7 @@ public class Exercise {
     private Integer repetitions;
     private String exerciseColor;
     private String breakColor;
+    @Column(length=1000)
     private String illustrationLocation;
     private String exerciseSoundLocation;
     private String breakSoundLocation;

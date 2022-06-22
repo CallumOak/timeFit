@@ -51,7 +51,7 @@
           <img [src]="selectedRoutine.illustrationLocation" width="400px" alt="Image not found">
         </div>
         <div class="row">
-          <input type="url" [attr.value]="selectedRoutine.illustrationLocation" (change)="updateIllustration($event)">
+          <input type="url" maxlength="1000" [attr.value]="selectedRoutine.illustrationLocation" (change)="updateIllustration($event)">
         </div>
       </div>
       <div class="col-4">

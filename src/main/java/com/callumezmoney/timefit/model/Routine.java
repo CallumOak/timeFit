@@ -43,6 +43,7 @@ public class Routine {
             orphanRemoval = true
     )
     private List<IndividualRoutinePlan> individualRoutinePlans = new ArrayList<>();
+    @Column(length=1000)
     private String illustrationLocation;
 
     /**

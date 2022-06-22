@@ -12,6 +12,10 @@
   height: 0;
 }
 
+img {
+  object-fit: cover;
+}
+
 .myIframe {
   position: absolute;
   top: 0;

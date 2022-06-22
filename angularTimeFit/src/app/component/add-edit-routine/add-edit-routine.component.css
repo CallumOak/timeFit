@@ -11,6 +11,10 @@ ul {
   background-color:#8d92dd;
 }
 
+img {
+  object-fit: cover;
+}
+
 .routineContainer{
   position: relative;
   padding-bottom: 15%;

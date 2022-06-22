@@ -34,13 +34,14 @@ export class RoutineVisualizerComponent implements OnInit {
 
   ngOnInit(): void {
     this.exercisesSubscription = this.exerciseService.exercises$.subscribe(es =>{
-      let exercises: Exercise[] = [];
-      this.routine.exercises.forEach(e => {
-        let id = e.split("/")[e.split("/").length - 1];
-        let index = es.findIndex(er => er.id == id)
-        if(index > -1){
-          exercises.push(es[index])
+      let exercises = new Array<Exercise>(this._routine.exercises.length);
+      let i = 0;
+      this.routine.exercises.forEach(eUrl => {
+        let index = es.findIndex(e => eUrl.endsWith("/" + e.id));
+        if(index > -1) {
+          exercises[this._routine.exercisePositions[i]] = es[index];
         }
+        i++;
       })
       if(exercises == []){
         exercises.push(this.exerciseService.emptyExercise);
