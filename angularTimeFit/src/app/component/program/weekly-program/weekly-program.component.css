@@ -1,0 +1,38 @@
+.nav-link{
+  height: 100%;
+  border: 3px solid transparent;
+}
+
+.nav-item{
+  height: 25%;
+}
+
+.navbar-nav{
+  height: 100%;
+}
+
+.active{
+  font-weight: bold;
+  border-color: lightgray;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.wp ul {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin: 0.1rem;
+}
+
+.wp {
+  background: white;
+  border-bottom: ridge;
+  border-right: ridge;
+  border-left: ridge;
+}
+
+
+

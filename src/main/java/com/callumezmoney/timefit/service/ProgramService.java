@@ -1,10 +1,18 @@
 package com.callumezmoney.timefit.service;
 
+import com.callumezmoney.timefit.dto.ProgramDTO;
 import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.model.User;
 import org.springframework.stereotype.Service;
 
-@Service
+import java.util.List;
+import java.util.Optional;
+
 public interface ProgramService {
-    Program getProgram(Long userId);
+    List<Program> getPrograms(String username);
+    Optional<Program> getProgram(Long id);
+    Optional<Program> getProgram(Long id, String username);
+    Optional<Program> addProgram(Program program, String username);
+    void editProgram(ProgramDTO program, String username);
+    void deleteProgram(Long id, String username);
 }

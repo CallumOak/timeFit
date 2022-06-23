@@ -1,30 +1,65 @@
 package com.callumezmoney.timefit.controller;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
+import com.callumezmoney.timefit.dto.ProgramDTO;
+import com.callumezmoney.timefit.mapper.ProgramMapper;
+import com.callumezmoney.timefit.model.Program;
+import com.callumezmoney.timefit.payload.response.MessageResponse;
+import com.callumezmoney.timefit.repository.ProgramRepository;
+import com.callumezmoney.timefit.service.ProgramService;
+import com.callumezmoney.timefit.service.UserService;
+import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.text.ParseException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("${callumezmoney.app.webapiprefix.program}")
+@AllArgsConstructor
+@Api(value = "Program API")
 public class ProgramController {
+    private ProgramService programService;
+    private UserService userService;
+    private ProgramMapper programMapper;
 
-
-    public Model getProgram(Model model){
-
-        return model;
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProgram(@PathVariable Long id){
+        Optional<Program> program = programService.getProgram(id);
+        if(program.isPresent()){
+            return ResponseEntity.ok(programMapper.entityToDto(program.get()));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Error: Program not found"));
     }
-    public Model listProgram(Model model){
 
-        return model;
+    @GetMapping()
+    public ResponseEntity<?> listProgram(Principal principal){
+        return ResponseEntity.ok(
+                programService.getPrograms(principal.getName())
+                .stream().map(programMapper::entityToDto).collect(Collectors.toList())
+        );
     }
-    public Model addProgram(Model model){
 
-        return model;
+    @PostMapping()
+    public ResponseEntity<?> addProgram(@RequestBody ProgramDTO newProgramDto, Principal principal) throws ParseException {
+        Program newProgram = programMapper.dtoToEntity(newProgramDto);
+        newProgram.setUser(userService.getUser(principal.getName()).orElse(null));
+        return ResponseEntity.ok(programMapper.entityToDto(programService.addProgram(newProgram, principal.getName()).get()));
     }
-    public Model editProgram(Model model){
 
-        return model;
+    @PutMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editProgram(@RequestBody ProgramDTO newProgramDto, Principal principal){
+        programService.editProgram(newProgramDto, principal.getName());
     }
-    public void deleteProgram(Model model){
+
+    @DeleteMapping("/{id}")
+    public void deleteProgram(@PathVariable Long id, Principal principal){
+        programService.deleteProgram(id, principal.getName());
     }
 }

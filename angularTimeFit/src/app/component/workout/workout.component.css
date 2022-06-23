@@ -1,0 +1,57 @@
+.myIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.iframeContainer{
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+
+.row {
+
+}
+
+#bigCountdown {
+  padding: 50px;
+  font-size: 5em;
+}
+
+#smallCountdown {
+  font-size: 2em;
+  color: cadetblue;
+}
+
+button {
+  font-size: 30px;
+}
+
+#colCD {
+  color: #6666ff;
+  border: 3px  #9999ff solid;
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+}
+
+.what {
+  font-size: 30px;
+  color: darkred;
+  padding: 15px;
+}
+
+.col-6 {
+  text-align: center;
+  padding: 15px;
+}
+
+#repet {
+  font-size: 30px;
+  font-weight: bold;
+  color: darkred;
+  padding: 1.5em;
+}

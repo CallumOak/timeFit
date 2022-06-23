@@ -1,1 +1,82 @@
-<p>add-edit-routine works!</p>
+<div class="container">
+  <div class="jumbotron row justify-content-center">
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <div class="row ">
+          <div class="container routineContainer mb-5">
+            <div class="row routine" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+              <input type="text" [attr.value]="selectedRoutine.name" class="col-12 text-center title pb-1 pt-1"
+                     style="{{'background-color: ' + selectedRoutine.color}}" (keyup)="updateRoutineName($event)">
+              <div class="col text-center exercise" [class.focused]="this.selectedExercise == i"
+                   *ngFor="let exercise of exercises; let i = index" cdkDrag>
+                <div class="row pointer" [id]="exercise" (click)="select(i)">
+                  <div class="col-9 pb-5 pt-5 pointer activity" style="{{'background-color: ' + exercise.exerciseColor}}">
+                    <span>{{exercise.name}}</span>
+                  </div>
+                  <div class="col-3 pb-5 pt-5 pointer rest" style="{{'background-color: ' + exercise.breakColor}}">
+                    Rest
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-1 ">
+        <div class="row mb-2">
+          <input type="color" [attr.value]="selectedRoutine.color" (change)="updateRoutineColor($event)">
+        </div>
+        <div class="row mb-2">
+          <a class="btn btn-secondary"  (click)="open(mymodal)">
+            <span class="fa fa-plus"></span>
+          </a>
+        </div>
+        <div class="row mb-2">
+          <a class="btn btn-secondary" [routerLink]="['/addEditExercise/', selectedExerciseId()]" [class.disabled]="this.selectedExercise < 0 || this.selectedExercise >= this.exercises.length">
+            <span class="fa fa-edit" style="color:black;"></span>
+          </a>
+        </div>
+        <div class="row">
+          <a class="btn btn-secondary" (click)="removeSelectedExercise()" [class.disabled]="this.selectedExercise < 0 || this.selectedExercise >= this.exercises.length">
+            <span class="fa fa-trash" style="color:black;"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-4">
+        <div class="row">
+          <img [src]="selectedRoutine.illustrationLocation" width="400px" alt="Image not found">
+        </div>
+        <div class="row">
+          <input type="url" maxlength="1000" [attr.value]="selectedRoutine.illustrationLocation" (change)="updateIllustration($event)">
+        </div>
+      </div>
+      <div class="col-4">
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    Select exercise
+  </div>
+
+  <div class="modal-content">
+    <ul>
+      <li *ngFor="let availableExercise of availableExercises" (click)="tmpSelect(availableExercise)">
+        <button class="btn" (click)="selectedAvailableExercise = availableExercise">{{availableExercise.name}}</button>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>

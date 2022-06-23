@@ -1,5 +1,12 @@
 <div class="container">
   <header class="jumbotron">
-    <p>{{ content }}</p>
+    <div *ngIf="!isLoggedIn">
+      <p>{{ content }}</p>
+    </div>
+    <div *ngIf="isLoggedIn">
+      <p>Dashboard of your exercising</p>
+      <p>You have done 12 hours of exercise since joining</p>
+      <p>(Other dashboard info tbd)</p>
+    </div>
   </header>
 </div>

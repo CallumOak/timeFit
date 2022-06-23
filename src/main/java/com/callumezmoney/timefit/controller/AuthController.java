@@ -1,54 +1,41 @@
 package com.callumezmoney.timefit.controller;
 
-import com.callumezmoney.timefit.model.Role;
+import com.callumezmoney.timefit.model.Program;
 import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.payload.request.LoginRequest;
 import com.callumezmoney.timefit.payload.request.SignupRequest;
 import com.callumezmoney.timefit.payload.response.JwtResponse;
 import com.callumezmoney.timefit.payload.response.MessageResponse;
-import com.callumezmoney.timefit.repository.RoleRepository;
 import com.callumezmoney.timefit.repository.UserRepository;
 import com.callumezmoney.timefit.security.jwt.JwtUtils;
 import com.callumezmoney.timefit.security.service.UserDetailsImpl;
-import com.callumezmoney.timefit.util.RoleEnum;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.callumezmoney.timefit.service.ProgramService;
+import com.callumezmoney.timefit.service.RoleService;
+import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("${callumezmoney.app.webapiprefix.auth}")
+@AllArgsConstructor
+@Api(value = "Auth API")
 public class AuthController {
-    @Autowired
     AuthenticationManager authenticationManager;
-
-    @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
+    ProgramService programService;
+    RoleService roleService;
     PasswordEncoder encoder;
-
-    @Autowired
     JwtUtils jwtUtils;
 
     @PostMapping("/signin")
@@ -91,38 +78,14 @@ public class AuthController {
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(RoleEnum.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
-        }
-
-        user.setRoles(roles);
+        String strRole = signUpRequest.getRole();
+        user.setRole(roleService.getRole(strRole));
         userRepository.save(user);
+        Program program = new Program();
+        program.setUser(user);
+        program.setName(user.getUsername() + "'s program");
+        user.getPrograms().add(program);
+        programService.addProgram(program, user.getUsername());
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

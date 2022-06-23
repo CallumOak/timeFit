@@ -1,0 +1,61 @@
+<div class="fp">
+  <div class="horizontal" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+    <div class="weekdayHeader" *ngFor="let item of routines; let i = index" cdkDrag>
+      <div class="scrolling-wrapper-flexbox">
+        <app-routine-card (remove)="removeRoutine(i)" [id]="item.id" [title]="item.name" [image]="item.illustrationLocation" ></app-routine-card>
+      </div>
+    </div>
+    <div class="btnplus">
+      <button class="btn bg-light fa fa-plus" (click)="open(mymodal)"> </button>
+    </div>
+  </div>
+  <div class="fp-choices">
+    <div class="row">
+      <div class="col-6 col-sm-1">
+        <label>start on </label>
+      </div>
+      <div class="col-6 col-sm-1">
+        <input type="date" [value]="program.startDate" (change)="updateStartDate($event)">
+      </div>
+      <div class="w-100"></div>
+      <div class="col-6 col-sm-1">
+        <label>repeat </label>
+      </div>
+      <div class="col-6 col-sm-1">
+        <select style="width: 65px" [value]="program.frequency" (change)="updateFrequency($event)" class="form-select" aria-label="Default select example">
+          <option selected> </option>
+          <option value=1>1</option>
+          <option value=2>2</option>
+          <option value=3>3</option>
+          <option value=4>4</option>
+          <option value=5>5</option>
+          <option value=6>6</option>
+          <option value=7>7</option>
+        </select>
+      </div>
+      <div class="col-6 col-sm-1">
+        <span>day(s)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    Select routine
+  </div>
+
+  <div class="modal-content">
+    <ul>
+      <li *ngFor="let tmpRoutine of tmpRoutines" (click)="tmpSelect(tmpRoutine)">
+        <button class="btn">{{tmpRoutine.name}}</button>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+</ng-template>

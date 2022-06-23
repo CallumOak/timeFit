@@ -1,1 +1,39 @@
-<p>workout works!</p>
+<div class="container">
+  <div class="jumbotron row justify-content-center">
+    <div class="row mb-5">
+      <div class="col-2">
+        <select class="form-select" aria-label="routine selector" [(ngModel)]="selectedRoutine">
+          <option *ngFor="let routine of availableRoutines; let i = index" [ngValue]="routine">{{routine.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <app-routine-visualizer [routine]="selectedRoutine" (updateExercisesEvent)="resetCountdown()"></app-routine-visualizer>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <img *ngIf="runningExercise() != exerciseService.emptyExercise"
+             [src]="runningExercise().illustrationLocation" [alt]="runningExercise().name"
+             width="400">
+      </div>
+      <div class="col-6" id="colCD">
+        <div class="col">
+          <span class="what" *ngIf="runningExercise() != exerciseService.emptyExercise">{{rest ? "REST" : "WORK !"}}</span>
+          <span class="what" id="repet" *ngIf="runningExercise() != exerciseService.emptyExercise">{{rest ? "" : remainingReps}}</span>
+          <span id="smallCountdown" [hidden]="rest"><countdown #rcd [config]="repsConfig" (event)="handleRepsEvent($event)"></countdown>
+            </span>
+        </div>
+        <div class="col">
+          <div><countdown id="bigCountdown" #cd [config]="config" (event)="handleEvent($event)"></countdown></div>
+        </div>
+        <div class="col">
+          <div>
+            <button (click)="cd.resume()" class="btn btn-sm">▶️</button>
+            <button (click)="cd.pause()" class="btn btn-sm">⏸</button>
+            <button (click)="resetRoutine()" class="btn btn-sm">🔄</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

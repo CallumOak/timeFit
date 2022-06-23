@@ -1,0 +1,34 @@
+.routine {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color:#8d92dd;
+}
+
+.routineContainer{
+  position: relative;
+  padding-bottom: 20%;
+  height: 0;
+  cursor:pointer;
+  border: 3px solid #61c4ff;
+}
+
+.routineContainer:hover{
+  border-color: #4dff74;
+}
+
+.routineContainer:active{
+  border-color: #ffd042;
+}
+
+.title{
+  height: 20%;
+}
+
+.exercise{
+  height: 80%;
+}
+
+.focused{
+  border-color:#ffd042;
+}

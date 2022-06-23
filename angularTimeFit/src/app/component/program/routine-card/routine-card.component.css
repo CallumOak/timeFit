@@ -1,0 +1,19 @@
+
+
+.card {
+  flex: 0 0 auto;
+  width: 10rem;
+  margin: 0.2rem;
+}
+
+.card-footer {
+  text-align: center;
+}
+
+img {
+  object-fit: cover;
+}
+
+.card-footer button {
+  margin: 0.15rem;
+}

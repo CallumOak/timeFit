@@ -1,12 +1,16 @@
 package com.callumezmoney.timefit.service;
 
+import com.callumezmoney.timefit.dto.RoutineDTO;
 import com.callumezmoney.timefit.model.Routine;
-import com.callumezmoney.timefit.model.User;
-import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
-@Service
 public interface RoutineService {
-    Set<Routine> getRoutines();
+    List<Routine> getRoutines(String userName);
+    Optional<Routine> getRoutine(Long id, String username);
+    Optional<Routine> getRoutine(Long id);
+    Optional<Routine> createRoutine(Routine routine, String username);
+    void updateRoutine(RoutineDTO routine, String username);
+    void deleteRoutine(Long id, String username);
 }

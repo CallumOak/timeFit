@@ -1,0 +1,15 @@
+app-routine-visualizer{
+  margin-left: 10px;
+}
+
+li{
+  padding-left: 10px;
+  margin-left: 20px;
+}
+
+.scrollable{
+  padding-left: 10px;
+  max-height: 530px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

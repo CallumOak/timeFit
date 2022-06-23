@@ -1,1 +1,41 @@
-<p>routines works!</p>
+<div class="container">
+  <div class="jumbotron row justify-content-center" style="max-height: 760px">
+    <div class="row m-2">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <div class="card">
+          <div class="card-header">
+            Routines list
+          </div>
+          <div class="card-body">
+            <div class="scrollable">
+              <ul class="list-group list-group-flush" style="list-style-type:none;">
+                <li *ngFor="let routine of routines; let i = index">
+                  <div class="row" (click)="select(i)">
+                    <div class="col-11">
+                      <app-routine-visualizer [routine]="routine"></app-routine-visualizer>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row m-2">
+      <div class="col-8"></div>
+      <div class="col-1">
+        <button class="btn btn-secondary fa fa-plus" (click)="addRoutine()"></button>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-secondary fa fa-edit" [disabled]="selectedRoutine == undefined" [routerLink]="['/addEditRoutine/', selectedRoutine?.id]"></button>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-secondary fa fa-trash" [disabled]="selectedRoutine == undefined" (click)="deleteRoutine()"></button>
+      </div>
+      <div class="col-1"></div>
+    </div>
+  </div>
+</div>
