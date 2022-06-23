@@ -4,6 +4,7 @@ import com.callumezmoney.timefit.model.Role;
 import com.callumezmoney.timefit.repository.RoleRepository;
 import com.callumezmoney.timefit.util.RoleEnum;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class RoleServiceImplTest {
     private final String ADMIN = "admin";
     private final String MODERATOR = "mod";

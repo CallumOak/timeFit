@@ -5,6 +5,7 @@ import com.callumezmoney.timefit.model.User;
 import com.callumezmoney.timefit.repository.UserRepository;
 import com.callumezmoney.timefit.util.RoleEnum;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class UserServiceImplTest {
     public static final String CALLUM = "callum";
     public static final String CALLUM_EMAIL = CALLUM + "@cal.lum";

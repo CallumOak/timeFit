@@ -1,9 +1,11 @@
 package com.callumezmoney.timefit.service;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class RoutinePlanServiceImplTest {
     /*
     public static final String CALLUM = "callum";
