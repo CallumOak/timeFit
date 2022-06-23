@@ -22,8 +22,8 @@
 }
 
 #smallCountdown {
-  padding: 50px;
   font-size: 2em;
+  color: cadetblue;
 }
 
 button {
@@ -40,10 +40,18 @@ button {
 
 .what {
   font-size: 30px;
+  color: darkred;
   padding: 15px;
 }
 
 .col-6 {
   text-align: center;
   padding: 15px;
+}
+
+#repet {
+  font-size: 30px;
+  font-weight: bold;
+  color: darkred;
+  padding: 1.5em;
 }
