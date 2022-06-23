@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:80")
 @RequestMapping( "${callumezmoney.app.webapiprefix.user}")
 @AllArgsConstructor
 @Api(value = "All APIs")

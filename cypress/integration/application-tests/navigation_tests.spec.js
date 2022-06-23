@@ -3,7 +3,7 @@ describe('application navigation tests', () => {
         cy.setupdb()
     })
     it('login', () => {
-        cy.visit('localhost:4200')
+        cy.visit('localhost:80')
         cy.get('#login').click()
         cy.get('#username').click().type('Callum').should('have.value', 'Callum')
         cy.get('#password').click().type('Callum123')

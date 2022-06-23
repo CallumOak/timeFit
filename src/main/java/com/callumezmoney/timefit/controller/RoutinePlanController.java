@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:80")
 @RequestMapping("${callumezmoney.app.webapiprefix.routineplan}")
 @AllArgsConstructor
 @Api(value = "RoutinePlan API")

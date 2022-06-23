@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:80")
 @RequestMapping("${callumezmoney.app.webapiprefix.program}")
 @AllArgsConstructor
 @Api(value = "Program API")

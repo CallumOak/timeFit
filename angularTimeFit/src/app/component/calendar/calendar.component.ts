@@ -62,7 +62,7 @@ export class CalendarComponent implements OnInit, OnDestroy{
             dtstart: new Date().getFullYear() + '-01-01'
           },
           backgroundColor: routine.color,
-          url: "http://localhost:4200/workout/" + routine.id
+          url: "http://localhost:80/workout/" + routine.id
         }
         this.Events.push(event);
       }
