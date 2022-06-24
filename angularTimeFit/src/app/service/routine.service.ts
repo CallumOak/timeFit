@@ -26,7 +26,6 @@ export class RoutineService {
   selectedRoutine$ = this._selectedRoutine.asObservable();
 
   constructor(private http: HttpClient,
-              private exerciseService: ExerciseService,
               private routinePlanService : RoutinePlanService) {
     this.updateData();
   }

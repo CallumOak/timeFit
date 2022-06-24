@@ -79,7 +79,8 @@ export class CalendarComponent implements OnInit, OnDestroy{
             interval: this.program.frequency * this.program.frequencyRoutinePlans.length,
             dtstart: date
           },
-          backgroundColor: routine.color
+          backgroundColor: routine.color,
+          url: "http://localhost:4200/workout/" + routine.id
         }
         this.Events.push(event);
       }

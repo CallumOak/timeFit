@@ -28,7 +28,7 @@ export class ExercisesComponent implements OnInit, OnDestroy {
     );
     this.exerciseSubscription = this.exerciseService.selectedExercise$.subscribe(e =>{
       this.selectedExercise = e;
-    })
+    });
     this.exerciseService.updateData();
   }
 
@@ -41,11 +41,9 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   }
 
   addExercise() {
-    let exercise: Exercise;
     this.exerciseService.createExercise().subscribe(e => {
-      exercise = e;
       this.exerciseService.updateData();
-      this.router.navigate(["/addEditExercise/" + exercise.id]);
+      this.router.navigate(["/addEditExercise/" + e.id]);
     });
   }
 

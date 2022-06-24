@@ -19,7 +19,8 @@ export class ExerciseService {
   private _selectedExercise = new ReplaySubject<Exercise>();
   selectedExercise$ = this._selectedExercise.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private routineService : RoutineService) {
     this.emptyExercise.setValues("-1", "", 0, 0, "0", "#8d92dd", "#8d92dd", "", []);
   }
 
@@ -49,7 +50,10 @@ export class ExerciseService {
   }
 
   deleteExercise(exercise: Exercise){
-    this.http.delete(API + exercise.id).subscribe(e => this.updateData());
+    this.http.delete(API + exercise.id).subscribe(e => {
+      this.updateData();
+      this.routineService.updateData();
+    });
   }
 
   selectExercise(id: string){

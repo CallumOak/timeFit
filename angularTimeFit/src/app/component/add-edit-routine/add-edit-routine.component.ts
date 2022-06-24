@@ -126,10 +126,11 @@ export class AddEditRoutineComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routineSubscription = this.routineService.availableRoutines$.subscribe(rs => this.getRoutine());
-    this.exerciseSubscription = this.exerciseService.exercises$.subscribe(e => {
-      this.availableExercises = e;
-      this.filterExercises();
+    this.routineSubscription = this.routineService.availableRoutines$.subscribe(rs =>
+      this.getRoutine());
+      this.exerciseSubscription = this.exerciseService.exercises$.subscribe(e => {
+        this.availableExercises = e;
+        this.filterExercises();
     });
   }
 

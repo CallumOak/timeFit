@@ -13,58 +13,59 @@ const NAV_PATH = "addEditExercise"
   styleUrls: ['./add-edit-exercise.component.css']
 })
 export class AddEditExerciseComponent implements OnInit, OnDestroy {
-  selectedExercise: Exercise = new Exercise();
+  selectedExercise!: Exercise;
   private navBarItemIndex: number;
   exerciseSubscription!: Subscription;
 
   constructor(private navbarService : NavbarService,
               private exerciseService : ExerciseService,
               private activatedRoute: ActivatedRoute) {
-
+    this.selectedExercise = this.exerciseService.emptyExercise;
     this.navBarItemIndex = this.navbarService.addItem('', '')
     console.log(this.navBarItemIndex);
   }
 
   ngOnInit(): void {
     this.exerciseSubscription = this.exerciseService.exercises$.subscribe(es => {
-      let exerciseIndex = es.findIndex(e => e.id == this.activatedRoute.snapshot.params['id']);
-      this.selectedExercise = es[exerciseIndex];
-      this.navbarService.editItem(this.navBarItemIndex, this.selectedExercise.name, `${NAV_PATH}/${this.selectedExercise.id}`);
+      this.exerciseService.getExerciseById(this.activatedRoute.snapshot.params['id']).subscribe(e =>{
+          this.selectedExercise = e;
+          this.navbarService.editItem(this.navBarItemIndex, e.name, `${NAV_PATH}/${e.id}`);
+        })
     });
   }
 
   updateName(event: any){
-    this.selectedExercise.name = event.target.value;
+    this.selectedExercise.name = event.target.value != undefined ? event.target.value : "";
     this.update()
   }
 
   updateTime(event: any){
-    this.selectedExercise.exerciseDuration = +event.target.value;
+    this.selectedExercise.exerciseDuration = +event.target.value != undefined ? +event.target.value : 0;
     this.update()
   }
 
   updateReps(event: any){
-    this.selectedExercise.repetitions = event.target.value;
+    this.selectedExercise.repetitions = event.target.value != undefined ? event.target.value : 0;
     this.update()
   }
 
   updateRest(event: any){
-    this.selectedExercise.exerciseBreak = +event.target.value;
+    this.selectedExercise.exerciseBreak = +event.target.value != undefined ? +event.target.value : 0;
     this.update()
   }
 
   updateExerciseColor(event: any){
-    this.selectedExercise.exerciseColor = event.target.value;
+    this.selectedExercise.exerciseColor = event.target.value != undefined ? event.target.value : "";
     this.update()
   }
 
   updateRestColor(event: any){
-    this.selectedExercise.breakColor = event.target.value;
+    this.selectedExercise.breakColor = event.target.value != undefined ? event.target.value : "";
     this.update()
   }
 
   updateIllustration(event: any){
-    this.selectedExercise.illustrationLocation = event.target.value;
+    this.selectedExercise.illustrationLocation = event.target.value != undefined && event.target.value.length < 1001 ? event.target.value : "";
     this.update()
   }
 

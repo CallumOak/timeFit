@@ -49,8 +49,12 @@ public class ExerciseController {
         Exercise newExercise = exerciseMapper.dtoToEntity(newExerciseDto);
         User user = userService.getUser(principal.getName()).get();
         newExercise.setUser(user);
-        Optional<Exercise> exercise = exercisesService.addExercise(newExercise, principal.getName());
-        return ResponseEntity.ok(exerciseMapper.entityToDto(exercise.get()));
+        newExercise.setId(null);
+        Exercise exercise = exercisesService.addExercise(newExercise, principal.getName()).get();
+        exercise.setName("new " + exercise.getId());
+        exercisesService.editExercise(exerciseMapper.entityToDto(exercise), principal.getName());
+        exercise = exercisesService.getExercise(exercise.getId(), principal.getName()).get();
+        return ResponseEntity.ok(exerciseMapper.entityToDto(exercise));
     }
 
     @PutMapping()
