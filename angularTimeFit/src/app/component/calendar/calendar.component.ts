@@ -13,6 +13,7 @@ import {FrequencyRoutinePlan} from 'src/app/model/frequency-routine-plan.model';
 import {CalendarOptions} from "@fullcalendar/core";
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import {Router} from "@angular/router";
+import {ExerciseService} from "../../service/exercise.service";
 
 
 @Component({
@@ -45,7 +46,8 @@ export class CalendarComponent implements OnInit, OnDestroy{
               private router: Router,
               private programService: ProgramService,
               private routinePlanService: RoutinePlanService,
-              private routineService: RoutineService){ }
+              private routineService: RoutineService,
+              private exerciseService: ExerciseService){ }
 
   fillEvents(){
     this.Events = [];
@@ -134,6 +136,8 @@ export class CalendarComponent implements OnInit, OnDestroy{
         })
       }
     })
+
+    this.exerciseService.updateData();
   }
 
   ngOnDestroy(): void {
